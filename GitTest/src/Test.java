@@ -6,9 +6,31 @@
 // 정인우 -> 내림차순으로 정렬, list와 홀수의 합을 console에 print
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+public class Test {
+
 static List<Integer> numberList = new ArrayList<>();
+
+public static void sortAscNum10to17() {
+    Collections.sort(numberList); // 오름차순 정렬
+
+    List<Integer> newList = new ArrayList<>(numberList); // 10~17 숫자를 추가한 새로운 리스트 생성
+    for (int i = 10; i <= 17; i++) {
+        newList.add(i);
+    }
+    
+    System.out.println("뉴리스트: " + newList); // 새로운 리스트 출력
+
+    int sumEven = 0; // 짝수의 합 계산 및 출력
+    for (int num : newList) {
+        if (num % 2 == 0) {
+            sumEven += num;
+        }
+    }
+    System.out.println("짝수의 합: " + sumEven);
+}
 
 public static void init() {
     numberList.add(1);
@@ -17,6 +39,10 @@ public static void init() {
     numberList.add(3);
     numberList.add(8);
 }
+
 public static void main(String[] args) {
     init();
+    sortAscNum10to17();
+}
+
 }
