@@ -13,6 +13,25 @@ public class Test {
 
     static List<Integer> numberList = new ArrayList<>();
 
+    public static void sortAscNum1to10(){
+
+        List<Integer> numList = new ArrayList<>(numberList);
+        for(int i= 1; i<=10; i++){
+            if(!numberList.contains(i)){
+                numList.add(i);
+                Collections.sort(numList);
+            }
+        }
+
+        System.out.println("1~10 뉴리스트" + numList);
+        int sum = 0;
+        for(int num : numList){
+            sum += num;
+        }
+
+        System.out.println("1~10 뉴리스트의 합 : " + sum);
+    }
+
     public static void sortAscNum10to17() {
         Collections.sort(numberList); // 오름차순 정렬
 
@@ -63,6 +82,7 @@ public class Test {
 
     public static void main(String[] args) {
         init();
+        sortAscNum1to10();
         sortAscNum10to17();
         sortDescNum11to20();
     }
