@@ -72,6 +72,21 @@ public class Test {
         System.out.println("새로운 list의 총합 = " + newSum);
     }
 
+    public static void sortDescListandOddsum(){
+        //내림차순으로 정렬
+        Collections.sort(numberList, Collections.reverseOrder());
+        System.out.println("내림차순으로 정렬: " + numberList);
+
+        //홀수의 합
+        int Oddsum = 0;
+        for(int num : numberList){
+            if(num % 2 != 0){
+                Oddsum += num;
+            }
+        }
+        System.out.println("홀수의 합: " + Oddsum);
+    }
+
     public static void init() {
         numberList.add(1);
         numberList.add(6);
@@ -85,5 +100,6 @@ public class Test {
         sortAscNum1to10();
         sortAscNum10to17();
         sortDescNum11to20();
+        sortDescListandOddsum();
     }
 }
