@@ -60,3 +60,12 @@
    * 알림
    * 배너
    * 팀 개발 서포트
+
+## STS 기본 세팅
+
+1. windows > show view > Git > Git Repositories
+2. clone a Git Repository 클릭
+3. git repository URL 입력
+4. username, password 입력(Github 아이디(이메일 X), 패스워드)
+5. Project Explorer에 마우스 우측 클릭
+6. import > Git > Projects from  Git (with smart import) > Existing local repository에 자신의 Git Repostory 클릭 후 Finish
