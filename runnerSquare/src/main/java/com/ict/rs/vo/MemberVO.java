@@ -8,26 +8,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberVO {
-	public int no; 
+	public int no;
 	public String id;
 	public String pw;
 	public String name;
 	public String nickName;
-	public String role;	// ±ÇÇÑ
-	
+	public String role;	// ê¶Œí•œ
+
 	public String email;
 	public String tel;
 	public String tel1;
 	public String tel2;
 	public String tel3;
 	public String addr;
-	
+
 	public String birth;
 	public String gender;
-	public String preferPace;	// ¼±È£ ÆäÀÌ½º
-	public String status;	// »óÅÂ
-	public String createdAt;	// »ı¼ºÀÏ
-	public String updatedAt;	// ¼öÁ¤ÀÏ
-	public String passwordLastModifiedAt;	// ÆĞ½º¿öµå º¯°æÀÏ
-	
+	public String preferPace;	// ì„ í˜¸í˜ì´ìŠ¤
+	public String status;	// ìƒíƒœ
+	public String createdAt;	// ìƒì„±ì¼
+	public String updatedAt;	// ìˆ˜ì •ì¼
+	public String passwordLastModifiedAt;	// íŒ¨ìŠ¤ì›Œë“œ ë³€ê²½ì¼
+
 }
