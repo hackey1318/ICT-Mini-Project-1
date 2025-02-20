@@ -13,4 +13,6 @@ public interface NotificationDAO {
     int getReadableNotificationCountForUser(int userNo);
 
     List<NotificationVO> getReadableNotificationListForUser(int userNo);
+
+    int readNotification(int userNo, List<Integer> notificationNoList);
 }
