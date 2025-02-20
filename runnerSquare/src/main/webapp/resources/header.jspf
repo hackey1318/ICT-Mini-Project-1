@@ -21,6 +21,47 @@
 		border-bottom: 2px solid #555;
 		text-align: center;
 	}
+
+	.header-bottom {
+    	display: flex;
+		justify-content: space-between;
+    	align-items: center; /* 수직 가운데 정렬 */
+    	width: 100%;
+    	padding: 10px; /* 적절한 여백 추가 */
+	}
+	.notification {
+    	position: relative;
+    	margin: 10px; /* MENU와의 간격 */
+    	cursor: pointer;
+    	display: inline-block;
+	}
+
+	.bell-icon {
+	    font-size: 24px;
+	}
+
+	.notification-badge {
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    width: 10px;
+	    height: 10px;
+	    background-color: red;
+	    border-radius: 50%;
+	    display: none; /* 기본적으로 숨김 */
+	}
+	
+	.notification-dialog {
+	    position: absolute;
+	    width: 280px;
+	    background: rgba(0, 0, 0, 0.4);
+	    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12);
+	    border-radius: 8px;
+	    padding: 4px;
+	    display: none;
+	    z-index: 100;
+	}
+		
 	 #logo {
 	 	width: 180px;
 	 	padding-top: 30px;
@@ -54,11 +95,73 @@
 	}
 	
 	body{
-	 -ms-overflow-style: none;
+		-ms-overflow-style: none;
 	 }
 	::-webkit-scrollbar {
-	  display: none;
+		display: none;
 	}
+	
+	<!-- 알림 리스트 -->
+	
+	.notification-list {
+	    list-style: none;
+	    background: #fff;
+	    overflow: hidden;
+	}
+
+	/* 각 알림 항목 스타일 */
+	.notification-list li {
+	    display: flex; /* 좌우 정렬 */
+	    align-items: flex-start; /* 항목 상단 정렬 */
+	    padding: 8px 12px;
+	    border-bottom: 1px solid #eee;
+	    font-size: 14px;
+	    color: #333;
+	    overflow: hidden;
+	}
+
+	/* 알림 번호 + 텍스트 그룹 */
+	.notification-content {
+	    align-items: center;
+	    max-width: 100%;
+	    gap: 12px; /* 번호와 텍스트 간격 */
+	    overflow: hidden;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+	}
+
+	/* 알림 번호 */
+	.notification-number {
+	    flex-shrink: 0; /* 줄어들지 않음 */
+    	min-width: auto;
+	    text-align: right; /* 번호 정렬 */
+	}
+
+	/* 알림 텍스트 */
+	.notification-text {
+   		flex-grow: 1;
+    	overflow: hidden;
+    	white-space: nowrap;
+   		text-overflow: ellipsis; /* 너무 길면 ... 처리 */
+	}
+
+	/* 닫기(X) 버튼 */
+	.close-btn {
+    	background: none;
+    	border: none;
+    	font-size: 14px;
+    	font-weight: bold;
+    	color:rgb(0, 0, 0);
+    	cursor: pointer;
+    	padding: 2px 6px;
+    	flex-shrink: 0; /* 버튼이 줄어들지 않도록 */
+   		margin-left: 10px; /* X 버튼과 텍스트 간격 확보 */
+	}
+
+	.close-btn:hover {
+	    color: #f00;
+	}
+	
 </style>
 
 <script>
@@ -74,14 +177,188 @@
 <body>
 <div class="header">
 	<div><img id="logo" src="${pageContext.request.contextPath}/img/logo.png"/></div>
-	<div id="menu">
-		<button>MENU∨</button>
-		<ul>
-			<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
-			<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
-			<li>RUNNING</li>
-			<li>MANAGE</li>
-			<li>MYPAGE</li>
-		</ul>
+	<div class="header-bottom">
+		<div class="notification">
+        	<i id="notificationBell" class="bell-icon">    🔔    </i>
+        	<span class="notification-badge" id="notificationBadge" style="display: none;"></span>
+    	</div>
+    	<div id="notificationDialog" class="notification-dialog" style='display: none;'>
+    		<div class="notification-content">
+    			<div class='header-bottom'>
+    				<div>
+						<button type="button" class="btn btn-link" id='markAllAsRead'><b>전체 읽음</b></button>
+    				</div>
+    				<div>
+						<button type="button" class="btn btn-close"/>
+    				</div>
+    			</div>
+        		<h2><b>알림</b></h2>
+        		<ol id="notificationList" class="notification-list"></ol>
+    		</div>
+		</div>
+		<div id="menu">
+			<button>MENU∨</button>
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
+				<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
+				<li>RUNNING</li>
+				<li>MANAGE</li>
+				<li>MYPAGE</li>
+			</ul>
+		</div>
 	</div>
 </div>
+<script>
+    function updateNotificationBadge(unreadCount) {
+        const badge = document.getElementById('notificationBadge');
+
+        if (unreadCount > 0) {
+            badge.style.display = "block";  // 빨간 점 표시
+        } else {
+            badge.style.display = "none";   // 안 보이게 처리
+        }
+    }
+
+    async function fetchNotificationCount() {
+
+    	try {
+	    	const response = await fetch('/rs/noti/count');
+	    	const data = await response.json();
+		    console.log(data);
+		    updateNotificationBadge(data);
+	    } catch (error) {
+            console.error("알림 정보를 불러오는 중 오류 발생:", error);
+        }
+    }
+
+    fetchNotificationCount();
+
+    document.addEventListener("DOMContentLoaded", function () {
+    	const bellIcon = document.getElementById("notificationBell");
+    	const notificationDialog = document.getElementById("notificationDialog");
+		const markAllAsReadButton = document.getElementById("markAllAsRead");
+    	const notificationList = document.getElementById("notificationList");
+
+    	// 🔔 클릭 시 알림 창 위치 업데이트 & 토글
+    	bellIcon.addEventListener("click", function (event) {
+        	event.stopPropagation();
+        	if (notificationDialog.style.display === "block") {
+        	    notificationDialog.style.display = "none";
+        	} else {
+        	    updateDialogPosition(); // 종 옆에 위치 조정
+        	    notificationDialog.style.display = "block";
+        	    loadNotifications();
+        	}
+    	});
+
+    	// 📌 화면 다른 곳 클릭하면 알림 창 닫기
+    	document.addEventListener("click", function (event) {
+    	    if (!notificationDialog.contains(event.target) && event.target !== bellIcon) {
+    	        notificationDialog.style.display = "none";
+    	    }
+    	});
+
+    	// 📌 창 크기 변경 시 알림 창 위치 업데이트
+    	window.addEventListener("resize", function () {
+    	    if (notificationDialog.style.display === "block") {
+    	        updateDialogPosition();
+    	    }
+    	});
+
+    	// 📌 종 모양 바로 옆에 알림 창 위치 조정
+    	function updateDialogPosition() {
+    		if (!bellIcon || !notificationDialog) {
+    	        console.error("Bell Icon or Notification Dialog not found.");
+    	        return;
+    	    }
+
+    	    const bellRect = bellIcon.getBoundingClientRect(); // 🔔 위치 정보 가져오기
+
+    	    // bellRect 값 확인
+    	    console.log('bellRect:', bellRect); // 디버깅용, 실제 값 확인
+
+    	    // 알림 창에 position을 absolute로 설정
+    	    notificationDialog.style.position = "absolute";
+    	    notificationDialog.style.top = `${bellRect.bottom + window.scrollY + 167}px`; // 계산된 top 값
+    	    notificationDialog.style.left = `${bellRect.right + window.scrollX + 60}px`; // 계산된 left 값
+    	}
+
+    	markAllAsReadButton.addEventListener("click", function () {
+    	    // 알림 목록에서 모든 알림 ID 수집
+    	    const notificationNoList = Array.from(notificationList.children).map(item => item.dataset.id);
+
+    	    // 서버로 전체 읽음 처리 요청
+    	    markNotificationsAsRead(notificationNoList);
+    	});
+
+    	// 📌 알림 목록 불러오기 (예제)
+    	function loadNotifications() {
+    	    const notificationList = document.getElementById("notificationList");
+    	    notificationList.innerHTML = "";
+
+    	    fetch('/rs/noti')
+    	    	.then(response => response.json())
+    	    	.then(data => {
+    	    		data.forEach((notification, index) => {
+    	                const li = document.createElement("li");
+
+		                // 알림 번호 + 텍스트 그룹
+    	                const contentWrapper = document.createElement("div");
+    	                contentWrapper.classList.add("notification-content");
+
+ 		                // 번호
+    	                const numberSpan = document.createElement("span");
+    	                numberSpan.classList.add("notification-number");
+    	                numberSpan.textContent = '${index + 1}. ';
+
+    	             	// 알림 텍스트
+    	                const notificationText = document.createElement("span");
+    	                notificationText.classList.add("notification-text");
+    	                notificationText.textContent = notification.content;
+
+    	                contentWrapper.appendChild(numberSpan);
+    	                contentWrapper.appendChild(notificationText);
+    	                li.appendChild(contentWrapper);
+    	                li.dataset.id = notification.no;
+
+    	             	// X 버튼 만들기
+    	                const closeButton = document.createElement("button");
+						closeButton.className = "btn close-btn";
+						closeButton.textContent = "X";
+
+    	                closeButton.addEventListener("click", function () {
+    	                	li.remove();
+    	                	markNotificationsAsRead([notification.no]);
+    	                });
+    	                li.appendChild(closeButton);
+    	                notificationList.appendChild(li);
+    	    		});
+				})
+    	    	.catch(err => {
+    	    		console.error("notification err : ", err);
+    	    	});
+    	}
+
+    	function markNotificationsAsRead(notificationNoList) {
+    		fetch('/rs/noti', {
+    	        method: 'PATCH', // POST 요청을 통해 알림을 읽음으로 처리
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				body: JSON.stringify(notificationNoList)
+    	    })
+    	    .then(response => {
+    	        if (response.ok) {
+    	            console.log('알림 ${notificationId}이(가) 읽음 처리되었습니다.');
+    	            notificationDialog.style.display = "none";
+    	            fetchNotificationCount();
+    	        } else {
+    	            console.error("알림 처리 중 오류 발생");
+    	        }
+    	    })
+    	    .catch(error => {
+    	        console.error("알림 읽음 처리 중 오류 발생:", error);
+    	    });
+    	}
+	});
+</script>
