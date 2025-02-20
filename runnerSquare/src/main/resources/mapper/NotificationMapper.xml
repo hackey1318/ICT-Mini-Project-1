@@ -9,4 +9,8 @@
     <select id="getReadableNotificationCountForUser" resultType="int">
         select count(*) from notification where userNo=${param1} and status='readable'
     </select>
+
+    <select id="getReadableNotificationListForUser" resultType="com.ict.rs.vo.NotificationVO">
+        select no, userNo, content, status, createdAt, updatedAt from notification where status='readable' and userNo=${param1} order by no
+    </select>
 </mapper>
