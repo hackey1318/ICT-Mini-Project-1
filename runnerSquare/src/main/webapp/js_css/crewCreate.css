@@ -1,0 +1,51 @@
+.body {
+	padding: 10%;
+	padding-top: 200px;
+	margin: 0 auto;
+	overflow: auto;
+	background-color: beige;
+}
+#modal-button {
+	width: 100px;
+	height: 30px;
+	background-color: #C5FFCA;
+	border: 1px solid #ddd;
+}
+#crewModal {
+	margin-top: 16vh;
+}
+#submit-button {
+	width: 100px;
+	height: 30px;
+	background-color: #C5FFCA;
+	border: 1px solid #ddd;
+}
+#description, input[type=text] {
+	width: 76%;
+	margin: 5px 1%;
+	padding: 5px;
+	border: 1px solid #ddd;
+}
+#crewImage {
+	margin: 5px 1%;
+}
+form>label {
+	width: 20%;
+	line-height: 30px;
+	text-align: center;
+}
+#description {
+	height: 200px;
+}
+.modal-body div:last-of-type {
+	text-align: center;
+	margin: 20px;
+}
+.alert {
+	margin: 0;
+	padding: 0;
+	margin-left: 22%;
+	height: 30px;
+	color: red;
+	display: none;
+}
