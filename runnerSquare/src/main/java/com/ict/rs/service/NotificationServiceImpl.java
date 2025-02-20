@@ -28,6 +28,12 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationDAO.getReadableNotificationListForUser(user.getNo());
     }
 
+    @Override
+    public int readNotification(String userId, List<Integer> notificationNoList) {
+        MemberVO user = this.getMember(userId);
+        return notificationDAO.readNotification(user.getNo(), notificationNoList);
+    }
+
     private MemberVO getMember(String userId) {
 
         // TODO : 회원 조회 기능 추가 후 연결

@@ -9,4 +9,6 @@ public interface NotificationService {
     int getNotificationCount(String userId);
 
     List<NotificationVO> getNotificationList(String userId);
+
+    int readNotification(String userId, List<Integer> notificationNoList);
 }
