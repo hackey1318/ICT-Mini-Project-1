@@ -21,6 +21,47 @@
 		border-bottom: 2px solid #555;
 		text-align: center;
 	}
+
+	.header-bottom {
+    	display: flex;
+		justify-content: space-between;
+    	align-items: center; /* 수직 가운데 정렬 */
+    	width: 100%;
+    	padding: 10px; /* 적절한 여백 추가 */
+	}
+	.notification {
+    	position: relative;
+    	margin: 10px; /* MENU와의 간격 */
+    	cursor: pointer;
+    	display: inline-block;
+	}
+
+	.bell-icon {
+	    font-size: 24px;
+	}
+
+	.notification-badge {
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    width: 10px;
+	    height: 10px;
+	    background-color: red;
+	    border-radius: 50%;
+	    display: none; /* 기본적으로 숨김 */
+	}
+
+	.notification-dialog {
+	    position: absolute;
+	    width: 280px;
+	    background: rgba(0, 0, 0, 0.4);
+	    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12);
+	    border-radius: 8px;
+	    padding: 4px;
+	    display: none;
+	    z-index: 100;
+	}
+
 	 #logo {
 	 	width: 180px;
 	 	padding-top: 30px;
@@ -54,10 +95,218 @@
 	}
 	
 	body{
-	 -ms-overflow-style: none;
+		-ms-overflow-style: none;
 	 }
 	::-webkit-scrollbar {
-	  display: none;
+		display: none;
+	}
+
+	<!-- 알림 리스트 -->
+
+	.notification-list {
+	    list-style: none;
+	    background: #fff;
+	    overflow: hidden;
+	}
+
+	/* 각 알림 항목 스타일 */
+	.notification-list li {
+	    display: flex; /* 좌우 정렬 */
+	    align-items: flex-start; /* 항목 상단 정렬 */
+	    padding: 8px 12px;
+	    border-bottom: 1px solid #eee;
+	    font-size: 14px;
+	    color: #333;
+	    overflow: hidden;
+	}
+
+	/* 알림 번호 + 텍스트 그룹 */
+	.notification-content {
+	    align-items: center;
+	    max-width: 100%;
+	    gap: 12px; /* 번호와 텍스트 간격 */
+	    overflow: hidden;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+	}
+
+	/* 알림 번호 */
+	.notification-number {
+	    flex-shrink: 0; /* 줄어들지 않음 */
+    	min-width: auto;
+	    text-align: right; /* 번호 정렬 */
+	}
+
+	/* 알림 텍스트 */
+	.notification-text {
+   		flex-grow: 1;
+    	overflow: hidden;
+    	white-space: nowrap;
+   		text-overflow: ellipsis; /* 너무 길면 ... 처리 */
+	}
+
+	/* 닫기(X) 버튼 */
+	.close-btn {
+    	background: none;
+    	border: none;
+    	font-size: 14px;
+    	font-weight: bold;
+    	color:rgb(0, 0, 0);
+    	cursor: pointer;
+    	padding: 2px 6px;
+    	flex-shrink: 0; /* 버튼이 줄어들지 않도록 */
+   		margin-left: 10px; /* X 버튼과 텍스트 간격 확보 */
+	}
+
+	.close-btn:hover {
+	    color: #f00;
+	}
+
+	#auth {
+		position: absolute;
+		right: 30px;
+		top: 50%;
+		transform: translateY(-300%);
+		color: white;
+	}
+	#auth a {
+		color: #FFFAF4;
+		text-decoration: none;
+		font-size: 15px;
+	}
+	#auth a:hover {
+		text-decoration: underline;
+	}
+ 	#loginDialog{
+	width: 30%;
+	height: 45%;
+	min-width: 500px;
+	border: 2px solid grey;
+	background-color:rgba(255, 255, 255, 0.9);
+	}
+	.btn-close{
+	position: absolute;
+	right: 8px;
+	}
+	.loginDialog-header {
+		padding:30px 0;
+		font-size: 1.7em;
+	}
+	#userId, #userPwd {
+		display: block;
+		margin: 10px auto;
+		width: 70%;
+		padding: 10px;
+	}
+	.optionBox{
+		display: flex;
+		justify-content: space-between;
+		width: 70%;
+		margin: 0 auto 10px;
+		font-size: 14px;
+		color: #444242;
+	}
+	.optionBox a {
+		text-decoration: none;
+		color: #444242;
+	}
+	.optionBox a:hover {
+		text-decoration: underline;
+	}
+	.log-btn {
+		width: 70%;
+		height: 60px;
+		color: white;
+		background-color: #3bcc79;
+		font-size: 1.2em;
+		border: none;
+	}
+	#signinDialog{
+		width: 30%;
+		height: 80%;
+		min-width: 700px;
+		border: 2px solid grey;
+		background-color:rgba(255, 255, 255, 0.9);
+	}
+	.Signindialog-header {
+		padding:30px 0;
+		font-size: 1.7em;
+	}
+	.id-check-btn {
+		width: auto;
+		font-size: 14px;
+		border: 1px solid #ccc;
+		background-color: #ddd;
+		border-radius: 5px;
+	}
+	.id-check-btn:hover {
+		background-color: #bbb;
+	}
+	.signin-form ul {
+		list-style: none;
+	}
+	.signin-form li {
+		float: left;
+		padding: 5px;
+	}
+	.signin-form li:nth-child(2n+1){
+		width: 45%;
+	}
+
+	#tel2, #tel3, #zipcode {
+		width: 50px;
+	}
+	#addr {
+		width: 150px;
+	}
+	#addrDetail {
+		width: 250px;
+	}
+	.zipcode-btn {
+		width: auto;
+		font-size: 14px;
+		border: 1px solid #ccc;
+		background-color: #ddd;
+		border-radius: 5px;
+	}
+	.zipcode-btn:hover {
+		background-color: #bbb;
+	}
+	.signin-btn {
+		width: 55%;
+		height: 60px;
+		text-align: center;
+		color: white;
+		background-color: #3bcc79;
+		font-size: 1.2em;
+		border: none;
+		margin-top: 10px;
+	}
+	#findIdDialog{
+		width: 30%;
+		height: 40%;
+		min-width: 500px;
+		border: 2px solid grey;
+		background-color:rgba(255, 255, 255, 0.9);
+	}
+	#findPwdDialog{
+		width: 30%;
+		height: 40%;
+		min-width: 500px;
+		border: 2px solid grey;
+		background-color:rgba(255, 255, 255, 0.9);
+	}
+	#findIdEmail, #findIdPhone {
+		display: block;
+		margin: 10px auto;
+		width: 70%;
+		padding: 10px;
+	}
+	#findPwdId, #findPwdEmail {
+		display: block;
+		margin: 10px auto;
+		width: 70%;
+		padding: 10px;
 	}
 </style>
 
@@ -74,14 +323,528 @@
 <body>
 <div class="header">
 	<div><img id="logo" src="${pageContext.request.contextPath}/img/logo.png"/></div>
-	<div id="menu">
-		<button>MENU∨</button>
-		<ul>
-			<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
-			<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
-			<li>RUNNING</li>
-			<li>MANAGE</li>
-			<li>MYPAGE</li>
-		</ul>
+	<div id="auth">
+    		<a href="#" id="openLogDialog">Login</a> / <a href="#" id="openSignInDialog">회원가입</a>
+    	</div>
+    	<!-- 로그인 DIALOG -->
+    	<dialog id="loginDialog">
+    	<button type="button" class="btn-close" id="closeLoginDialog"></button>
+
+    		<div class="loginDialog-header">LOGIN</div>
+    		<form class="login-form" onsubmit="return formCheck();">
+    				<input type="text" id="userId" placeholder="아이디를 입력하세요."/>
+    				<input type="password" id="userPwd" placeholder="비밀번호를 입력하세요."/>
+    				<div class="optionBox">
+    				<a href="#">회원가입</a>|
+    				<a href="#" id="findId">아이디 찾기</a>|
+    				<a href="#" id="findPwd">패스워드 찾기</a>
+    				</div>
+    			<input type="submit" value="LOGIN" class="log-btn"/>
+    		</form>
+    	</dialog>
+    	<!-- 회원가입 DIALOG -->
+    	<dialog id="signinDialog">
+    		<button type="button" class="btn-close" id="closeSigninDialog"></button>
+    			<div class="Signindialog-header">회원가입</div>
+    				<form class="signin-form" on submit="return signinCheck()">
+    					<ul>
+    		                <li>아이디</li>
+    		                <li><input type="text" name="userid" id="userid">
+    		                    <button type="button" class="id-check-btn">중복확인</button>
+    		                    <span id="idCheck"></span>
+    		                    <input type="hidden" id="idCheckStatus" value="N"/>
+    		                </li>
+    		                <li>패스워드</li>
+    		                <li><input type="password" name="userpwd" id="userpwd"></li>
+    		                <li>패스워드 확인</li>
+    		                <li><input type="password" name="pwd2" id="pwd2"/></li>
+    		                <li>이름</li>
+    		                <li><input type="text" name="username" id="username"/></li>
+    		                <li>닉네임</li>
+    		                <li><input type="text" name="userNickname" id="userNickname"/></li>
+    		                <li>이메일</li>
+    		                <li><input type="email" name="email" id="email"/></li>
+    		                <li>연락처</li>
+    		                <li><select name="tel1">
+    		                        <option>010</option>
+    		                        <option>02</option>
+    		                        <option>031</option>
+    		                        <option>041</option>
+    		                        <option>051</option>
+    		                        <option>061</option>
+    		                    </select>
+    		                    -
+    		                    <input type="text" name="tel2" id="tel2">
+    		                    -
+    		                    <input type="text" name="tel3" id="tel3"/>
+    		                </li>
+    		                <li>주소</li>
+    		                <li><input type="text" name="zipcode" id="zipcode">
+    		                    <input type="button" value="우편번호찾기" class="zipcode-btn" onclick="daumPostCodeSearch()"/>
+    		                	<input type="text" name="addr" id="addr"/>
+    		                </li>
+    		                <li>상세주소</li>
+    		                <li><input type="text" name="addrDetail" id="addrDetail"/></li>
+    						<li>생년월일</li>
+    						<li><input type="date" name="birthdate" id="birthdate"></li>
+    						<li>성별</li>
+    						<li>
+    							<input type="radio" name="gender" value="남"> 남
+    							<input type="radio" name="gender" value="여"> 여
+    						</li>
+    						<li>선호 페이스</li>
+    						<li>
+    							<select name="preferredPace" id="preferredPace" class="preferred-pace" >
+    								<option value="4분">4분 대</option>
+    								<option value="5분">5분 대</option>
+    								<option value="6분">6분 대</option>
+    								<option value="7분">7분 대</option>
+    								<option value="8분 이상">8분 이상</option>
+    							</select>
+    						</li>
+    		                <li>
+    		                </li>
+    		            </ul>
+    		            <!--  <button>회원가입</button> ----- submit과 버튼 둘다 submit 이벤트 발생-->
+    		            <input type="submit" value="회원가입" class="signin-btn"/>
+    				</form>
+    	</dialog>
+    	<!-- 아이디 찾기 DIALOG -->
+    	<dialog id="findIdDialog">
+    		<button type="button" class="btn-close" id="closeFindIdDialog"></button>
+    		<div class="loginDialog-header">아이디 찾기</div>
+    		<form id="findIdForm">
+    			<input type="text" id="findIdEmail" placeholder="가입한 이메일을 입력하세요." required />
+    			<input type="text" id="findIdPhone" placeholder="가입한 휴대폰 번호를 입력하세요." required />
+    			<input type="submit" value="아이디 찾기" class="log-btn" />
+    		</form>
+    	</dialog>
+    	<!-- 비밀번호 찾기 DIALOG -->
+    	<dialog id="findPwdDialog">
+    		<button type="button" class="btn-close" id="closeFindPwdDialog"></button>
+    		<div class="loginDialog-header">비밀번호 찾기</div>
+    		<form id="findPwdForm">
+    			<input type="text" id="findPwdId" placeholder="가입한 아이디를 입력하세요." required />
+    			<input type="text" id="findPwdEmail" placeholder="가입한 이메일을 입력하세요." required />
+    			<input type="submit" value="비밀번호 찾기" class="log-btn" />
+    		</form>
+    	</dialog>
+	<div class="header-bottom">
+		<div class="notification">
+        	<i id="notificationBell" class="bell-icon">    🔔    </i>
+        	<span class="notification-badge" id="notificationBadge" style="display: none;"></span>
+    	</div>
+    	<div id="notificationDialog" class="notification-dialog" style='display: none;'>
+    		<div class="notification-content">
+    			<div class='header-bottom'>
+    				<div>
+						<button type="button" class="btn btn-link" id='markAllAsRead'><b>전체 읽음</b></button>
+    				</div>
+    				<div>
+						<button type="button" class="btn btn-close"/>
+    				</div>
+    			</div>
+        		<h2><b>알림</b></h2>
+        		<ol id="notificationList" class="notification-list"></ol>
+    		</div>
+		</div>
+		<div id="menu">
+			<button>MENU∨</button>
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
+				<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
+				<li>RUNNING</li>
+				<li>MANAGE</li>
+			    <li><a href="${pageContext.request.contextPath}/mypage/applicationDetail">MYPAGE</a></li>
+			</ul>
+		</div>
 	</div>
 </div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+    //로그인 다이얼로그 변수 선언
+    const LoginDialog = document.getElementById('loginDialog');
+    const openDialogLink = document.getElementById('openLogDialog');
+    	const closeLoginDialogBtn = document.getElementById('closeLoginDialog');
+    	const loginForm = document.getElementById('loginForm');
+
+    	// a태그 클릭 시 다이얼로그 열기
+    	openDialogLink.addEventListener('click', (event)=>{
+    		event.preventDefault(); // a 태그 이벤트 없앰
+    		LoginDialog.showModal();
+    	});
+    	// 다이얼로그 닫기
+    	closeLoginDialogBtn.addEventListener('click', ()=>{
+    		LoginDialog.close();
+    	});
+
+    // form 값 유효성검사
+    	function formCheck(){
+    	    let userId = document.getElementById("userId").value.trim();
+    	    let userPwd = document.getElementById("userpwd").value.trim();
+
+    	  //id,pwd 입력 유무 확인
+    	    if(userId === ""){
+    	        alert("아이디를 입력해주세요.");
+    	        return false;
+    	    }
+
+
+    	    if(userPwd === ""){
+    	        alert("비밀번호를 입력해주세요.");
+    	        return false;
+    	    }
+
+    	  	//아이디: 5~10자 사이(첫 번째 문자는 영어 대소문자 영대소문자, 숫자,_,$)
+    	    let idReg = /^[A-Za-z]{1}[A-Za-z0-9_$]{4,9}$/;
+    	    if (!idReg.test(userId)) {
+    	        alert("아이디 첫 번째 글자는 영어 대소문자\n영어 대소문자, 숫자, 특수문자(_, $)만 허용\n글자 길이는 5~10글자");
+    	        return false;
+    	    }
+
+    	  //비밀번호:8~16자(최소 하나의 영문 대소문자, 숫자, 특수문자(!@#$%^&*) 포함)
+    	    let pwdReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+    	    if (!pwdReg.test(userPwd)) {
+    	        alert("비밀번호는 8~16자이며, 영문 대소문자, 숫자, 특수문자(!@#$%^&*)를 포함해야 합니다.");
+    	        return false;
+    	    }
+
+    	    return true;
+    	}
+
+
+    	//회원가입 다이얼로그 관련 변수 선언
+    	const signInDialog = document.getElementById('signinDialog');
+    	const openSignInDialogLink = document.getElementById('openSignInDialog');
+    	const closeSignInDialogBtn = document.getElementById('closeSigninDialog');
+
+    	//회원가입 a 태그 클릭 시 다이얼로그 열기
+    	openSignInDialogLink.addEventListener('click', (event) => {
+    			event.preventDefault();
+    			signInDialog.showModal();
+    	});
+
+    	//회원가입 다이얼로그 닫기 버튼
+    	closeSignInDialogBtn.addEventListener('click', () => {
+    		signInDialog.close();
+    	})
+    	document.querySelector("#loginDialog .optionBox a[href='#']").addEventListener('click', (event) => {
+    		event.preventDefault();
+    		LoginDialog.close();
+    		signInDialog.showModal();
+    	});
+    	// 우편번호 찾기
+        	// https://postcode.map.daum.net/guide
+        	function daumPostCodeSearch(){
+        		new daum.Postcode({
+                    oncomplete: function(data) {
+                    	console.log(data);
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var addr = ''; // 주소 변수
+                        var extraAddr = ''; // 참고항목 변수
+
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            addr = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            addr = data.jibunAddress;
+                        }
+
+                        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                        if(data.userSelectedType === 'R'){
+                            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                                extraAddr += data.bname;
+                            }
+                            // 건물명이 있고, 공동주택일 경우 추가한다.
+                            if(data.buildingName !== '' && data.apartment === 'Y'){
+                                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                            }
+                            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                            if(extraAddr !== ''){
+                                extraAddr = ' (' + extraAddr + ')';
+                            }
+                            // 조합된 참고항목을 해당 필드에 넣는다. 참고항목은 빼도 된다.
+                            // document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                        } else {
+                            // document.getElementById("sample6_extraAddress").value = '';
+                        }
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('zipcode').value = data.zonecode;
+                        document.getElementById("addr").value = addr;
+                        // 커서를 상세주소 필드로 이동한다.
+                        document.getElementById("addrDetail").focus();
+                    }
+                }).open();
+        	}
+        	//회원가입 유효성 검사/ 아이디 중복검사(비동기식으로 구현)
+        	function signinCheck(){
+        		let userid = document.getElementById("userid").value.trim();
+
+        		//비밀번호
+        		let userpwd = document.getElementById("userpwd").value.trim();
+        		let pwd2 = document.getElementById("pwd2").value.trim();
+        	    let pwdReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+        	    if (!pwdReg.test(userpwd)) {
+        	        alert("비밀번호는 8~16자이며, 영문 대소문자, 숫자, 특수문자(!@#$%^&*)를 포함해야 합니다.");
+        	        return false;
+        	    }
+     			if(userpwd !== pwd2){
+     				alert("비밀번호가 일치하지 않습니다.");
+     				return false;
+     			}
+
+     			//이름
+        		let username = document.getElementById("username").value.trim();
+     			let nameReg = /^[가-힣]{2,8}$/;
+
+                if(username === "") {
+                    alert("이름을 입력하세요.");
+                    return false;
+                } else if (!nameReg.test(username)) {
+                    alert("이름은 2~8자 사이의 한글만 사용 가능합니다. \n다시 입력해주세요.")
+                    return false;
+                }
+                //닉네임
+        		let userNickname = document.getElementById("userNickname").value.trim();
+                let nickNameReg = /^[A-Za-z0-9가-힣]{2,10}$/;
+
+                if(userNickname === ""){
+                	alert("닉네임을 입력하세요.");
+                	return false;
+                } else if (!nickNameReg.test(userNickname)){
+                	alert("닉네임은 2~10자 사이의 영어 대소문자, 한글, 숫자만 사용 가능합니다.\n다시 입력해주세요.");
+                }
+
+                //이메일
+        		let email = document.getElementById("email").value.trim();
+        		let emailReg = /^\w{3,10}@[A-Za-z0-9]{2,8}[.][a-z]{2,4}([.][a-z]{2,3})?$/;
+
+                if(email === "") {
+                    alert("이메일을 입력하세요.");
+                    return false;
+                } else if(!emailReg.test(email)) {
+                    alert("유효한 이메일 주소를 입력하세요.");
+                    return false;
+                }
+
+                //연락처
+        		let tel = document.getElementById("tel2").value.trim() + "-";
+        			  tel += document.getElementById("tel3").value.trim();
+        		let telReg = /^[0-9]{3,4}[-][0-9]{4}$/;
+
+                if (!telReg.test(tel)) {
+                    alert("휴대폰 번호를 정확히 입력해주세요.")
+                    return false;
+                }
+
+                //우편번호
+        		let zipcode = document.getElementById("zipcode").value.trim();
+
+                if(zipcode === ""){
+                	alert("우편번호를 입력해주세요.");
+                	return false;
+                }
+           		//생년월일
+           		let birthdate = document.getElementById("birthdate").value;
+           		if(!birthdate){
+           			alert("생년월일을 입력해주세요.");
+           			return false;
+           		}
+           		//성별
+           		let gender = document.querySelector('input[name="gender"]:checked');
+           		if(!gender){
+           			alert("성별을 선택해주세요.");
+           			return false;
+           		}
+           		alert("회원가입을 축하합니다!");
+           		return true;
+        	}
+           	//아이디 찾기 다이얼로그 변수
+           	const findIdDialog = document.getElementById('findIdDialog');
+           	const openFindIdDialog = document.getElementById('findId');
+           	const closeFindDialog = document.getElementById('closeFindIdDialog');
+
+           	//비밀번호 찾기 다이얼로그 변수
+           	const findPwdDialog = document.getElementById('findPwdDialog');
+           	const openFindPwdDialog = document.getElementById('findPwd');
+           	const closeFindPwdDialog = document.getElementById('closeFindPwdDialog');
+
+           	// 아이디 찾기 다이얼로그 열기/닫기 이벤트
+           	openFindIdDialog.addEventListener('click', (event) => {
+           		event.preventDefault();
+           		findIdDialog.showModal();
+           	});
+           	closeFindDialog.addEventListener('click', () => {
+           		findIdDialog.close();
+           	});
+
+           	// 비밀번호 찾기 모달 열기/닫기 이벤트
+           	openFindPwdDialog.addEventListener('click', () => {
+           		event.preventDefault();
+           		findPwdDialog.showModal();
+           	});
+           	closeFindPwdDialog.addEventListener('click', () => {
+           		findPwdDialog.close();
+           	});
+
+    function updateNotificationBadge(unreadCount) {
+        const badge = document.getElementById('notificationBadge');
+
+        if (unreadCount > 0) {
+            badge.style.display = "block";  // 빨간 점 표시
+        } else {
+            badge.style.display = "none";   // 안 보이게 처리
+        }
+    }
+
+    async function fetchNotificationCount() {
+
+    	try {
+	    	const response = await fetch('/rs/noti/count');
+	    	const data = await response.json();
+		    console.log(data);
+		    updateNotificationBadge(data);
+	    } catch (error) {
+            console.error("알림 정보를 불러오는 중 오류 발생:", error);
+        }
+    }
+
+    fetchNotificationCount();
+
+    document.addEventListener("DOMContentLoaded", function () {
+    	const bellIcon = document.getElementById("notificationBell");
+    	const notificationDialog = document.getElementById("notificationDialog");
+		const markAllAsReadButton = document.getElementById("markAllAsRead");
+    	const notificationList = document.getElementById("notificationList");
+
+    	// 🔔 클릭 시 알림 창 위치 업데이트 & 토글
+    	bellIcon.addEventListener("click", function (event) {
+        	event.stopPropagation();
+        	if (notificationDialog.style.display === "block") {
+        	    notificationDialog.style.display = "none";
+        	} else {
+        	    updateDialogPosition(); // 종 옆에 위치 조정
+        	    notificationDialog.style.display = "block";
+        	    loadNotifications();
+        	}
+    	});
+
+    	// 📌 화면 다른 곳 클릭하면 알림 창 닫기
+    	document.addEventListener("click", function (event) {
+    	    if (!notificationDialog.contains(event.target) && event.target !== bellIcon) {
+    	        notificationDialog.style.display = "none";
+    	    }
+    	});
+
+    	// 📌 창 크기 변경 시 알림 창 위치 업데이트
+    	window.addEventListener("resize", function () {
+    	    if (notificationDialog.style.display === "block") {
+    	        updateDialogPosition();
+    	    }
+    	});
+
+    	// 📌 종 모양 바로 옆에 알림 창 위치 조정
+    	function updateDialogPosition() {
+    		if (!bellIcon || !notificationDialog) {
+    	        console.error("Bell Icon or Notification Dialog not found.");
+    	        return;
+    	    }
+
+    	    const bellRect = bellIcon.getBoundingClientRect(); // 🔔 위치 정보 가져오기
+
+    	    // bellRect 값 확인
+    	    console.log('bellRect:', bellRect); // 디버깅용, 실제 값 확인
+
+    	    // 알림 창에 position을 absolute로 설정
+    	    notificationDialog.style.position = "absolute";
+    	    notificationDialog.style.top = `${bellRect.bottom + window.scrollY + 167}px`; // 계산된 top 값
+    	    notificationDialog.style.left = `${bellRect.right + window.scrollX + 60}px`; // 계산된 left 값
+    	}
+
+    	markAllAsReadButton.addEventListener("click", function () {
+    	    // 알림 목록에서 모든 알림 ID 수집
+    	    const notificationNoList = Array.from(notificationList.children).map(item => item.dataset.id);
+
+    	    // 서버로 전체 읽음 처리 요청
+    	    markNotificationsAsRead(notificationNoList);
+    	});
+
+    	// 📌 알림 목록 불러오기 (예제)
+    	function loadNotifications() {
+    	    const notificationList = document.getElementById("notificationList");
+    	    notificationList.innerHTML = "";
+
+    	    fetch('/rs/noti')
+    	    	.then(response => response.json())
+    	    	.then(data => {
+    	    		data.forEach((notification, index) => {
+    	                const li = document.createElement("li");
+
+		                // 알림 번호 + 텍스트 그룹
+    	                const contentWrapper = document.createElement("div");
+    	                contentWrapper.classList.add("notification-content");
+
+ 		                // 번호
+    	                const numberSpan = document.createElement("span");
+    	                numberSpan.classList.add("notification-number");
+    	                numberSpan.textContent = '${index + 1}. ';
+
+    	             	// 알림 텍스트
+    	                const notificationText = document.createElement("span");
+    	                notificationText.classList.add("notification-text");
+    	                notificationText.textContent = notification.content;
+
+    	                contentWrapper.appendChild(numberSpan);
+    	                contentWrapper.appendChild(notificationText);
+    	                li.appendChild(contentWrapper);
+    	                li.dataset.id = notification.no;
+
+    	             	// X 버튼 만들기
+    	                const closeButton = document.createElement("button");
+						closeButton.className = "btn close-btn";
+						closeButton.textContent = "X";
+
+    	                closeButton.addEventListener("click", function () {
+    	                	li.remove();
+    	                	markNotificationsAsRead([notification.no]);
+    	                });
+    	                li.appendChild(closeButton);
+    	                notificationList.appendChild(li);
+    	    		});
+				})
+    	    	.catch(err => {
+    	    		console.error("notification err : ", err);
+    	    	});
+    	}
+
+    	function markNotificationsAsRead(notificationNoList) {
+    		fetch('/rs/noti', {
+    	        method: 'PATCH', // POST 요청을 통해 알림을 읽음으로 처리
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				body: JSON.stringify(notificationNoList)
+    	    })
+    	    .then(response => {
+    	        if (response.ok) {
+    	            console.log('알림 ${notificationId}이(가) 읽음 처리되었습니다.');
+    	            notificationDialog.style.display = "none";
+    	            fetchNotificationCount();
+    	        } else {
+    	            console.error("알림 처리 중 오류 발생");
+    	        }
+    	    })
+    	    .catch(error => {
+    	        console.error("알림 읽음 처리 중 오류 발생:", error);
+    	    });
+    	}
+	});
+</script>

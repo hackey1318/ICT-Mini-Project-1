@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ict.rs.dao.NotificationDAO">
+
+    <select id="getReadableNotificationCountForUser" resultType="int">
+        select count(*) from notification where userNo=${param1} and status='readable'
+    </select>
+
+    <select id="getReadableNotificationListForUser" resultType="com.ict.rs.vo.NotificationVO">
+        select no, userNo, content, status, createdAt, updatedAt from notification where status='readable' and userNo=${param1} order by no
+    </select>
+
+    <update id="readNotification">
+        update notification set status='read' where userNo=${param1} and no in
+        <foreach collection="param2" item="notificationNo" open="(" close=")" separator=",">
+            #{notificationNo}
+        </foreach>
+    </update>
+</mapper>
