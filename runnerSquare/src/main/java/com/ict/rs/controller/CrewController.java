@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,9 +42,9 @@ public class CrewController {
 		if(crewName != null && !crewName.equals("")) pvo.setCrewName("%" + crewName + "%");
 		else pvo.setCrewName("%%");
 		
-		pvo.setTotalRecord(service.crewTotalRecord(pvo)); // 총 레코드 수
+		pvo.setTotalRecord(service.crewTotalRecord(pvo));
 		System.out.println(pvo.toString());
-		List<CrewVO> crewList = service.crewSelect(pvo); // 해당 페이지 레코드 선택
+		List<CrewVO> crewList = service.crewSelect(pvo);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pvo", pvo);
@@ -55,6 +56,15 @@ public class CrewController {
 	@GetMapping("/crew/crewCreate")
 	public String crewCreate() {
 		return "crew/crewCreate";
+	}
+
+	@ResponseBody
+	@GetMapping("/crew/details/{no}")
+	public CrewVO crewDetail(@PathVariable int no) {
+
+		CrewVO crew = service.crewViewSelect(no);
+
+		return crew;
 	}
 	
 	@PostMapping("/crew/crewCreateOk")
