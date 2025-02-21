@@ -1,0 +1,19 @@
+package com.ict.rs.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.ict.rs.vo.CrewManageVO;
+
+@Mapper
+@Repository
+public interface CrewManageDAO {
+	
+	//가입한 크루 리스트 regi crew namelist
+	public List<CrewManageVO> crewNameList(int userNo);
+	
+	public List<CrewManageVO> crewMemberList(int userNo);
+
+}

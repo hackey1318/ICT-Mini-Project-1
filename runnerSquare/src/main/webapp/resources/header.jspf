@@ -202,7 +202,7 @@
 				<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
 				<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
 				<li>RUNNING</li>
-				<li>MANAGE</li>
+				<li><a href="${pageContext.request.contextPath}/crew/crewManage">MANAGE</a></li>
 				<li>MYPAGE</li>
 			</ul>
 		</div>

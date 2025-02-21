@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ict.rs.dao.CrewManageDAO">
+	<select id="crewNameList" resultType="com.ict.rs.vo.CrewManageVO">
+	select 
+		crewmembers.crewNO, 
+		crewmembers.userNo, 
+		crewmembers.role, 
+		crewmembers.status, 
+		DATE_FORMAT(crewmembers.createdAt, '%Y-%m-%d') AS createdAt,
+		DATE_FORMAT(crewmembers.updatedAt, '%Y-%m-%d') AS updatedAt, 
+		crews.no, 
+		crews.name, 
+		crews.description, 
+		crews.activeArea, 
+		crews.runningDay, 
+		crews.status,
+		users.nickName
+		from crewmembers
+		left join crews on crewmembers.crewNO = crews.no
+		left join users on crewmembers.userNO = users.no
+		where userNo=${param1};
+	</select>
+	
+	<select id="crewMemberList" resultType="com.ict.rs.vo.CrewManageVO">
+	select 
+		crewmembers.crewNO, 
+		crewmembers.userNo, 
+		crewmembers.role, 
+		crewmembers.status, 
+		DATE_FORMAT(crewmembers.createdAt, '%Y-%m-%d') AS createdAt,
+		DATE_FORMAT(crewmembers.updatedAt, '%Y-%m-%d') AS updatedAt, 
+		crews.no, 
+		crews.name, 
+		crews.description, 
+		crews.activeArea, 
+		crews.runningDay, 
+		crews.status,
+		users.nickName
+		from crewmembers
+		left join crews on crewmembers.crewNO = crews.no
+		left join users on crewmembers.userNO = users.no
+		where crewNo in (select crewNo from crewmembers where userNo=${param1});
+ </select>
+</mapper>
