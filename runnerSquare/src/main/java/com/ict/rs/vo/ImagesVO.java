@@ -1,6 +1,5 @@
 package com.ict.rs.vo;
 
-import com.ict.rs.vo.constant.image.ImagePath;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +17,7 @@ public class ImagesVO {
 
     private String originName;
 
-    private String path = ImagePath.LOCAL.getPath();
+    private String path;
 
     private int userNo;
 
