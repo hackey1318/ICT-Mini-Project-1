@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<script type="text/javascript" src="${pageContext.request.contextPath}/js_css/crewDetail.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js_css/citySelect.js"></script>
+<link href="${pageContext.request.contextPath}/js_css/crewDetail.css" rel="stylesheet" type="text/css"/>
 
 <style>
 	h1 {
@@ -9,7 +11,7 @@
 		font-weight: bold;
 		margin: 20px auto;
 	}
-	.body {
+	#container {
 		color: #222;
 		width: 80%;
 		margin: 0 auto;
@@ -43,7 +45,7 @@
 		padding: 5px;
 		list-style-type: none;
 	}
-	@media(min-width:1000px) {
+	@media(min-width:992px) {
 		#crews {
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr;
@@ -128,7 +130,7 @@
 
 </script>
 
-<div class="body">
+<div id="container">
 	<h1>크루 검색</h1>
 	<form id="search-form" action="${pageContext.request.contextPath}/crew/crewSearch">
 		<select name="city" id="citySelect" onchange="changeState()">
@@ -143,7 +145,8 @@
 	
 	<ul id="crews">
 	<c:forEach var="vo" items="${crewList}">
-		<li class="crewList">
+		<li class="crewList" id="openCrewDetailBtn" data-bs-toggle="modal" 
+					data-bs-target="#crewDetailModal" data-id="${vo.no}">
 			<div class="imgBox"><img class="crewImg" src="${pageContext.request.contextPath}/img/running.jpg"/></div>
 			<div>
 				<div>${vo.name}</div>
@@ -151,7 +154,31 @@
 			</div>
 		</li>
 	</c:forEach>
-	</ul>	
+	</ul>
+	<div class="modal fade" id="crewDetailModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+	                <h4 class="modal-title" id="modalTitle">크루 이름</h4>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+	            </div>
+
+	            <div class="modal-body">
+	                <div>
+	                    <img id="modalImage" src="/rs/img/running.jpg" />
+	                </div>
+	                <div class="crewDetail">
+	                    <div id="modalName">크루 이름</div>
+	                    <div id="modalDescription">설명</div>
+	                    <div id="modalLocation">도시, 구</div>
+	                    <div id="modalRunningDay">러닝데이</div>
+	                </div>
+	                <button>크루가입</button>
+	                <button>게스트런 신청</button>
+	            </div>
+			</div>
+		</div>
+	</div>
 	
 	<!-- paging -->
 	<ul class="pagination justify-content-center">		

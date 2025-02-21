@@ -12,7 +12,8 @@ public class CrewVO {
     private String userid;
     private String name;
     private String description;
-    private String activeArea;
+    private String city;
+    private String district;
     private String runningDay;
     private String status;
     private String createdAt;

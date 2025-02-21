@@ -6,12 +6,16 @@
   
 <mapper namespace="com.ict.rs.dao.CrewDAO">
 	<select id="crewTopThree">
-		select no name, description from crews
+		select no, name, description from crews
 		order by no limit 3 offset 0; <!-- 난수 지정해서 랜덤 3개? -->
 	</select>
 	<select id="crewTotalRecord" resultType="int">
 		select count(no) cnt from crews
 		where city like #{city}
+	</select>
+	<select id="crewViewSelect">
+		select no, name, description, city, district, runningDay from crews
+		where no = ${param1}
 	</select>
 	<select id="crewSelect">
 		select no, name, description, city, district  from crews

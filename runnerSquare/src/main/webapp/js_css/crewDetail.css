@@ -1,0 +1,29 @@
+.body {
+	padding: 250px;
+}
+.modal-content {
+	margin-top: 180px;
+}
+.modal-body {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+img {
+	width: 100%;
+	height: 100%;
+}
+.crewDetail {
+	padding: 3%;
+}
+.modal-body>button {
+	width: 120px;
+	height: 40px;
+	margin: 20px auto 0;
+}
+@media(min-width: 992px) {
+	.modal-body>button {
+		width: 150px;
+		height: 50px;
+		margin: 30px auto 10px;
+	}
+}
