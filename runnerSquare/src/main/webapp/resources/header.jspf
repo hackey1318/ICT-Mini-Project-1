@@ -50,7 +50,7 @@
 	    border-radius: 50%;
 	    display: none; /* 기본적으로 숨김 */
 	}
-	
+
 	.notification-dialog {
 	    position: absolute;
 	    width: 280px;
@@ -61,7 +61,7 @@
 	    display: none;
 	    z-index: 100;
 	}
-		
+
 	 #logo {
 	 	width: 180px;
 	 	padding-top: 30px;
@@ -100,9 +100,9 @@
 	::-webkit-scrollbar {
 		display: none;
 	}
-	
+
 	<!-- 알림 리스트 -->
-	
+
 	.notification-list {
 	    list-style: none;
 	    background: #fff;
@@ -161,7 +161,7 @@
 	.close-btn:hover {
 	    color: #f00;
 	}
-	
+
 </style>
 
 <script>
@@ -201,8 +201,8 @@
 			<ul>
 				<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
 				<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
-				<li>RUNNING</li>
-				<li>MANAGE</li>
+				<li><a href="${pageContext.request.contextPath}/run/runSearch">RUNNING</a></li>
+				<li><a href="${pageContext.request.contextPath}/crew/crewManage">MANAGE</a></li>
 				<li>MYPAGE</li>
 			</ul>
 		</div>
