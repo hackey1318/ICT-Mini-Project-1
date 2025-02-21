@@ -3,12 +3,12 @@ package com.ict.rs.service;
 import com.ict.rs.controller.response.FileUploadResponse;
 import com.ict.rs.dao.FileSystemDAO;
 import com.ict.rs.vo.ImagesVO;
-import com.ict.rs.vo.constant.image.ImagePath;
 import com.ict.rs.vo.constant.image.ImageStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,12 +25,12 @@ public class FileSystemServiceImpl implements FileSystemService {
 
     private final FileSystemDAO fileSystemDAO;
 
-    private final String UPLOAD_DIR = ImagePath.LOCAL.getPath();
+    private final ServletContext servletContext;
 
     @Override
     public List<FileUploadResponse> uploadFile(List<MultipartFile> files, String userId) throws IOException {
 
-        Path uploadPath = Paths.get(UPLOAD_DIR);
+    	Path uploadPath = Paths.get(servletContext.getRealPath("/img")); // 실제 서버 파일 시스템 경로
 
         List<ImagesVO> imagesVOList = new ArrayList<>();
         for (MultipartFile file : files) {
