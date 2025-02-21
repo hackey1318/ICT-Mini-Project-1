@@ -2,6 +2,7 @@ package com.ict.rs.service;
 
 import com.ict.rs.dao.MemberDAO;
 import com.ict.rs.vo.MemberVO;
+import com.ict.rs.vo.constant.member.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public int registerMember(MemberVO vo) {
 
+        vo.setRole(MemberRole.USER.name().toLowerCase());
         return memberDAO.registerMember(vo);
     }
 }
