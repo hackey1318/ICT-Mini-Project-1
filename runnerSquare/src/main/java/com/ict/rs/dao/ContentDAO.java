@@ -1,6 +1,6 @@
 package com.ict.rs.dao;
 
-import com.ict.rs.vo.ImagesVO;
+import com.ict.rs.vo.ContentVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -9,9 +9,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface FileSystemDAO {
+public interface ContentDAO {
 
-    int insertImages(@Param("images") List<ImagesVO> images);
-
-    List<ImagesVO> getImage(@Param("imageIds") List<String> imageIdList);
+    List<ContentVO> getContentList(@Param("type") String type, @Param("status") String status);
 }
