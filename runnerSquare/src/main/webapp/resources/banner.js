@@ -33,6 +33,10 @@ function loadBannerImages() {
                 // 배너 클릭 시 이동
                 $(".bannerWrapper").on("click", ".bannerImage", function() {
                     let movePath = $(this).data("move-path");
+                    // movePath가 http:// 또는 https://로 시작하지 않으면 앞에 https:// 추가
+                    if (!movePath.startsWith("http://") && !movePath.startsWith("https://")) {
+                        movePath = "https://" + movePath;
+                    }
                     window.open(movePath, "_blank");
                 });
                 
