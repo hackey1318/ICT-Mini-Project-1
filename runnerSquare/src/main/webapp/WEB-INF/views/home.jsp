@@ -1,10 +1,9 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<% String contextPath = request.getContextPath(); %>
+<link rel="stylesheet" href="<%= contextPath %>/resources/banner.css">
+<script defer src="<%= contextPath %>/resources/banner.js"></script>
 <style>
-	#banner {
-		width: 100%;
-	}
 	.crewInfoBox {
 		width: 80%;
 		display : flex;
@@ -48,11 +47,20 @@
 			width:100px;
 		}
 	}
+	.main-container {
+		margin-top: 222px; /* header 높이만큼 여백 */
+		margin-bottom: 34px; /* footer 높이만큼 여백 */
+		height: calc(100vh - 256px); /* 화면 높이에서 header와 footer 높이를 뺀 값 */
+		overflow-y: auto; /* 세로 스크롤 활성화 */
+	}
 </style>
-
-<img id="banner" src="img/running.jpg"/>
-<div class="container">
-	<!-- 추후 forEach 문으로 변경 -->
+<div class='main-container'>
+<div class="bannerContainer">
+    <button class="bannerButton prevButton">◀</button>
+    <div class="bannerWrapper"></div>
+    <button class="bannerButton nextButton">▶</button>
+</div>
+<div class="container">		<!-- 추후 forEach 문으로 변경 -->
 	<div class="crewInfoBox">
 		<img class="crewImg" src="img/logo.png"/>
 		<div class="crewInfo">
@@ -78,4 +86,5 @@
 		</div>
 	</div>
 	<button id="crewAll">크루 전체보기</button>
+</div>
 </div>
