@@ -13,6 +13,7 @@
 }
 #crewModal {
 	margin-top: 16vh;
+	min-width: 427px;
 }
 #submit-button {
 	width: 100px;
@@ -20,11 +21,20 @@
 	background-color: #C5FFCA;
 	border: 1px solid #ddd;
 }
-#description, input[type=text] {
+#description, input[type=text], select {
 	width: 76%;
 	margin: 5px 1%;
 	padding: 5px;
 	border: 1px solid #ddd;
+}
+select {
+	width: 36%;
+}
+#dayCheckBox {
+	display: inline;
+}
+#dayCheckBox>input {
+	margin: 0 1%;
 }
 #crewImage {
 	margin: 5px 1%;

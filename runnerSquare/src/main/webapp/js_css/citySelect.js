@@ -54,6 +54,10 @@ let cityArr = Object.keys(cityData);
 let citySel;
 
 addEventListener("DOMContentLoaded", (event) => {
+	makeSel();
+});
+
+function makeSel(){
 	citySel = document.getElementById('citySelect');
 	
 	for(var i = 0; i < cityArr.length; i++) {
@@ -65,7 +69,8 @@ addEventListener("DOMContentLoaded", (event) => {
 		}
 		citySel.appendChild(option);
 	}
-});
+}
+
 function changeState() {
 	selected = citySel.options[citySel.selectedIndex].value;
 	let districtSel = document.getElementById("districtSelect");
