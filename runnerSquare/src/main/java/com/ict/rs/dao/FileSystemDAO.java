@@ -11,5 +11,7 @@ import java.util.List;
 @Repository
 public interface FileSystemDAO {
 
-    List<ImagesVO> insertImages(@Param("images") List<ImagesVO> images);
+    int insertImages(@Param("images") List<ImagesVO> images);
+
+    List<ImagesVO> getImage(@Param("imageIds") List<String> imageIdList);
 }
