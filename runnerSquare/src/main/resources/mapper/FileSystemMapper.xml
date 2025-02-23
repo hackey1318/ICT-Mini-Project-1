@@ -10,8 +10,15 @@
         insert into images (id, originName, path, userNo, status)
         values
         <foreach collection="images" item="image" separator=",">
-            (#{id}, #{originName}, #{path}, #{userNo}, #{status})
+            (#{image.id}, #{image.originName}, #{image.path}, #{image.userNo}, #{image.status})
         </foreach>
     </insert>
+
+    <select id="getImage" resultType="com.ict.rs.vo.ImagesVO">
+		select * from images where id in
+    	<foreach collection="imageIds" item="id" open="(" separator="," close=")">
+    		#{id}
+		</foreach>
+    </select>
 
 </mapper>
