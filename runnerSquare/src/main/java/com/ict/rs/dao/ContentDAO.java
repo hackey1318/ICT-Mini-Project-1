@@ -12,4 +12,8 @@ import java.util.List;
 public interface ContentDAO {
 
     List<ContentVO> getContentList(@Param("type") String type, @Param("status") String status);
+
+    int registerContent(ContentVO contentVO);
+
+    ContentVO getContent(@Param("no") int no);
 }

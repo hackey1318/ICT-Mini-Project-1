@@ -22,4 +22,14 @@ public class ContentManageServiceImpl implements ContentManageService {
         }
         return contentDAO.getContentList(type, null);
     }
+
+    public ContentVO registerContent(ContentVO vo) {
+        vo.setStatus(ContentStatus.ACTIVE.name());
+
+        int res = contentDAO.registerContent(vo);
+        if (res < 1) {
+            throw new RuntimeException("[" + vo.getType() + "] 컨텐츠 등록에 실패하였습니다.");
+        }
+        return contentDAO.getContent(vo.getNo());
+    }
 }

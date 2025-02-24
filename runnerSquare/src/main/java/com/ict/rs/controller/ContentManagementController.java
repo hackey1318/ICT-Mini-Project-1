@@ -3,10 +3,7 @@ package com.ict.rs.controller;
 import com.ict.rs.service.ContentManageService;
 import com.ict.rs.vo.ContentVO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +17,16 @@ public class ContentManagementController {
     @GetMapping("/{type}")
     public List<ContentVO> getAllContent(@PathVariable String type) {
 
-        // 회원의 요청인지 확인
+        // 관리자의 요청인지 확인
 
         return contentManageService.getAllContentList(type);
     }
+
+    @PostMapping("/{type}")
+    public ContentVO generateContent(@PathVariable String type, ContentVO vo) {
+
+        vo.setType(type);
+        return contentManageService.registerContent(vo);
+    }
+
 }

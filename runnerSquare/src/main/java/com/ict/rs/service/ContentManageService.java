@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface ContentManageService {
 
-    public List<ContentVO> getAllContentList(String type);
+    List<ContentVO> getAllContentList(String type);
+
+    ContentVO registerContent(ContentVO vo);
 }
