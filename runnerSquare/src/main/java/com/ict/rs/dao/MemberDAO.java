@@ -11,5 +11,4 @@ public interface MemberDAO {
     int registerMember(MemberVO vo);
     
     MemberVO loginOk(String id, String pw);
-    
 }

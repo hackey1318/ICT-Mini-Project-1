@@ -1,23 +1,9 @@
 package com.ict.rs.controller;
 
 import com.ict.rs.service.MemberService;
-
 import com.ict.rs.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -34,18 +20,22 @@ public class MemberController {
 
         return memberService.registerMember(vo);
     }
-    
+
     @PostMapping("/loginOk")
-    public MemberVO loginOk(@RequestParam String id, @RequestParam String pw, HttpSession session ) {
-    	MemberVO vo = memberService.loginOk(id, pw);
-    	
-    	if(vo != null) {
-    		session.setAttribute("logId", vo.getId());
-    		session.setAttribute("logName", vo.getName());
-    		session.setAttribute("logStatus", "Y");
-    		
-    	}
-    	return vo;
+    public MemberVO loginOk(@RequestParam String id, @RequestParam String pw, HttpSession session) {
+        MemberVO vo = memberService.loginOk(id, pw);
+
+        if (vo != null) {
+            session.setAttribute("userNo", vo.getNo());
+            session.setAttribute("userId", vo.getId());
+            session.setAttribute("userName", vo.getName());
+            session.setAttribute("logStatus", "Y");
+        }
+        return vo;
+    }
+
+    @PostMapping("/logout")
+    public void logout(HttpSession session) {
+        session.invalidate();
     }
 }
-    

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ict.rs.dao.ContentDAO">
+
+    <select id="getContentList" resultType="com.ict.rs.vo.ContentVO">
+        select no, title, imageId, type, movePath, status, startDate, endDate, createdAt, updatedAt
+        from contentManagement
+        where type = #{type}
+        <if test="status != null and status != ''">
+            and status = #{status}
+        </if>
+        order by no
+    </select>
+</mapper>
