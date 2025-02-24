@@ -6,8 +6,13 @@
   
 <mapper namespace="com.ict.rs.dao.MemberDAO">
     <insert id="registerMember">
-        insert into users(id, pw, name, nickName, role, email, tel, birth, gender, preferPace, status)
-        values(#{id}, #{pw}, #{name}, #{nickName}, #{role}, #{email}, #{tel}, #{birth}, #{gender}, #{preferPace}, #{status})
+        insert into users(id, pw, name, nickName, role, addr, email, tel, birth, gender, preferPace, status)
+        values(#{id}, #{pw}, #{name}, #{nickName}, #{role}, #{addr}, #{email}, #{tel}, #{birth}, #{gender}, #{preferPace}, #{status})
     </insert>
-
+    <select id="loginOk" resultType="com.ict.rs.vo.MemberVO">
+    	select id, name from users where id = #{param1} and pw = #{param2}
+    </select>
+    <select id="idDuplicate" resultType="int">
+    	select count(id) cnt from users where=#{param1}
+    </select>
 </mapper>
