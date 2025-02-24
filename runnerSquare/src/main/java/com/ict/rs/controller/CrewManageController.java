@@ -25,29 +25,27 @@ import lombok.extern.slf4j.Slf4j;
 public class CrewManageController {
 	@Inject
 	CrewManageService service;
-	
+
 	@RequestMapping("/crew/crewManage")
-    public String crewManage(Model model) {
-		
-        // 필요한 데이터를 모델에 추가
-        return "crew/crewManage"; // crewManage.jsp 페이지로 이동
+	public String crewManage(Model model) {
+
+
+		return "crew/crewManage";
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/crew/crewManage/list")
 	public List<CrewManageVO> crewNameList(@RequestParam Integer userNo) {
-		
+
 		List<CrewManageVO> res = service.crewNameList(userNo);
-		
+
 		return res;
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/crew/crewManage/memberList")
 	public List<CrewManageVO> crewMemberList(@RequestParam Integer userNo){
-		System.out.print("숫자확인"+userNo);
 		List<CrewManageVO> result = service.crewMemberList(userNo);
-		System.out.print(result.size());
 		return result;
 	}
 }
