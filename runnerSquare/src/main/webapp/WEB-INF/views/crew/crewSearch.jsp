@@ -188,12 +188,12 @@
 	    </c:if>
 	    <c:if test="${pvo.nowPage > 1}">
 	    	<li class="page-item">
-		    	<a class="page-link" href="${pageContext.request.contextPath}/crew/crewSearch?nowPage=${pvo.nowPage - 1}&city=${city}&distric=${district}&crewName=${crewName}">◀</a>
+		    	<a class="page-link" href="${pageContext.request.contextPath}/crew/crewSearch?nowPage=${pvo.nowPage - 1}&city=${pvo.city}&district=${pvo.district}&crewName=${pvo.crewName}">◀</a>
 	    	</li>
 	    </c:if>
 	    
 	    <!-- 페이지 번호 -->
-	    <c:forEach var="p" begin="${pvo.startPageNum }" end="${pvo.startPageNum + pvo.onePageCount - 1 }">
+	    <c:forEach var="p" begin="${pvo.startPageNum }" end="${pvo.totalPage}">
 	    	<c:if test="${p <= pvo.totalPage}">
 		    	<c:if test="${p == pvo.nowPage}">
 		    		<li class="page-item active">
@@ -201,7 +201,7 @@
 		    	<c:if test="${p != pvo.nowPage}">
 		    		<li class="page-item">
 		    	</c:if>
-		    	<a class="page-link" href="${pageContext.request.contextPath}/crew/crewSearch?nowPage=${p}&city=${city}&distric=${district}&crewName=${crewName}">${p}</a></li>
+		    	<a class="page-link" href="${pageContext.request.contextPath}/crew/crewSearch?nowPage=${p}&city=${pvo.city}&district=${pvo.district}&crewName=${pvo.crewName}">${p}</a></li>
 	    	</c:if>
 	    </c:forEach>
 	    
@@ -211,7 +211,7 @@
 	    </c:if>
 	    <c:if test="${pvo.nowPage < pvo.totalPage}">
 	    	<li class="page-item">
-		    	<a class="page-link" href="${pageContext.request.contextPath}/crew/crewSearch?nowPage=${pvo.nowPage + 1}&city=${city}&distric=${district}&crewName=${crewName}">▶</a>
+		    	<a class="page-link" href="${pageContext.request.contextPath}/crew/crewSearch?nowPage=${pvo.nowPage + 1}&city=${pvo.city}&district=${pvo.district}&crewName=${pvo.crewName}">▶</a>
 	    	</li>
 	    </c:if>
 	</ul>

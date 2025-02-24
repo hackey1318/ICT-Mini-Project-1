@@ -1,44 +1,47 @@
-function openCrewCreateModal() {
+function openCrewUpdateModal() {
 	document.getElementsByClassName("modal-content")[0].innerHTML = `
 		<div class="modal-header">
-		  <h4 class="modal-title">크루 생성</h4>
+		  <h4 class="modal-title">크루 수정</h4>
 		  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 		</div>
 		
 		<div class="modal-body">
 			<form method="POST" id="crewForm" onsubmit="return handleFormSubmit(event);">
-				<input type="hidden" name="status" value="승인대기"/>
+				<input type="hidden" name="status" value="${crewData.status}"/>
+				<input type="hidden" name="no" value="${crewData.no}"/>
 
 				<label>크루명</label>
-				<input type="text" id="crewName" name="name"/>
-				<div class="alert"></div>
+                    <input type="text" id="crewName" name="name" value="${crewData.name}"/>
+                    <div class="alert"></div>
 
-				<label>활동지역</label>
-				<select id="citySelect" name="city" onchange="changeState()">
-				    <option value="">시/도</option>
-				</select>
-				<select id="districtSelect" name="district">
-				    <option value="">시/군/구</option>
-				</select>
-				<div class="alert"></div>
+                    <label>활동지역</label>
+                    <select id="citySelect" name="city" onchange="changeState()">
+                        <option value="">시/도</option>
+                        <option value="${crewData.city}" selected>${crewData.city}</option>
+                    </select>
+                    <select id="districtSelect" name="district">
+                        <option value="">시/군/구</option>
+                        <option value="${crewData.district}" selected>${crewData.district}</option>
+                    </select>
+                    <div class="alert"></div>
 
-				<label>러닝일</label>
-				<div id="dayCheckBox">
-					<input type="checkbox" value="월" name="runningDay"/>월
-					<input type="checkbox" value="화" name="runningDay"/>화
-					<input type="checkbox" value="수" name="runningDay"/>수
-					<input type="checkbox" value="목" name="runningDay"/>목
-					<input type="checkbox" value="금" name="runningDay"/>금
-					<input type="checkbox" value="토" name="runningDay"/>토
-					<input type="checkbox" value="일" name="runningDay"/>일
-				</div><br/>
-				<div class="alert"></div>
+                    <label>러닝일</label>
+                    <div id="dayCheckBox">
+                        <input type="checkbox" value="월" name="runningDay" ${crewData.runningDays.includes('월') ? 'checked' : ''}/>월
+                        <input type="checkbox" value="화" name="runningDay" ${crewData.runningDays.includes('화') ? 'checked' : ''}/>화
+                        <input type="checkbox" value="수" name="runningDay" ${crewData.runningDays.includes('수') ? 'checked' : ''}/>수
+                        <input type="checkbox" value="목" name="runningDay" ${crewData.runningDays.includes('목') ? 'checked' : ''}/>목
+                        <input type="checkbox" value="금" name="runningDay" ${crewData.runningDays.includes('금') ? 'checked' : ''}/>금
+                        <input type="checkbox" value="토" name="runningDay" ${crewData.runningDays.includes('토') ? 'checked' : ''}/>토
+                        <input type="checkbox" value="일" name="runningDay" ${crewData.runningDays.includes('일') ? 'checked' : ''}/>일
+                    </div><br/>
+                    <div class="alert"></div>
 
-				<label>크루소개</label>
-				<textarea id="description" name="description"></textarea>
-				<div class="alert"></div>
+                    <label>크루소개</label>
+                    <textarea id="description" name="description">${crewData.description}</textarea>
+                    <div class="alert"></div>
 
-				<div><input type="submit" id="submit-button" value="크루생성"/></div>
+                    <div><input type="submit" id="submit-button" value="크루수정"/></div>
 			</form>
 		</div>
 	`;
@@ -55,8 +58,6 @@ function openCrewCreateModal() {
 			} else {
 				setAlert(-1);
 			}
-			console.log(element);
-			console.log(element.value);
 		});
 	});
 	
@@ -93,7 +94,7 @@ function handleFormSubmit(event) {
 
     // AJAX 요청
     $.ajax({
-        url: 'crewCreateOk', // 서버 URL
+        url: 'crewUpdateOk', // 서버 URL
 		type: 'POST',  // HTTP 메서드 (POST)
 		contentType: 'application/json',  // 서버에 JSON으로 전송
         data: JSON.stringify(params),  // 데이터를 JSON 문자열로 직렬화
@@ -101,9 +102,9 @@ function handleFormSubmit(event) {
 			console.log(results);
             if (results == "1") {
                 // document.getElementById('crewModal').hide(); // 적용이 안 됨...
-				alert('크루 생성 완료');
+				alert('크루 수정 완료');
             } else {
-                alert('크루 생성 실패');
+                alert('크루 수정 실패');
             }
         },
         error: function(error) {

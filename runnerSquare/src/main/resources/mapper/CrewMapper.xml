@@ -10,20 +10,31 @@
 		order by no limit 3 offset 0; <!-- 난수 지정해서 랜덤 3개? -->
 	</select>
 	<select id="crewTotalRecord" resultType="int">
-		select count(no) cnt from crews
-		where city like #{city}
+    select count(no) 
+    from crews
+    where 
+        city like concat('%', #{city}, '%') 
+        and district like concat('%', #{district}, '%')
+        and status = '활성화'
 	</select>
 	<select id="crewViewSelect">
-		select no, name, description, city, district, runningDay from crews
+		select no, name, description, city, district, runningDay, status from crews
 		where no = ${param1}
 	</select>
 	<select id="crewSelect">
 		select no, name, description, city, district  from crews
-		where city like #{city} and district like #{district} and name like #{crewName}
+		where city like #{city} and district like #{district} and name like #{crewName} and status = '활성화'
 		order by no limit ${onePageRecord} offset ${offset}
 	</select>
 	<insert id="crewInsert">
 		insert into crews (name, description, city, district, runningDay, status)
 		values(#{name}, #{description}, #{city}, #{district}, #{runningDay}, #{status})
 	</insert>
+	<update id="crewUpdate">
+		update crews set name = #{name}, city = #{city}, district = #{district}, runningDay = #{runningDay}
+		where no = ${no}
+	</update>
+	<update id="crewDelete">
+		update crews set status = 'deleted' where no = ${param1}
+	</update>
 </mapper>

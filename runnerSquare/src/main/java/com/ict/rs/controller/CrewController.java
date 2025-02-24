@@ -71,18 +71,56 @@ public class CrewController {
 
 		return crew;
 	}
-	
+
 	@CrossOrigin(origins = "http://localhost:9090")
 	@PostMapping("/crew/crewCreateOk")
 	@ResponseBody
 	public String crewCreateOk(@RequestBody CrewVO vo) {
 		// HttpSession session = request.getSession();
-		
+
 		// vo.setUserid((String)session.getAttribute("logId"));
 		
 		log.info(vo.toString());
-	
+
 		return service.crewInsert(vo) + "";
 	}
-	
+
+	@GetMapping("/crew/crewUpdate")
+	public ModelAndView crewUpdate(int crew_no) {
+		CrewVO vo = service.crewViewSelect(crew_no);
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("vo", vo);
+		mav.setViewName("/crew/crewUpdate");
+		log.info(vo.toString());
+		return mav;
+	}
+
+	@CrossOrigin(origins = "http://localhost:9090")
+	@PostMapping("/crew/crewUpdateOk")
+	@ResponseBody
+	public String crewUpdateOk(@RequestBody CrewVO vo) {
+		// HttpSession session = request.getSession();
+
+		// vo.setUserid((String)session.getAttribute("logId"));
+
+		log.info(vo.toString());
+
+		return service.crewUpdate(vo) + "";
+	}
+
+	@GetMapping("/crew/crewDelete")
+	public ModelAndView crewDelete(int crew_no) {
+		ModelAndView mav = new ModelAndView();
+
+		int result = service.crewDelete(crew_no);
+		if (result > 0) {
+			log.info("크루 삭제 성공");
+		} else {
+			log.info("크루 삭제 실패");
+		}
+		mav.setViewName("redirect:/");
+
+		return mav;
+	}
 }

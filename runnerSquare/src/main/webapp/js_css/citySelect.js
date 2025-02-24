@@ -51,34 +51,90 @@ let cityData = {
 };
 
 let cityArr = Object.keys(cityData);
-let citySel;
 
 addEventListener("DOMContentLoaded", (event) => {
 	makeSel();
+	restoreSelectedValues();
 });
 
-function makeSel(){
-	citySel = document.getElementById('citySelect');
-	
-	for(var i = 0; i < cityArr.length; i++) {
-		var option = document.createElement('option');
-		option.value = cityArr[i];
-		option.textContent = cityArr[i];
-		if(cityArr[i]=='${pvo.city}') {
-			option.selected=true;
-		}
-		citySel.appendChild(option);
-	}
+function makeSel() {
+    let citySel = document.getElementById('citySelect');
+    
+    // URL에서 전달된 값 가져오기
+    const urlParams = new URLSearchParams(window.location.search);
+    const cityFromUrl = urlParams.get('city');
+    const districtFromUrl = urlParams.get('district');
+
+    // citySelect 옵션을 동적으로 생성
+    for (let i = 0; i < cityArr.length; i++) {
+        let option = document.createElement('option');
+        option.value = cityArr[i];
+        option.textContent = cityArr[i];
+
+        // URL에서 가져온 값이 있으면 해당 city를 선택
+        if (cityFromUrl && cityFromUrl === cityArr[i]) {
+            option.selected = true;
+        } 
+        // URL 값이 없고 localStorage에 저장된 값이 있으면 이를 선택
+        else if (!cityFromUrl && localStorage.getItem('selectedCity') === cityArr[i]) {
+            option.selected = true;
+        }
+        
+        citySel.appendChild(option);
+    }
+
+    // URL 값이 있으면 changeState() 호출
+    if (cityFromUrl) {
+        changeState();
+    }
 }
 
 function changeState() {
-	selected = citySel.options[citySel.selectedIndex].value;
-	let districtSel = document.getElementById("districtSelect");
-	districtSel.innerHTML = "<option value=''>시/군/구</option>";
-	for(var i = 0; i < cityData[selected].length; i++) {
-		var option = document.createElement('option');
-		option.value = cityData[selected][i];
-		option.textContent = cityData[selected][i];
-		districtSel.appendChild(option);
-	}
+    let citySel = document.getElementById('citySelect');
+    let selectedCity = citySel.options[citySel.selectedIndex].value;
+    let districtSel = document.getElementById("districtSelect");
+    
+    // district 옵션을 초기화
+    districtSel.innerHTML = "<option value=''>시/군/구</option>";
+    
+    // 선택된 city에 맞는 district 옵션 갱신
+    if (selectedCity && cityData[selectedCity]) {
+        for (let i = 0; i < cityData[selectedCity].length; i++) {
+            let option = document.createElement('option');
+            option.value = cityData[selectedCity][i];
+            option.textContent = cityData[selectedCity][i];
+            districtSel.appendChild(option);
+        }
+    }
+
+    // 선택된 district 값을 저장
+    let selectedDistrict = districtSel.value;
+    localStorage.setItem('selectedCity', selectedCity);
+    localStorage.setItem('selectedDistrict', selectedDistrict);
+}
+
+function restoreSelectedValues() {
+    let citySel = document.getElementById('citySelect');
+    let districtSel = document.getElementById('districtSelect');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const cityFromUrl = urlParams.get('city');
+    const districtFromUrl = urlParams.get('district');
+    
+    // URL에서 city 값이 있으면 해당 값 선택
+    if (cityFromUrl) {
+        citySel.value = cityFromUrl;
+        changeState(); // city에 맞는 district 값 갱신
+    } else {
+        // 기본적으로 "시/도"를 선택 상태로 유지
+        citySel.value = "";
+    }
+    
+    // URL에서 district 값이 있으면 해당 값 선택
+    if (districtFromUrl) {
+        districtSel.value = districtFromUrl;
+    } else {
+        // 기본적으로 "시/군/구"를 선택 상태로 유지
+        districtSel.value = "";
+    }
 }
