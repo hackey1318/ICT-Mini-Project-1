@@ -74,68 +74,122 @@ function daumPostCodeSearch(){
         }
     }).open();
 }
+document.addEventListener('DOMContentLoaded', function() {
 
-document.querySelector('.login-form').addEventListener('submit', function(e){
-    e.preventDefault();
+	const loginForm = document.querySelector('.login-form');
+	if (loginForm) {
+		loginForm.addEventListener('submit', function(e) {
+	    	e.preventDefault();
 
-    var formData = new FormData(this);
+		    var formData = new FormData(this);
 
-    fetch('/users/loginOk', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data && data.id) {
-            // 로그인 성공
-            document.getElementById('loginDialog').close(); // 로그인 다이얼로그 닫기
-            updateHeader(data.name); // 헤더 업데이트
-        } else {
-            // 로그인 실패
-            alert('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요.');
-        }
-    })
-    .catch(error => console.error('Error:', error));
+		    fetch('/rs/users/loginOk', {
+		        method: 'POST',
+		        body: formData
+		    })
+		    .then(response => response.json())
+		    .then(data => {
+		        if (data && data.id) {
+		            // 로그인 성공
+		            document.getElementById('loginDialog').close(); // 로그인 다이얼로그 닫기
+		            updateHeader(data.name); // 헤더 업데이트
+		        } else {
+		            // 로그인 실패
+		            alert('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요.');
+		        }
+		    })
+		    .catch(error => console.error('Error:', error));
+		});
+	} else {
+        console.error('로그인 폼을 찾을 수 없습니다.');
+    }
 });
 
 function updateHeader(userName) {
-    var header = document.querySelector('header');
-    header.innerHTML = `
-        <span>${userName}님, 환영합니다</span> |
-        <a href="#" id="logoutLink">로그아웃</a>
-    `;
+    var authElement = document.getElementById('auth');
 
-    document.getElementById('logoutLink').addEventListener('click', function(event) {
-        event.preventDefault();
-        fetch("/logout", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                // 로그아웃 성공 시 UI 업데이트
-                document.getElementById("signinDialog").close();
-                document.getElementById("header").innerHTML = `
-                    <button id="loginButton">로그인</button>
-                    <button id="signupButton">회원가입</button>
-                `;
+    if (userName) {
+        authElement.innerHTML = `
+            <span>${userName}님, 환영합니다</span> |
+            <a href="#" id="logoutLink">로그아웃</a>
+        `;
+    } else {
+        authElement.innerHTML = `
+            <a href="#" id="openLoginDialog">로그인</a> |
+            <a href="#" id="openSignInDialog">회원가입</a>
+        `;
+    }
 
-                // 로그인 다이얼로그 열기 이벤트 리스너 재설정
-                document.getElementById('openLoginDialog').addEventListener('click', function(event) {
-                    event.preventDefault();
-                    document.getElementById('loginDialog').showModal();
-                });
-                // 회원가입 다이얼로그 열기 이벤트 리스너 재설정
-                document.getElementById('openSignInDialog').addEventListener('click', function(event) {
-                    event.preventDefault();
-                    document.getElementById('signinDialog').showModal();
-                });
-            } else {
-                console.error("로그아웃 실패");
-            }
-        })
-        .catch(error => console.error("에러 발생:", error));
-    });
+    // 로그아웃 링크 클릭 시 이벤트 처리
+    var logoutLink = document.getElementById('logoutLink');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function(event) {
+            event.preventDefault(); // 링크의 기본 동작을 취소 (페이지 이동 방지)
+
+            // 로그아웃 요청을 AJAX로 처리
+            fetch('/rs/users/logout', {
+                method: "POST"  // POST로 보내서 세션을 종료
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 로그아웃 후 auth 부분 초기화 (로그인/회원가입 화면으로 전환)
+                    updateHeader(null);
+                } else {
+                    console.error("로그아웃 실패");
+                }
+            })
+        });
+    }
 }
+
+$(document).ready(function () {
+    var $signinDialog = $("#signinDialog"); // 다이얼로그 요소 저장
+
+    // 회원가입 폼 제출 이벤트 처리
+    $(".signin-form").on("submit", function (event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+        
+        // 유효성 검사 함수 호출
+        if (!signinCheck()) {
+            return; // 유효성 검사 실패 시 폼 제출 방지
+        }
+        
+        var gender = $("input[name='gender']:checked").val();
+        var genderFlag = true;
+        if (gender == '남') {
+        	genderFlag = false;
+        }      
+
+        var url = "/rs/users"; // 서버 API 엔드포인트
+        var params = {
+    		id: $("#userid").val(),
+    		pw: $("#userpwd").val(),
+    		name: $("#username").val(),
+    		nickName: $("#userNickname").val(),
+    		email: $("#email").val(),
+		    tel: $("#tel1").val() + "-" + $("#tel2").val() + "-" + $("#tel3").val(),
+		    addr: $("#addr").val(),
+		    birth: $("#birthdate").val(),
+		    gender: genderFlag,
+		    preferPace: $("#preferredPace").val()
+		};
+		
+        console.log("회원가입 요청 데이터:", params);
+
+        $.ajax({
+            url: url,
+			contentType: 'application/json',
+            data: JSON.stringify(params),
+            type: "POST",
+            success: function (results) {
+                console.log("회원가입 성공:", results);
+                alert("회원가입이 완료되었습니다!");
+                document.getElementById("signinDialog").close();
+                document.getElementById("loginDialog").showModal();
+            },
+            error: function (e) {
+                console.log("회원가입 실패:", e);
+            }
+        });
+    });
+});

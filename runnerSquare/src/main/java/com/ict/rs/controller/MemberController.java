@@ -28,7 +28,8 @@ public class MemberController {
         if (vo != null) {
             session.setAttribute("userNo", vo.getNo());
             session.setAttribute("userId", vo.getId());
-            session.setAttribute("userName", vo.getName());
+            session.setAttribute("userNickName", vo.getNickName());
+            session.setAttribute("userRole", vo.getRole());
             session.setAttribute("logStatus", "Y");
         }
         return vo;
@@ -37,5 +38,10 @@ public class MemberController {
     @PostMapping("/logout")
     public void logout(HttpSession session) {
         session.invalidate();
+    }
+
+    @GetMapping("/checkId")
+    public int duplicateId(@RequestParam String userId) {
+        return memberService.idDuplicate(userId);
     }
 }

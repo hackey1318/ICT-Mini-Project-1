@@ -108,10 +108,10 @@ function idDuplicate() {
     }
 
     // 서버로 중복 확인 요청 (AJAX)
-    fetch(`/rs/users/checkId?userid=${userId}`) // 서버에서 `/checkId` 엔드포인트로 요청
+    fetch('/rs/users/checkId?userId=' + encodeURIComponent(userId)) // 서버에서 `/checkId` 엔드포인트로 요청
         .then(response => response.json())
         .then(data => {
-            if (data.exists) {
+            if (data) {
                 document.getElementById("idCheck").textContent = "이미 사용 중인 아이디입니다.";
                 document.getElementById("idCheckStatus").value = "N"; // 중복된 상태
             } else {

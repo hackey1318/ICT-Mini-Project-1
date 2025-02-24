@@ -8,21 +8,8 @@ function updateNotificationBadge(unreadCount) {
     }
 }
 
-async function fetchNotificationCount() {
-
-    try {
-        const response = await fetch('/rs/noti/count');
-        const data = await response.json();
-        console.log(data);
-        updateNotificationBadge(data);
-    } catch (error) {
-        console.error("알림 정보를 불러오는 중 오류 발생:", error);
-    }
-}
-
-fetchNotificationCount();
-
 document.addEventListener("DOMContentLoaded", function () {
+
     const bellIcon = document.getElementById("notificationBell");
     const notificationDialog = document.getElementById("notificationDialog");
     const markAllAsReadButton = document.getElementById("markAllAsRead");

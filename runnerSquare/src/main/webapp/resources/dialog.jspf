@@ -4,7 +4,7 @@
     <div class="loginDialog-header">LOGIN</div>
     <form class="login-form" method="post" action="/rs/users/loginOk" onsubmit="return formCheck();">
         <input type="text" name="id" id="id" placeholder="아이디를 입력하세요." value='tester'/>
-		<input type="password" name="pw" id="pw" placeholder="비밀번호를 입력하세요." value="tester!2"/>
+		<input type="password" name="pw" id="pw" placeholder="비밀번호를 입력하세요." value="test1234!"/>
 		<div class="optionBox">
 			<a href="#" id="openSignInDialogFromLogin">회원가입</a> |
 			<a href="#" id="findId">아이디 찾기</a>|
@@ -18,12 +18,12 @@
 <dialog id="signinDialog">
 	<button type="button" class="btn-close" id="closeSigninDialog"></button>
 	<div class="Signindialog-header">회원가입</div>
-	<form class="signin-form" onsubmit="return signinCheck()">
+	<form class="signin-form">
 		<ul>
 			<li>아이디</li>
 			<li><input type="text" name="userid" id="userid" onkeyup="idDuplicateStatus()">
 				<button type="button" class="id-check-btn" onclick="idDuplicate()">중복확인</button>
-				<span id="idCheck"></span>
+				<div><span id="idCheck"></span></div>
 				<input type="hidden" id="idCheckStatus" value="N"/>
 			</li>
 			<li>패스워드</li>

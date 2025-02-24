@@ -6,9 +6,11 @@ import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
-public interface MemberDAO {
+public interface MembersDAO {
 
     int registerMember(MemberVO vo);
     
     MemberVO loginOk(String id, String pw);
+
+    int idDuplicate(String id);
 }
