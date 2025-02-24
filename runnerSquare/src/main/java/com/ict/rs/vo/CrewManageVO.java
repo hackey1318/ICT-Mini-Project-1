@@ -16,8 +16,8 @@ public class CrewManageVO {
 	public String createdAt;
 	public String updatedAt;
 	public String name; // crewname
-	public String description;
-	public String activeArea;
+	public String city;
+	public String district;
 	public String runningDay;
 	public String nickName;
 }

@@ -66,7 +66,8 @@ ul {
 				<thead>
 					<tr>
 						<th>크루명</th>
-						<th>활동지역</th>
+						<th>시</th>
+						<th>시/군/구</th>
 						<th>러닝요일</th>
 						<th>가입일</th>
 						<th>탈퇴일</th>
@@ -99,10 +100,13 @@ ul {
 </div>
 
 <script>
+//가입한 크루 리스트 조회
 function loadCrewNameList() {
 
 	const params = {
 		userNo: 4
+		//페이지에 로그인정보에서 pk인 no = userNo
+		//로그인 service개발완료 후 삭제 및 수정필요
 	};
 
 	const queryString = Object.keys(params).map(key => key + '=' + params[key])
@@ -132,16 +136,17 @@ function loadCrewNameList() {
 
 		if (Array.isArray(data)) {
 			data.forEach(vo => {
-				crewListTag += "<tr>"; // 행 시작
+				crewListTag += "<tr>"; 
 				crewListTag += "<td>" + vo.name + "</td>";
-				crewListTag += "<td>" + vo.activeArea + "</td>";
+				crewListTag += "<td>" + vo.city + "</td>";
+				crewListTag += "<td>" + vo.district + "</td>";
 				crewListTag += "<td>" + vo.runningDay + "</td>";
 				crewListTag += "<td>" + vo.createdAt + "</td>";
 
 				if (vo.status === 'withdrawal') {
 					crewListTag += "<td>" + vo.updatedAt + "</td>";
 				} else {
-					crewListTag += "<td></td>";
+					crewListTag += "<td>-</td>";
 				}
 
 				if (vo.status === 'apply') {
@@ -151,7 +156,7 @@ function loadCrewNameList() {
 				} else if (vo.status === 'withdrawal') {
 					crewListTag += "<td>탈퇴한크루</td>";
 				}
-				crewListTag += "</tr>"; // 행 끝
+				crewListTag += "</tr>";
 			});
 
 		} else {
@@ -159,7 +164,7 @@ function loadCrewNameList() {
 			crewListTag = "<tr><td>데이터를 불러올 수 없습니다.</td></tr>";
 		}
 
-		$("#crewNameList").html(crewListTag); // append 대신 html 사용
+		$("#crewNameList").append(crewListTag);
 
 	})
 	.catch(error => {
@@ -171,6 +176,8 @@ function loadCrewNameList() {
 function loadCrewMemberList() {
 	const params = {
 		userNo: 4
+		//페이지에 로그인정보에서 pk인 no = userNo
+		//로그인 service개발완료 후 삭제 및 수정필요
 	};
 
 	const queryString = Object.keys(params).map(key => key + '=' + params[key])
@@ -200,7 +207,7 @@ function loadCrewMemberList() {
 
 		if (Array.isArray(data)) {
 			data.forEach(mvo => {
-				memberListTag += "<tr>"; // 행 시작
+				memberListTag += "<tr>";
 				memberListTag += "<td>" + mvo.name + "</td>"; // 크루 이름
 				memberListTag += "<td>" + mvo.nickName + "</td>"; // 닉네임
 				memberListTag += "<td>" + mvo.createdAt + "</td>"; // 가입일
@@ -212,16 +219,16 @@ function loadCrewMemberList() {
 				} else if (mvo.status === 'withdrawal') {
 					memberListTag += "<td>탈퇴한크루</td>";
 				}
-				memberListTag += "</tr>"; // 행 끝
+				memberListTag += "</tr>"; 
 			});
 		} else {
 			console.error("응답 데이터가 배열이 아닙니다:", data);
 			memberListTag = "<tr><td>데이터를 불러올 수 없습니다.</td></tr>";
 		}
 
-		$("#crewMemberList").html(memberListTag); // append 대신 html 사용
+		$("#crewMemberList").html(memberListTag);
 
-		// 동적으로 생성된 버튼에 이벤트 핸들러 바인딩 (jQuery 필요)
+		
 		$(".crewListButton").on("click", function(event) {
 			event.preventDefault();
 			
@@ -254,11 +261,10 @@ $(document).on('click', '.refuseButton', function(event) {
 $(document).on('click', '.kickButton', function(event) {
     event.preventDefault();
     const nickName = $(this).data('nickName');
-    console.log("nickName:",nickName);
     alert("'" + nickName + "'님을 강퇴하시겠습니까?");
 });
 
-
+//시작 시 크루리스트, 맴버리스트 불러오기
 window.onload = function() {
 	loadCrewNameList();
 	loadCrewMemberList();

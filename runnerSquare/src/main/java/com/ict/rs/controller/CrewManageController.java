@@ -29,8 +29,8 @@ public class CrewManageController {
 	@RequestMapping("/crew/crewManage")
     public String crewManage(Model model) {
 		
-        // 필요한 데이터를 모델에 추가
-        return "crew/crewManage"; // crewManage.jsp 페이지로 이동
+   
+        return "crew/crewManage"; 
 	}
 	
 	@ResponseBody
@@ -45,9 +45,7 @@ public class CrewManageController {
 	@ResponseBody
 	@GetMapping("/crew/crewManage/memberList")
 	public List<CrewManageVO> crewMemberList(@RequestParam Integer userNo){
-		System.out.print("숫자확인"+userNo);
 		List<CrewManageVO> result = service.crewMemberList(userNo);
-		System.out.print(result.size());
 		return result;
 	}
 }
