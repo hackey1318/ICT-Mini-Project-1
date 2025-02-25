@@ -11,10 +11,10 @@ import com.ict.rs.service.CrewService;
 public class CrewController {
 	@Inject
 	CrewService service;
-	
+
 	@GetMapping("/crew/crewSearch")
 	public String crewSearch() {
 		return "crew/crewSearch";
 	}
-	
+
 }

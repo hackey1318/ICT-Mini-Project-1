@@ -384,7 +384,7 @@
 				<ul>
 					<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
 					<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
-					<li>RUNNING</li>
+					<li><a href="${pageContext.request.contextPath}/run/runSearch">RUNNING</a></li>
 					<li>MANAGE</li>
 			        <li><a href="${pageContext.request.contextPath}/mypage/applicationDetail">MYPAGE</a></li>
 				</ul>

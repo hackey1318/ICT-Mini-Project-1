@@ -1,10 +1,11 @@
 package com.ict.rs.dao;
 
-import com.ict.rs.vo.NotificationVO;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.ict.rs.vo.NotificationVO;
 
 @Mapper
 @Repository
