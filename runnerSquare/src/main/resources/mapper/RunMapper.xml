@@ -9,67 +9,72 @@
   
     <!-- dao의 method를 찾아가기위해서 id가 dao객체의 method명과 같다. -->
     <!-- vo일 때는 #{변수}로 값을 가져온다. -->
-  	<insert id="runInsert"  useGeneratedKeys="true" keyProperty="run_no" keyColumn="run_no"> 
-  		insert into runtable(userid, runname, rundate, runsido, rungu, runspot, 
-  						   runtime, runtype, joinednum, runmaxnum)
-  		values(#{userid}, #{runname}, #{rundate}, #{runsido}, #{rungu}, #{runspot},
-  			   #{runtime}, #{runtype}, #{joinednum}, #{runmaxnum}) 
+  	
+  <!-- 	<select id="getUserNo" resultType="Integer">
+  		select no from users where id = #{id}
+	</select> -->
+  	
+  	<insert id="runInsert" parameterType="com.ict.rs.vo.RunVO" useGeneratedKeys="true" keyProperty="no" keyColumn="no"> 
+  		insert into runnings(runningdate, runningcity, region, runningtime, meetingpoint,
+  							type, joinednum, runmaxnum, name, crewno, ownerno, status) 
+  		values(#{runningdate}, #{runningcity}, #{region}, #{runningtime}, #{meetingpoint}, #{type},
+  			   #{joinednum}, #{runmaxnum}, #{name}, #{crewno}, #{ownerno}, #{status}) 
   	</insert>
     	
   	<select id="runList" parameterType="com.ict.rs.vo.RunSelectVO" resultType="com.ict.rs.vo.RunVO">
-    	SELECT * FROM runtable
+    	SELECT * FROM runnings
     	<where>
         	<if test="searchDate != null and searchDate != ''">
-            	AND rundate between #{searchDate} and date_add(#{searchDate}, interval 2 day)
+            	AND runningdate between #{searchDate} and date_add(#{searchDate}, interval 2 day)
         	</if>
         	<if test="searchDay != null and searchDay != ''">	
-        	    AND dayname(rundate) = #{searchDay}  
+        	    AND dayname(runningdate) = #{searchDay}  
         	</if>
 
         	<if test="searchSido != null and searchSido != ''">
-        	    AND runsido = #{searchSido}
+        	    AND runningcity = #{searchSido}
         	</if>
         	<if test="searchGu != null and searchGu != ''">
-        	    AND rungu = #{searchGu}
+        	    AND region = #{searchGu}
         	</if>
         	<if test="searchCrewName != null and searchCrewName != ''">
-        	    AND crewname LIKE CONCAT('%', #{searchCrewName}, '%')
+        	    AND crewno LIKE CONCAT('%', #{searchCrewName}, '%')
         	</if>
         	<if test="searchTime != null and searchTime != ''">
-        	    AND runtime = #{searchTime}
+        	    AND runningtime = #{searchTime}
         	</if>
     	</where>
-    	order by rundate asc
+    	order by runningdate asc
 	</select> 
 	
 	<select id="runInfo"  resultType="com.ict.rs.vo.RunVO">
-		select * from runtable 
-		where run_no = #{run_no} 	
+		select * from runnings 
+		where no = #{no} 	
 	</select>
 	  	
   	<update id="runUpdate">
-    	update runtable
+    	update runnings
     	<set>
-    	    <if test="runname != null and runname != ''">
-    	        runname = #{runname},
+    	    <if test="name != null and name != ''">
+    	        name = #{name},
     	    </if>
-    	    <if test="rundate != null and rundate != ''">
-    	        rundate = #{rundate},
+    	    <if test="runningdate != null and runningdate != ''">
+    	        runningdate = #{runningdate},
     	    </if>
-    	    <if test="runsido != null and runsido != ''">
-    	        runsido = #{runsido},
+    	    <if test="runningcity != null and runningcity != ''">
+    	        runningcity = #{runningcity},
     	    </if>
-    	    <if test="rungu != null and rungu != ''">
-    	        rungu = #{rungu},
+    	    <if test="region != null and region != ''">
+    	        region = #{region},
     	    </if>
-    	    <if test="runspot != null and runspot != ''">
-    	        runspot = #{runspot},
+    	    <if test="meetingpoint != null and meetingpoint != ''">
+    	        meetingpoint = #{meetingpoint},
     	    </if>
-    	    <if test="runtime != null and runtime != ''">
-    	        runtime = #{runtime},
+    	    <if test="runningtime != null and runningtime != ''">
+    	        runningtime = #{runningtime},
     	    </if>
-    	    <if test="runtype != null and runtype != ''">
-    	        runtype = #{runtype},
+    	    <if test="type != null and type != ''">
+    	        type = #{type},
     	    </if>
     	    <!-- <if test="joinednum != null">
     	        joinednum = #{joinednum},
@@ -78,43 +83,43 @@
     	        runmaxnum = #{runmaxnum},
     	    </if>
     	</set>
-    	where run_no = #{run_no}
+    	where no = #{no}
 	</update >
 		
 	<insert id="runJoin">
-		insert into run_participants (run_no, userid)
-    	values (#{param1}, #{param2})
+		insert into runningParticipateHistories (runningno, userno, status)
+    	values (#{param1}, #{param2}, '참여')
 	</insert>
 	
 	<delete id="runLeave">
-		delete from run_participants 
-    	where run_no = #{param1} and userid = #{param2}
+		delete from runningParticipateHistories 
+    	where runningno = #{param1} and userno = #{param2}
 	</delete>
 	
 	<delete id = "participantsDelete">
-		delete from run_participants where run_no=#{param1}
+		delete from runningParticipateHistories where runningno=#{param1}
 	</delete>
 	
 	<delete id="runDelete">
-   		delete from runtable
-   		where run_no =#{param1}
+   		delete from runnings
+   		where no =#{param1}
 	</delete>
 		
 	<select id="checkJoined" resultType="int">
     	select count(*)
-    	from run_participants
-    	where run_no = #{param1} and userid = #{param2}
+    	from runningParticipateHistories 
+		where runningno = #{param1} and userno = #{param2}    	
 	</select>
 	
 	<select id="checkPersonNum">
 		select count(*)
-    	from run_participants
-    	where run_no = #{param1} 
+    	from runningParticipateHistories
+    	where runningno = #{param1} 
 	</select>
 	
 	<update id="personNumInsert">
-		update runtable set joinednum =#{param2}
-  		where run_no = #{param1} 
+		update runnings set joinednum =#{param2}
+  		where no = #{param1} 
 	</update>
 
   </mapper>

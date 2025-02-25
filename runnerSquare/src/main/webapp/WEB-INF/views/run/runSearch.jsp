@@ -184,7 +184,7 @@ section .left ul li, section .right ul li {
 	display: flex;
 	align-items: center;
 	height: 50px;
-	font-size: 25px;
+	font-size: 15px;
 }
 
 section .right ul li input {
@@ -192,7 +192,7 @@ section .right ul li input {
 	padding: 10px;
 	border: 2px solid #ddd;
 	border-radius: 10px;
-	font-size: 16px;
+	font-size: 13px;
 	box-sizing: border-box;
 	transition: border-color 0.3s ease;
 }
@@ -216,6 +216,7 @@ section .right ul li input:focus {
 		overflow-y: auto; /* 세로 스크롤 활성화 */
 	}
 </style>
+<% Integer userNo = (Integer) session.getAttribute("userNo"); %>
 <div class='main-container'>
 
 <!-- <div class="container"> -->
@@ -348,20 +349,20 @@ section .right ul li input:focus {
 								</ul>
 							</div>
 							<div class="right">
-								<input type="hidden" name="userid" id="userid" value="l9j7h6" />
-								<input type="hidden" name="runtype" id="runtype" value="번개런" />
+								<input type="hidden" name="user" id="user" value="tester" />
+								<input type="hidden" name="type" id="type" value="번개런" />
 								<ul>
-									<li><input type="text" name="runname" id="runname"
+									<li><input type="text" name="name" id="name"
 										placeholder="최대 20자만 허용됩니다." /></li>
-									<li><input type="date" name="rundate" id="rundate"
+									<li><input type="date" name="runningdate" id="runningdate"
 										placeholder="2025-02-19" /></li>
-									<li><input type="text" name="runsido" id="runsido"
+									<li><input type="text" name="runningcity" id="runningcity"
 										value="서울시" /></li>
-									<li><input type="text" name="rungu" id="rungu"
+									<li><input type="text" name="region" id="region"
 										placeholder="성동구" /></li>
-									<li><input type="text" name="runspot" id="runspot"
+									<li><input type="text" name="meetingpoint" id="meetingpoint"
 										placeholder="성수역2번출구" /></li>
-									<li><input type="time" name="runtime" id="runtime"
+									<li><input type="time" name="runningtime" id="runningtime"
 										placeholder="16:00" /></li>
 									<li><input type="number" name="runmaxnum" id="runmaxnum"
 										min="2" max="30" placeholder="최대 인원 수 30명" /></li>
@@ -410,17 +411,34 @@ section .right ul li input:focus {
 	const timeSelect = document.getElementById('timeSelect');
 	const runForm = document.getElementById('runWriteForm');
 	let isDataSelected = 0;
-
+	var userno = parseInt('<%= userNo %>');
 	$(function() {
+	/* 	const id = document.getElementById('user');
+		console.log("userid->",id.value);
+	   $.ajax({
+		   url : "${pageContext.request.contextPath}/run/ajaxgetUserNo?id=" + id.value,
+		   type:"GET",
+		   dataType:"json",
+		   success:function(userno){
+			   console.log("userid->",id.value);
+			   console.log("userno->",userno);
+			   userno = userno;           
+		   }, error:function(error){
+			   alert("userno 요청 실패");
+		   }
+	   });	 */	
+		
 		//form의 데이터를 비동기식으로 서버로 보내 번개런 등록하기
+	   
 		$("#runWriteForm")
 				.on('submit', function() {
 					event.preventDefault();
 						if (!runFormChk()) {
 							return;
 						}
-						var url = "/rs/run/ajaxObject";
+						var url = "${pageContext.request.contextPath}/run/ajaxObject";
 						var params = $("#runWriteForm").serialize();
+						params += "&status=생성"; 
 						console.log(params);
 						if (confirm("번개런을 등록하시겠습니까?")) {
 							$.ajax({
@@ -431,29 +449,30 @@ section .right ul li input:focus {
 										console.log(response);
 										if (response.status == "success") {
 											alert("번개런이 정상적으로 등록되었습니다.");
-											var run_no = response.run_no;
-											console.log("번개런 정상적으로 등록 후 자동 등록할 run_no->",run_no);
-											if(run_no){
+											var runningno = response.no;
+											var owerno = userno;
+											console.log("번개런 정상적으로 등록 후 자동 등록할 runningno->",runningno);
+											if(runningno){
 												$.ajax({
-					                                url: "${pageContext.request.contextPath}/run/ajaxJoin?run_no=" + run_no + "&userid=" + userid.value,
+					                                url: "${pageContext.request.contextPath}/run/ajaxJoin?runningno=" + runningno + "&userno=" + userno,
 					                                type: "GET",
 					                                dataType: "json",
 					                                success: function(runJoin) {
-					                                		console.log("번개런 등록하면서 조인하기",run_no,userid.value);
+					                                		console.log("번개런 등록하면서 조인하기",runningno,userno);
 					                                		/* window.location.href = "${pageContext.request.contextPath}/run/runSearch"; */
 					                                		$.ajax({
-				                                                url: "${pageContext.request.contextPath}/run/ajaxcheckPersonNum?run_no=" + run_no,
+				                                                url: "${pageContext.request.contextPath}/run/ajaxcheckPersonNum?runningno=" + runningno,
 				                                                type: "GET",
 				                                                dataType: "json",
 				                                                success: function(checkPersonNum) {
-				                                                        console.log("참여 인원 체크할 run_no->",run_no);
+				                                                        console.log("참여 인원 체크할 runningno->",runningno);
 				                                                        console.log("번개런 만들면서 자동으로 저장할 참여 인원 수:", checkPersonNum); // 콘솔에 참여 인원 수 출력
 				                                                        $.ajax({
-				     		                                               url: "${pageContext.request.contextPath}/run/ajaxpersonNumInsert?run_no=" + run_no + "&joinednum=" + checkPersonNum,
+				     		                                               url: "${pageContext.request.contextPath}/run/ajaxpersonNumInsert?no=" + no + "&joinednum=" + checkPersonNum,
 				     		                                               type: "GET",
 				     		                                               dataType: "json",
 				     		                                               success: function(personNumInsert) {
-				     		                                                       console.log("참여 인원 체크할 run_no->",run_no);
+				     		                                                       console.log("참여 인원 체크할 no->",no);
 				     		                                                       console.log("번개런 만들고 갱신된 참여 인원 수 joinednum에 넣기->", checkPersonNum); // 콘솔에 참여 인원 수 출력
 				     		                                                       $("#makerunModal").modal("hide");
 				     		                                                      window.location.href = "${pageContext.request.contextPath}/run/runSearch";
@@ -509,7 +528,6 @@ section .right ul li input:focus {
 	
 	function displayResult(response) { //each를 사용해서 인덱스된 리스트 디스플레이하기
 		var rows=[];
-		//var tag = "";
 		
 		$("#view").empty();
 		if (response && response.length > 0) {
@@ -517,74 +535,82 @@ section .right ul li input:focus {
 			var totalRequests = response.length;
 			
 			$.each(response, function(index, vo) {
-						var row = "<tr><td>" + vo.run_no + "</td>";
-						row += "<td>" + vo.rundate + "</td>";
-						row += "<td>" + vo.runsido + "</td>";
-						row += "<td>" + vo.rungu + "</td>";
-						row += "<td>" + vo.runtime + "</td>";
-						row += "<td>" + vo.runspot + "</td>";
-						row += "<td>" + vo.runtype + "</td>";
-						row += "<td>" + vo.joinednum + " / "
-									+ vo.runmaxnum + "</td>";
-								// 참석 여부에 따라 다른 이미지 표시
-						$.ajax({
-                    		url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?run_no=" + vo.run_no + "&userid=" + userid.value,
-                    		type:"GET",
-                    		dataType:"json",
-                    		success:function(checkJoined){
-                       						console.log("v아이콘 디스플레이용 참석 여부 확인 ajax->",checkJoined);
-                       						if(checkJoined){
-                    	   						row += "<td><img src='../img/vicon-blue.png' style='width:16px; height:16px;'></td>";
-                       						}else{
-                    	   						row += "<td></td>"; // 참석 정보가 없으면 빈 칸
-                       						}
-                       						row += "<td><a href='#' data-runno='" + vo.run_no + "' data-bs-toggle='modal' data-bs-target='#runInfo'><img src='../img/vicon-red.png' style='width:16px; height:16px;'></a></td></tr>";
-            								rows[index] = row;
-            								completedRequests++;
-            								if(completedRequests === totalRequests){
-            									$("#view").append(rows.join(''));
-            								}
-                    		}
-                    	});
-				});
-		} else {
-			row += "<tr><td colspan='9'>검색 결과가 없습니다.</td></tr></tbody></table>";
-		}
+				var row = "<tr><td>" + vo.no + "</td>";
+				row += "<td>" + vo.runningdate + "</td>";
+				row += "<td>" + vo.runningcity + "</td>";
+				row += "<td>" + vo.region + "</td>";
+				row += "<td>" + vo.runningtime + "</td>";
+				row += "<td>" + vo.meetingpoint + "</td>";
+				row += "<td>" + vo.type + "</td>";
+				row += "<td>" + vo.joinednum + " / "
+							+ vo.runmaxnum + "</td>";
+						// 참석 여부에 따라 다른 이미지 표시
+				$.ajax({
+            		url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?runningno=" + vo.no + "&userno=" + userno,
+            		type:"GET",
+            		dataType:"json",
+            		success:function(checkJoined){
+            						console.log(userno);
+               						console.log("v아이콘 디스플레이용 참석 여부 확인 ajax->",checkJoined);
+               						if(checkJoined){
+            	   						row += "<td><img src='../img/vicon-blue.png' style='width:16px; height:16px;'></td>";
+               						}else{
+            	   						row += "<td></td>"; // 참석 정보가 없으면 빈 칸
+               						}
+               						row += "<td><a href='#' data-no='" + vo.no + "' data-bs-toggle='modal' data-bs-target='#runInfo'><img src='../img/vicon-red.png' style='width:16px; height:16px;'></a></td></tr>";
+    								rows[index] = row;
+    								completedRequests++;
+    								if(completedRequests === totalRequests){
+    									$("#view").append(rows.join(''));
+    								}
+            		}
+            	});
+0				});
+} else {
+	row += "<tr><td colspan='10'>검색 결과가 없습니다.</td></tr></tbody></table>";
+}
 		
-		$("#view").on("click", "a[data-runno]",	function(event) { 
+		$("#view").on("click", "a[data-no]", function(event) { 
 				event.preventDefault();
-				const run_no = $(this).data("runno");
+				const no = $(this).data("no");
 							
 				$.ajax({
-					url : "${pageContext.request.contextPath}/run/ajaxInfo?run_no="	+ run_no,
+					url : "${pageContext.request.contextPath}/run/ajaxInfo?no="	+ no,
 					type : "GET",
 					dataType : "json",
 					success : function(runInfo) {
 							console.log("모달로 로드한 런 정보->", runInfo);
 							const modalBody = $("#inforunModal .modal-body");
 							modalBody.empty();
-							modalBody.append("<p><strong>런 이름 : </strong> " + runInfo.runname + "</p>");
-							modalBody.append("<p><strong>날짜 : </strong> " + runInfo.rundate + "</p>");
-							modalBody.append("<p><strong>시/도 : </strong> " + runInfo.runsido + "</p>");
-							modalBody.append("<p><strong>구 : </strong> " + runInfo.rungu + "</p>");
-							modalBody.append("<p><strong>집결지 : </strong> " + runInfo.runspot + "</p>");
-							modalBody.append("<p><strong>집결시간 : </strong> "	+ runInfo.runtime + "</p>");
-							modalBody.append("<p><strong>타입 : </strong> " + runInfo.runtype + "</p>");
-							modalBody.append("<p><strong>잔여인원 : </strong> " + runInfo.joinednum + " / " 	+ runInfo.runmaxnum	+ "</p>");
-							const editButton = $("<button>").text("수정").addClass("btn btn-primary").attr("data-runno", run_no);
-							const deleteButton = $("<button>").text("삭제").addClass("btn btn-danger").attr("data-runno", run_no);
-							const joinButton = $("<button>").text("참여").addClass("btn btn-warning").attr("id","joinButton").attr("data-runno", run_no);
+							modalBody.append("<p><strong>런 이름 : </strong> " + runInfo.name + "</p>");
+							modalBody.append("<p><strong>날짜 : </strong> " + runInfo.runningdate + "</p>");
+							modalBody.append("<p><strong>시/도 : </strong> " + runInfo.runningcity + "</p>");
+							modalBody.append("<p><strong>구 : </strong> " + runInfo.region + "</p>");
+							modalBody.append("<p><strong>집결지 : </strong> " + runInfo.meetingpoint + "</p>");
+							modalBody.append("<p><strong>집결시간 : </strong> "	+ runInfo.runningtime + "</p>");
+							modalBody.append("<p><strong>타입 : </strong> " + runInfo.type + "</p>");
+							modalBody.append("<p><strong>잔여인원 : </strong> " + runInfo.joinednum + " / " + runInfo.runmaxnum	+ "</p>");
+							const editButton = $("<button>").text("수정").addClass("btn btn-primary").attr("data-runno", no);
+							const deleteButton = $("<button>").text("삭제").addClass("btn btn-danger").attr("data-runno", no);
+							const joinButton = $("<button>").text("참여").addClass("btn btn-warning").attr("id","joinButton").attr("data-runno", no);
 							const buttonContainer = $("<div class='button-container'>").append(editButton).append(deleteButton).append(joinButton);
+							
+							var runningno = runInfo.no;
+							var ownerno = runInfo.ownerno;
+							console.log("모달로 로드된 runningno->",runningno);
+							console.log("모달로 로드된 ownerno->",ownerno);
+							console.log("userno의 값->",userno);
+							
 							$("#inforunModal").modal("show"); 
 							
-							if(userid.value===runInfo.userid){
+							if(userno===String(runInfo.ownerno)){
 								modalBody.append(buttonContainer);	
 							}else{
 								modalBody.append($("<div class='button-container'>").append(joinButton));
 							}
 							
 							$.ajax({
-			                    url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?run_no=" + run_no + "&userid=" + userid.value,
+			                    url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?runningno=" + runningno + "&userno=" + userno,
 			                    type:"GET",
 			                    dataType:"json",
 			                    success:function(checkJoined){
@@ -601,16 +627,16 @@ section .right ul li input:focus {
 							editButton.click(function() {
 								if (confirm("번개런을 수정하시겠습니까?")) {
 									$.ajax({
-										url : "${pageContext.request.contextPath}/run/ajaxInfo?run_no=" + run_no,
+										url : "${pageContext.request.contextPath}/run/ajaxInfo?no=" + no,
 										type : "GET",
 										dataType : "json",
 										success : function(runInfo) {
-											$("#runname").val(runInfo.runname);
-											$("#rundate").val(runInfo.rundate);
-											$("#runsido").val(runInfo.runsido);
-											$("#rungu").val(runInfo.rungu);
-											$("#runspot").val(runInfo.runspot);
-											$("#runtime").val(runInfo.runtime);
+											$("#name").val(runInfo.name);
+											$("#runningdate").val(runInfo.runningdate);
+											$("#runningcity").val(runInfo.runningcity);
+											$("#region").val(runInfo.region);
+											$("#meetingpoint").val(runInfo.meetingpoint);
+											$("#runningtime").val(runInfo.runningtime);
 											$("#joinednum").val(runInfo.joinednum);
 											$("#runmaxnum").val(runInfo.runmaxnum);
 											$("#modalheadText").text("번개런 수정");
@@ -620,27 +646,29 @@ section .right ul li input:focus {
 											$("#makerunModal").modal("show"); 
 											$("#runWriteForm").off("submit").on("submit",function(event) {
 												event.preventDefault();
-												var params = $(this).serialize()+ "&run_no=" + run_no;
+												var params = $(this).serialize()+ "&no=" + no;
 												console.log("수정 버튼을 누른 다음 처리된 데이터 확인->",	params);
-												$.ajax({
-													url : "${pageContext.request.contextPath}/run/ajaxUpdate",
-													data : params,
-													type : "GET",
-													dataType : "json",
-													success : function(response) {
-														if (response == 1) {
-															alert("번개런이 정상적으로 수정되었습니다.");
-															$("#makerunModal").modal("hide");
-															$("#makerunModal").submit();
-															refreshRunList(); // 목록 새로고침
-														} else {
-															alert("번개런 수정을 실패하였습니다.");
-														}
+												if(confirm("번개런을 수정합니다.")){
+													$.ajax({
+														url : "${pageContext.request.contextPath}/run/ajaxUpdate",
+														data : params,
+														type : "GET",
+														dataType : "json",
+														success : function(response) {
+															if (response == 1) {
+																alert("번개런이 정상적으로 수정되었습니다.");
+																$("#makerunModal").modal("hide");
+																$("#makerunModal").submit();
+																refreshRunList(); // 목록 새로고침
+															} else {
+																alert("번개런 수정을 실패하였습니다.");
+															}
 													},	error : function(e) {
 															console.log(e.responseText);
 															alert("수정 중 오류가 발생했습니다. 다시 진행해주세요.");
 													}
 												});
+												}
 											});
 										},	error : function(e) {
 												console.log(e.responseText);
@@ -654,13 +682,13 @@ section .right ul li input:focus {
 							deleteButton.click(function() {
 								if (confirm("정말로 삭제하시겠습니까?")) {
 									$.ajax({
-										url : "${pageContext.request.contextPath}/run/ajaxparticipantsDelete?run_no=" + run_no,
+										url : "${pageContext.request.contextPath}/run/ajaxparticipantsDelete?no=" + no,
 										type : "GET",
 										dataType : "json",
 										success : function(response) {
 											console.log("삭제할 런에 참여한 인원 삭제 후 나온 응답",response);
 											$.ajax({
-													url : "${pageContext.request.contextPath}/run/ajaxDelete?run_no=" + run_no,
+													url : "${pageContext.request.contextPath}/run/ajaxDelete?no=" + no,
 													type : "GET",
 													dataType : "json",
 													success : function(response) {
@@ -694,34 +722,35 @@ section .right ul li input:focus {
 		                        
 		                        if(joinButton.text()=="참여"){
 		                        	if (confirm("예약하시겠습니까?")) {
-		                           		console.log("참여 예약하는 run_no->",run_no);
-		                           		console.log("참여 예약하는 userid->",userid.value);
+		                        		var runningno = no;
+		                           		console.log("참여 예약하는 runningno->",runningno);
+		                           		console.log("참여 예약하는 userno->",userno);
 		                          
 		                          	if (runInfo.joinednum >= runInfo.runmaxnum) {
 		                            	alert("정원이 초과되어 참석할 수 없습니다.");
 		                                return;
 		                            }else{
 		                            	   	$.ajax({
-		                                   		     url: "${pageContext.request.contextPath}/run/ajaxJoin?run_no=" + run_no + "&userid=" + userid.value,
+		                                   		     url: "${pageContext.request.contextPath}/run/ajaxJoin?runningno=" + runningno + "&userno=" + userno,
 		                                             type: "GET",
 		                                             dataType: "json",
 		                                             success: function(runJoin) {
 		                                                     alert("정상 처리되었습니다.");
 		                                                     $("#inforunModal").modal("hide");
 		                                                     $.ajax({
-		    		                                             url: "${pageContext.request.contextPath}/run/ajaxcheckPersonNum?run_no=" + run_no,
+		    		                                             url: "${pageContext.request.contextPath}/run/ajaxcheckPersonNum?runningno=" + runningno,
 		    		                                             type: "GET",
 		    		                                             dataType: "json",
 		    		                                             success: function(checkPersonNum) {
-		    		                                                     console.log("참여 인원 체크할 run_no->",run_no);
+		    		                                                     console.log("참여 인원 체크할 no->",no);
 		    		                                                     console.log("참여 후 자동으로 저장할 참여 인원 수:", checkPersonNum); // 콘솔에 참여 인원 수 출력
 		    		                                                     /* runInfo.joinednum = checkPersonNum; // runInfo 객체의 joinednum 속성에 값 할당 */
 		    		                                                     $.ajax({
-		    		 			                                            url: "${pageContext.request.contextPath}/run/ajaxpersonNumInsert?run_no=" + run_no + "&joinednum=" + checkPersonNum,
+		    		 			                                            url: "${pageContext.request.contextPath}/run/ajaxpersonNumInsert?no=" + no + "&joinednum=" + checkPersonNum,
 		    		 			                                            type: "GET",
 		    		 			                                            dataType: "json",
 		    		 			                                            success: function(personNumInsert) {
-		    		 			                                                    console.log("!!!참여 인원 체크할 run_no->",run_no);
+		    		 			                                                    console.log("!!!참여 인원 체크할 no->",no);
 		    		 			                                                    console.log("!!!참석 후 갱신된 참여 인원 수 joinednum에 넣기->", checkPersonNum); // 콘솔에 참여 인원 수 출력
 		    		 			                                                   refreshRunList(); // 목록 새로고침
 		    		 			                                            },   error : function(e) {
@@ -743,27 +772,30 @@ section .right ul li input:focus {
 		                        }
 		                           }else if(joinButton.text()=="해제"){
 		                        	   if (confirm("예약을 취소하시겠습니까?")){
+		                        		   var runningno = no;
+		                        		   console.log("참여 취소하는 runningno->",runningno);
+			                           		console.log("참여 취소하는 userno->",userno);
 		                        	 		$.ajax({
-                                               url: "${pageContext.request.contextPath}/run/ajaxLeave?run_no=" + run_no + "&userid=" + userid.value,
+                                               url: "${pageContext.request.contextPath}/run/ajaxLeave?runningno=" + runningno + "&userno=" + userno,
                                                type: "GET",
                                                dataType: "json",
                                                success: function(runJoin) {
                                                        alert("정상 처리되었습니다.");
                                                        $("#inforunModal").modal("hide");
                                                        $.ajax({
-                                                           url: "${pageContext.request.contextPath}/run/ajaxcheckPersonNum?run_no=" + run_no,
+                                                           url: "${pageContext.request.contextPath}/run/ajaxcheckPersonNum?runningno=" + runningno,
                                                            type: "GET",
                                                            dataType: "json",
                                                            success: function(checkPersonNum) {
-                                                                   console.log("참여 인원 체크할 run_no->",run_no);
+                                                                   console.log("참여 인원 체크할 runningno->",runningno);
                                                                    console.log("예약 취소 후 저장할 참여 인원 수:", checkPersonNum); // 콘솔에 참여 인원 수 출력
                                                                    /* runInfo.joinednum = checkPersonNum; // runInfo 객체의 joinednum 속성에 값 할당 */
                                                                    $.ajax({
-                    	                                               url: "${pageContext.request.contextPath}/run/ajaxpersonNumInsert?run_no=" + run_no + "&joinednum=" + checkPersonNum,
+                    	                                               url: "${pageContext.request.contextPath}/run/ajaxpersonNumInsert?no=" + no + "&joinednum=" + checkPersonNum,
                     	                                               type: "GET",
                     	                                               dataType: "json",
                     	                                               success: function(personNumInsert) {
-                    	                                                       console.log("???참여 인원 체크할 run_no->",run_no);
+                    	                                                       console.log("???참여 인원 체크할 run_no->",no);
                     	                                                       console.log("???예약 취소 후 갱신된 참여 인원 수 joinednum에 넣기->", checkPersonNum); // 콘솔에 참여 인원 수 출력
                     	                                                      refreshRunList(); // 목록 새로고침
                     	                                               },   error : function(e) {
@@ -781,7 +813,6 @@ section .right ul li input:focus {
                                                    alert("오류가 발생했습니다. 다시 진행해주세요.");
                                                    }
                                                 });
-		                        	 		
 		                        	   }
 		                           }
 		                        });
@@ -810,22 +841,22 @@ section .right ul li input:focus {
 	    }
 
 	function runFormChk() {
-		if (document.getElementById("runname").value === "") {
+		if (document.getElementById("name").value === "") {
 			alert("번개런 이름을 입력하세요")
 			return false;
-		} else if (document.getElementById("rundate").value === "") {
+		} else if (document.getElementById("runningdate").value === "") {
 			alert("날짜를 입력하세요")
 			return false;
-		} else if (document.getElementById("runsido").value === "") {
+		} else if (document.getElementById("runningcity").value === "") {
 			alert("지역(시/도)을 입력하세요")
 			return false;
-		} else if (document.getElementById("rungu").value === "") {
+		} else if (document.getElementById("region").value === "") {
 			alert("지역(구/군)을 입력하세요")
 			return false;
-		} else if (document.getElementById("runspot").value === "") {
+		} else if (document.getElementById("meetingpoint").value === "") {
 			alert("집결지를 입력하세요")
 			return false;
-		} else if (document.getElementById("runtime").value === "") {
+		} else if (document.getElementById("runningtime").value === "") {
 			alert("집결시간을 입력하세요")
 			return false;
 		} else if (document.getElementById("runmaxnum").value === "") {

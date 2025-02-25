@@ -31,43 +31,47 @@ public class RunServiceImpl implements RunService {
 	}
 
 	@Override
-	public int participantsDelete(int run_no) {
-		return dao.participantsDelete(run_no);
+	public int participantsDelete(int runningno) {
+		return dao.participantsDelete(runningno);
 	}
 	
 	@Override
-	public int runDelete(int run_no) {
-		return dao.runDelete(run_no);
+	public int runDelete(int no) {
+		return dao.runDelete(no);
 	}
 
 	@Override
-	public RunVO runInfo(int run_no) {
-		return dao.runInfo(run_no);
+	public RunVO runInfo(int no) {
+		return dao.runInfo(no);
 	}
 
 	@Override
-	public int runJoin(int run_no, String userid) {
-		return dao.runJoin(run_no, userid);
+	public int runJoin(int runningno, int userno) {
+		return dao.runJoin(runningno, userno);
 	}
 
 	@Override
-	public int runLeave(int run_no, String userid) {
-		return dao.runLeave(run_no, userid);
+	public int runLeave(int runningno, int userno) {
+		return dao.runLeave(runningno, userno);
 	}
 
 	@Override
-	public int checkJoined(int run_no, String userid) {
-		return dao.checkJoined(run_no, userid);
+	public int checkJoined(int no, int userno) {
+		return dao.checkJoined(no, userno);
 	}
 
 	@Override
-	public int checkPersonNum(int run_no) {
-		return dao.checkPersonNum(run_no);
+	public int checkPersonNum(int runningno) {
+		return dao.checkPersonNum(runningno);
 	}
 
 	@Override
-	public int personNumInsert(int run_no, int joinednum) {
-		return dao.personNumInsert(run_no, joinednum);
+	public int personNumInsert(int no, int joinednum) {
+		return dao.personNumInsert(no, joinednum);
 	}
+
+	/*
+	 * @Override public int getUserNo(String id) { return dao.getUserNo(id); }
+	 */
 
 }
