@@ -6,8 +6,10 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.ict.rs.dto.CrewPhotoDTO;
+import com.ict.rs.service.CrewPhotoService;
+import com.ict.rs.vo.CrewPhotoVO;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,15 +29,14 @@ public class CrewController {
 	@Inject
 	CrewService service;
 
-	@GetMapping("/")
-	@ResponseBody
-	public ModelAndView crewTopThree() {
-		List<CrewVO> crewList = service.crewTopThree();
+	@Inject
+	CrewPhotoService crewPhotoService;
 
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("crewList", crewList);
-		mav.setViewName("/home");
-		return mav;
+	@GetMapping("/crew/topThree")
+	@ResponseBody
+	public List<CrewVO> crewTopThree() {
+
+		return service.crewTopThree();
 	}
 
 	@GetMapping("/crew/crewSearch")
@@ -46,18 +47,18 @@ public class CrewController {
 		else pvo.setDistrict("");
 		if(crewName != null && !crewName.equals("")) pvo.setCrewName(crewName);
 		else pvo.setCrewName("");
-		
+
 		pvo.setTotalRecord(service.crewTotalRecord(pvo));
 		System.out.println(pvo.toString());
 		List<CrewVO> crewList = service.crewSelect(pvo);
-		
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pvo", pvo);
 		mav.addObject("crewList", crewList);
 		mav.setViewName("crew/crewSearch");
 		return mav;
 	}
-	
+
 	@GetMapping("/crew/crewCreate")
 	public String crewCreate() {
 		return "crew/crewCreate";
@@ -72,25 +73,19 @@ public class CrewController {
 		return crew;
 	}
 
-	@CrossOrigin(origins = "http://localhost:9090")
 	@PostMapping("/crew/crewCreateOk")
 	@ResponseBody
-	public String crewCreateOk(@RequestBody CrewVO vo) {
-		// HttpSession session = request.getSession();
-		// String userNo = (String)session.getAttribute("userId");
-		// vo.setUserid(userNo);
+	public CrewVO crewCreateOk(@RequestBody CrewVO vo, HttpSession session) {
 
-		/*
-		CrewManageVO mvo = new CrewManageVO();
-		mvo.setCrewNo = vo.no;
-		mvo.setUserNo = userNo;
-		mvo.setRole = "크루장";
-		mvo.setStatus = "";
-		*/
+		String userNo = (String)session.getAttribute("userId");
+		vo.setUserid(userNo);
 
-		log.info(vo.toString());
-
-		return service.crewInsert(vo) + "";
+		int res = service.crewInsert(vo);
+		if (res > 0) {
+			return service.crewViewSelect(vo.getNo());
+		} else {
+			throw new RuntimeException("크루 생성에 실패하였습니다.");
+		}
 	}
 
 	@GetMapping("/crew/crewUpdate")
@@ -104,17 +99,17 @@ public class CrewController {
 		return mav;
 	}
 
-	@CrossOrigin(origins = "http://localhost:9090")
 	@PostMapping("/crew/crewUpdateOk")
 	@ResponseBody
-	public String crewUpdateOk(@RequestBody CrewVO vo) {
-		// HttpSession session = request.getSession();
-
+	public CrewVO crewUpdateOk(@RequestBody CrewVO vo) {
 		// vo.setUserid((String)session.getAttribute("userId"));
 
-		log.info(vo.toString());
-
-		return service.crewUpdate(vo) + "";
+		int res = service.crewUpdate(vo);
+		if (res > 0) {
+			return service.crewViewSelect(vo.getNo());
+		} else {
+			throw new RuntimeException("크루 생성에 실패하였습니다.");
+		}
 	}
 
 	@GetMapping("/crew/crewDelete")
@@ -152,5 +147,19 @@ public class CrewController {
 
 //		return service.crewJoin(vo) + "";
 		return "";
+	}
+
+	@ResponseBody
+	@PostMapping("/crew/crewPhoto")
+	public int registerCrewPhoto(@RequestBody CrewPhotoVO crewPhotoVO) {
+
+		return crewPhotoService.registerCrewPhoto(crewPhotoVO);
+	}
+
+	@ResponseBody
+	@GetMapping("/crew/crewPhoto/{crewNo}")
+	public List<CrewPhotoDTO> getCrewPhoto(@PathVariable int crewNo) {
+
+		return crewPhotoService.getCrewPhoto(crewNo);
 	}
 }

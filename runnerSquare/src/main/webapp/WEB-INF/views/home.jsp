@@ -7,6 +7,7 @@
 <% String contextPath = request.getContextPath(); %>
 <link rel="stylesheet" href="<%= contextPath %>/resources/banner.css">
 <script defer src="<%= contextPath %>/resources/banner.js"></script>
+<script defer src="<%= contextPath %>/resources/home.js"></script>
 <style>
 	.crewInfoBox {
 	    display: flex;
@@ -67,9 +68,11 @@
 	    <div class="bannerWrapper"></div>
 	    <button class="bannerButton nextButton">▶</button>
 	</div>
+	<div id="crewListContainer"></div>
 	<c:forEach var="vo" items="${crewList}" begin="0" end="2">
 		<div class="crewInfoBox">
-			<img class="crewImg" src="img/logo.png"/>
+	        <c:set var="firstImage" value="${not empty vo.imageIdList ? vo.imageIdList[0] : 'img/logo.png'}" />
+            <img class="crewImg" src="${empty firstImage ? 'img/logo.png' : '/file-system/download/' + firstImage}" />
 			<div class="crewInfo">
 				<h2>${vo.name}</h2>
 				<div>${vo.description}</div>
@@ -87,9 +90,7 @@
 	            </div>
 
 	            <div class="modal-body">
-	                <div>
-	                    <img id="modalImage" src="/rs/img/running.jpg" />
-	                </div>
+	                <div id="modalImageContainer" class="image-container"></div>
 	                <div class="crewDetail">
 	                    <div id="modalName">크루 이름</div>
 	                    <div id="modalDescription">설명</div>

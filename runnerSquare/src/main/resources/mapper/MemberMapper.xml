@@ -15,4 +15,8 @@
     <select id="idDuplicate" resultType="int">
     	select count(*) from users where id = #{param1}
     </select>
+
+    <select id="getUser" resultType="com.ict.rs.vo.MemberVO">
+        select * from users where no = #{param1}
+    </select>
 </mapper>

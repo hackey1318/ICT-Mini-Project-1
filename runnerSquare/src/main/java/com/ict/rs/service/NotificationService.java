@@ -6,9 +6,9 @@ import com.ict.rs.vo.NotificationVO;
 
 public interface NotificationService {
 
-    int getNotificationCount(String userId);
+    int getNotificationCount(int userNo);
 
-    List<NotificationVO> getNotificationList(String userId);
+    List<NotificationVO> getNotificationList(int userNo);
 
-    int readNotification(String userId, List<Integer> notificationNoList);
+    int readNotification(int userNo, List<Integer> notificationNoList);
 }
