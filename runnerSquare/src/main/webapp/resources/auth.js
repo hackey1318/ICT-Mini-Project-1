@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		        if (data && data.id) {
 		            // 로그인 성공
 		            document.getElementById('loginDialog').close(); // 로그인 다이얼로그 닫기
-		            updateHeader(data.name); // 헤더 업데이트
+		            location.reload();
 		        } else {
 		            // 로그인 실패
 		            alert('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요.');
@@ -105,20 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-function updateHeader(userName) {
-    var authElement = document.getElementById('auth');
-
-    if (userName) {
-        authElement.innerHTML = `
-            <span>${userName}님, 환영합니다</span> |
-            <a href="#" id="logoutLink">로그아웃</a>
-        `;
-    } else {
-        authElement.innerHTML = `
-            <a href="#" id="openLoginDialog">로그인</a> |
-            <a href="#" id="openSignInDialog">회원가입</a>
-        `;
-    }
+document.addEventListener('DOMContentLoaded', function() {
 
     // 로그아웃 링크 클릭 시 이벤트 처리
     var logoutLink = document.getElementById('logoutLink');
@@ -133,14 +120,14 @@ function updateHeader(userName) {
             .then(response => {
                 if (response.ok) {
                     // 로그아웃 후 auth 부분 초기화 (로그인/회원가입 화면으로 전환)
-                    updateHeader(null);
+                    location.reload();
                 } else {
                     console.error("로그아웃 실패");
                 }
             })
         });
     }
-}
+});
 
 $(document).ready(function () {
     var $signinDialog = $("#signinDialog"); // 다이얼로그 요소 저장
