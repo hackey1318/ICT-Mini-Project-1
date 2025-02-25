@@ -29,7 +29,7 @@ function crewJoin() {
 	var userId = sessionStorage.getItem("id");
 	
 	if (!userId) {
-		window.location.href = "/views/member/login"; // 주소 수정 필요
+		// openLoginDialog
 		return;
 	}
 

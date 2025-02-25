@@ -1,6 +1,4 @@
 function openCrewCreateModal() {
-	document.getElementById('citySelect').value = '';
-	
 	document.getElementsByClassName("modal-content")[0].innerHTML = `
 		<div class="modal-header">
 		  <h4 class="modal-title">크루 생성</h4>
@@ -16,12 +14,14 @@ function openCrewCreateModal() {
 				<div class="alert"></div>
 
 				<label>활동지역</label>
-				<select id="citySelect" name="city" onchange="changeState()">
-				    <option value="">시/도</option>
-				</select>
-				<select id="districtSelect" name="district">
-				    <option value="">시/군/구</option>
-				</select>
+				<div class="locationGroup">
+			        <select id="citySelect" name="city" onchange="changeState()">
+			            <option value="">시/도</option>
+			        </select>
+			        <select id="districtSelect" name="district">
+			            <option value="">시/군/구</option>
+			        </select>
+			    </div>
 				<div class="alert"></div>
 
 				<label>러닝일</label>
@@ -33,19 +33,20 @@ function openCrewCreateModal() {
 					<input type="checkbox" value="금" name="runningDay"/>금
 					<input type="checkbox" value="토" name="runningDay"/>토
 					<input type="checkbox" value="일" name="runningDay"/>일
-				</div><br/>
+				</div>
 				<div class="alert"></div>
 
 				<label>크루소개</label>
 				<textarea id="description" name="description"></textarea>
 				<div class="alert"></div>
 				
-				<div><input type="submit" id="submit-button" value="크루생성"/></div>
+				<input type="submit" id="submit-button" value="크루생성"/>
 			</form>
 
 		</div>
 	`;
 	makeSel();
+	document.getElementById('citySelect').value = '';
 
 	const formElements = document.querySelectorAll(
 		'#crewForm input[type="text"], #crewForm input[type="checkbox"], #crewForm select, #crewForm textarea'
@@ -104,9 +105,10 @@ function handleFormSubmit(event) {
 		contentType: 'application/json',  // 서버에 JSON으로 전송
         data: JSON.stringify(params),  // 데이터를 JSON 문자열로 직렬화
         success: function(results) {
-			console.log(results);
             if (results == "1") {
-                // document.getElementById('crewModal').hide(); // 적용이 안 됨...
+            	// crewJoin 실행
+                var myModal = new bootstrap.Modal(document.getElementById('crewModal'));
+            	myModal.hide();  // 모달 닫기 // 적용이 안됨
 				alert('크루 생성 완료');
             } else {
                 alert('크루 생성 실패');
