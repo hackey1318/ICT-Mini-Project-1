@@ -12,34 +12,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
+    private final MemberService memberService;
     private final NotificationDAO notificationDAO;
 
     @Override
-    public int getNotificationCount(String userId) {
+    public int getNotificationCount(int userNo) {
 
-        MemberVO user = this.getMember(userId);
+        MemberVO user = this.getMember(userNo);
         return notificationDAO.getReadableNotificationCountForUser(user.getNo());
     }
 
     @Override
-    public List<NotificationVO> getNotificationList(String userId) {
+    public List<NotificationVO> getNotificationList(int userNo) {
 
-        MemberVO user = this.getMember(userId);
+        MemberVO user = this.getMember(userNo);
         return notificationDAO.getReadableNotificationListForUser(user.getNo());
     }
 
     @Override
-    public int readNotification(String userId, List<Integer> notificationNoList) {
-        MemberVO user = this.getMember(userId);
+    public int readNotification(int userNo, List<Integer> notificationNoList) {
+        MemberVO user = this.getMember(userNo);
         return notificationDAO.readNotification(user.getNo(), notificationNoList);
     }
 
-    private MemberVO getMember(String userId) {
+    private MemberVO getMember(int userNo) {
 
-        // TODO : 회원 조회 기능 추가 후 연결
-        // MemberVO user = memberService.getUser(userId);
-        MemberVO user = new MemberVO();
-        user.setNo(1);
+        MemberVO user = memberService.getUser(userNo);
         if (user == null) {
             throw new RuntimeException("사용자가 없습니다.");
         }

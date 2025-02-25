@@ -63,7 +63,6 @@ function makeSel() {
     // URL에서 전달된 값 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     const cityFromUrl = urlParams.get('city');
-    const districtFromUrl = urlParams.get('district');
 
     // citySelect 옵션을 동적으로 생성
     for (let i = 0; i < cityArr.length; i++) {
@@ -116,10 +115,12 @@ function changeState() {
 function restoreSelectedValues() {
     let citySel = document.getElementById('citySelect');
     let districtSel = document.getElementById('districtSelect');
+    let crewNameInput = document.getElementById('crewName');
 
     const urlParams = new URLSearchParams(window.location.search);
     const cityFromUrl = urlParams.get('city');
     const districtFromUrl = urlParams.get('district');
+    const crewNameFromUrl = urlParams.get('crewName')
 
     // URL에서 city 값이 있으면 해당 값 선택
     if (cityFromUrl) {
@@ -136,5 +137,13 @@ function restoreSelectedValues() {
     } else {
         // 기본적으로 "시/군/구"를 선택 상태로 유지
         districtSel.value = "";
+    }
+    
+    // URL에서 crewName 값이 있으면 해당 값 설정
+    if (crewNameFromUrl) {
+        crewNameInput.value = crewNameFromUrl; // crewName input에 값 설정
+    } else {
+        // crewName 값이 없으면 기본적으로 빈 값
+        crewNameInput.value = "";
     }
 }

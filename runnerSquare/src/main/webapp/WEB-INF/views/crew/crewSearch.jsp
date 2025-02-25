@@ -25,7 +25,6 @@
 		margin: 10px auto;
 		display: grid;
 		grid-template-columns: 1.2fr 1fr 2fr 0.5fr;
-		/*transition: all 0.1s;*/
 		background-color: #fff;
 	}
 	#search-form>select, #search-form>input {
@@ -154,7 +153,7 @@
 	                    <div id="modalRunningDay">러닝데이</div>
 	                </div>
 	                <button onclick="crewJoin()">크루가입</button> <!-- crewNo 구해서 전달 -->
-	                <button onclick="location.href='/rs/'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
+	                <button onclick="location.href='/rs/run/runSearch'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
 	            </div>
 			</div>
 		</div>

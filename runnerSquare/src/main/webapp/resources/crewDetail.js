@@ -15,7 +15,29 @@ $(document).ready(function() {
 				$('#crewDetailModal #modalDescription').text(response.description); // 설명 업데이트
 				$('#crewDetailModal #modalLocation').text(response.city + ', ' + response.district); // 위치 업데이트
 				$('#crewDetailModal #modalRunningDay').text(response.runningDay); // 러닝데이 업데이트
-				$('#crewDetailModal #modalImage').attr('src', response.imageUrl); // 이미지 업데이트
+                $('#crewDetailModal #modalImageContainer').empty();
+                response.imageIdList.forEach(imageId => {
+                    const imgElement = $('<img>', {
+                        src: '/rs/file-system/download/' + imageId,
+                        class: 'crew-image'
+                    });
+                    $('#crewDetailModal #modalImageContainer').append(imgElement);
+                });
+                // 이미지 슬라이드 기능
+                let index = 0;
+                const images = $('#modalImageContainer .crew-image');
+                const totalImages = images.length;
+
+                // 슬라이드를 위한 함수
+                function slideImages() {
+                    images.each(function(i) {
+                        $(this).css('transform', `translateX(-${index * 100}%)`);
+                    });
+                    index = (index + 1) % totalImages; // 이미지 순환
+                }
+
+                // 5초마다 슬라이드
+                setInterval(slideImages, 5000);
 			},
 			error: function(err) {
 				console.error("error : ", err);
@@ -29,7 +51,7 @@ function crewJoin() {
 	var userId = sessionStorage.getItem("id");
 	
 	if (!userId) {
-		window.location.href = "/views/member/login"; // 주소 수정 필요
+		// openLoginDialog
 		return;
 	}
 
