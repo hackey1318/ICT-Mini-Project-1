@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- https://mybatis.org/mybatis-3/ko/getting-started.html 참조 -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.ict.rs.dao.RunDAO">
+  
+    <!-- dao의 method를 찾아가기위해서 id가 dao객체의 method명과 같다. -->
+    <!-- vo일 때는 #{변수}로 값을 가져온다. -->
+  	<insert id="runInsert"  useGeneratedKeys="true" keyProperty="run_no" keyColumn="run_no"> 
+  		insert into runtable(userid, runname, rundate, runsido, rungu, runspot, 
+  						   runtime, runtype, joinednum, runmaxnum)
+  		values(#{userid}, #{runname}, #{rundate}, #{runsido}, #{rungu}, #{runspot},
+  			   #{runtime}, #{runtype}, #{joinednum}, #{runmaxnum}) 
+  	</insert>
+    	
+  	<select id="runList" parameterType="com.ict.rs.vo.RunSelectVO" resultType="com.ict.rs.vo.RunVO">
+    	SELECT * FROM runtable
+    	<where>
+        	<if test="searchDate != null and searchDate != ''">
+            	AND rundate between #{searchDate} and date_add(#{searchDate}, interval 2 day)
+        	</if>
+        	<if test="searchDay != null and searchDay != ''">	
+        	    AND dayname(rundate) = #{searchDay}  
+        	</if>
+
+        	<if test="searchSido != null and searchSido != ''">
+        	    AND runsido = #{searchSido}
+        	</if>
+        	<if test="searchGu != null and searchGu != ''">
+        	    AND rungu = #{searchGu}
+        	</if>
+        	<if test="searchCrewName != null and searchCrewName != ''">
+        	    AND crewname LIKE CONCAT('%', #{searchCrewName}, '%')
+        	</if>
+        	<if test="searchTime != null and searchTime != ''">
+        	    AND runtime = #{searchTime}
+        	</if>
+    	</where>
+    	order by rundate asc
+	</select> 
+	
+	<select id="runInfo"  resultType="com.ict.rs.vo.RunVO">
+		select * from runtable 
+		where run_no = #{run_no} 	
+	</select>
+	  	
+  	<update id="runUpdate">
+    	update runtable
+    	<set>
+    	    <if test="runname != null and runname != ''">
+    	        runname = #{runname},
+    	    </if>
+    	    <if test="rundate != null and rundate != ''">
+    	        rundate = #{rundate},
+    	    </if>
+    	    <if test="runsido != null and runsido != ''">
+    	        runsido = #{runsido},
+    	    </if>
+    	    <if test="rungu != null and rungu != ''">
+    	        rungu = #{rungu},
+    	    </if>
+    	    <if test="runspot != null and runspot != ''">
+    	        runspot = #{runspot},
+    	    </if>
+    	    <if test="runtime != null and runtime != ''">
+    	        runtime = #{runtime},
+    	    </if>
+    	    <if test="runtype != null and runtype != ''">
+    	        runtype = #{runtype},
+    	    </if>
+    	    <!-- <if test="joinednum != null">
+    	        joinednum = #{joinednum},
+    	    </if> -->
+    	    <if test="runmaxnum != null">
+    	        runmaxnum = #{runmaxnum},
+    	    </if>
+    	</set>
+    	where run_no = #{run_no}
+	</update >
+		
+	<insert id="runJoin">
+		insert into run_participants (run_no, userid)
+    	values (#{param1}, #{param2})
+	</insert>
+	
+	<delete id="runLeave">
+		delete from run_participants 
+    	where run_no = #{param1} and userid = #{param2}
+	</delete>
+	
+	<delete id = "participantsDelete">
+		delete from run_participants where run_no=#{param1}
+	</delete>
+	
+	<delete id="runDelete">
+   		delete from runtable
+   		where run_no =#{param1}
+	</delete>
+		
+	<select id="checkJoined" resultType="int">
+    	select count(*)
+    	from run_participants
+    	where run_no = #{param1} and userid = #{param2}
+	</select>
+	
+	<select id="checkPersonNum">
+		select count(*)
+    	from run_participants
+    	where run_no = #{param1} 
+	</select>
+	
+	<update id="personNumInsert">
+		update runtable set joinednum =#{param2}
+  		where run_no = #{param1} 
+	</update>
+
+  </mapper>
+  
+
+  
+  
+
+
