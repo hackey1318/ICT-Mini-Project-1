@@ -1,9 +1,13 @@
 package com.ict.rs.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.ict.rs.dao.CrewPhotoDAO;
+import com.ict.rs.dto.CrewPhotoDTO;
+import com.ict.rs.vo.CrewPhotoVO;
 import com.ict.rs.vo.CrewVO;
 import com.ict.rs.vo.PagingVO;
 
@@ -16,9 +20,19 @@ public class CrewServiceImpl implements CrewService {
 	@Inject
 	CrewDAO dao;
 
+	@Inject
+	CrewPhotoDAO crewPhotoDAO;
+
 	@Override
 	public List<CrewVO> crewTopThree() {
-		return dao.crewTopThree();
+		List<CrewVO> crewVOList = dao.crewTopThree();
+		for (CrewVO crewVO : crewVOList) {
+			List<CrewPhotoDTO> crewPhotoList =  crewPhotoDAO.selectCrewPhotoByCrewNo(crewVO.getNo(), "logo");
+			crewVO.setImageIdList(crewPhotoList.stream()
+					.map(CrewPhotoDTO::getImageId)
+					.collect(Collectors.toList()));
+		}
+		return crewVOList;
 	}
 	
 	@Override
@@ -28,7 +42,12 @@ public class CrewServiceImpl implements CrewService {
 	
 	@Override
 	public CrewVO crewViewSelect(int crew_no) {
-		return dao.crewViewSelect(crew_no);
+		CrewVO crewVO = dao.crewViewSelect(crew_no);
+		List<CrewPhotoDTO> crewPhotoList =  crewPhotoDAO.selectCrewPhotoByCrewNo(crewVO.getNo(), null);
+		crewVO.setImageIdList(crewPhotoList.stream()
+				.map(CrewPhotoDTO::getImageId)
+				.collect(Collectors.toList()));
+		return crewVO;
 	}
 
 	@Override
@@ -50,5 +69,5 @@ public class CrewServiceImpl implements CrewService {
 	public int crewDelete(int crew_no) {
 		return dao.crewDelete(crew_no);
 	}
-	
+
 }

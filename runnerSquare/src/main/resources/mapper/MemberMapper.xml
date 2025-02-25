@@ -15,4 +15,17 @@
     <select id="idDuplicate" resultType="int">
     	select count(*) from users where id = #{param1}
     </select>
+    <select id="selectMember">
+    	select no, id, name, nickName, email, tel, addr, birth, gender, preferPace
+    	from users
+    	where no = #{no}
+    </select>
+    <update id="updateMember">
+    	update users set nickName = #{nickName}, email = #{email}, tel = #{tel}, addr = #{addr}, preferPace = #{preferPace}
+		where no = #{no}
+    </update>
+
+    <select id="getUser" resultType="com.ict.rs.vo.MemberVO">
+        select * from users where no = #{param1}
+    </select>
 </mapper>

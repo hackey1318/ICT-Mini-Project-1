@@ -13,4 +13,10 @@ public interface MembersDAO {
     MemberVO loginOk(String id, String pw);
 
     int idDuplicate(String id);
+
+    MemberVO selectMember(int no);
+
+    int updateMember(MemberVO vo);
+
+    MemberVO getUser(int no);
 }

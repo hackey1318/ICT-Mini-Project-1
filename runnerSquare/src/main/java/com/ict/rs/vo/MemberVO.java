@@ -41,6 +41,10 @@ public class MemberVO {
 
 	@JsonProperty("tel")
 	public String tel;
+	
+	public String tel1;
+	public String tel2;
+	public String tel3;
 
 	@JsonProperty("addr")
 	public String addr;

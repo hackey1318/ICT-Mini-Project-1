@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ict.rs.dao.CrewPhotoDAO">
+    <insert id="registerCrewPhoto" parameterType="com.ict.rs.vo.CrewPhotoVO">
+        INSERT INTO crewphotos (crewNo, imageId, type, status)
+        VALUES
+        <foreach collection="imageIdList" item="imageId" separator=",">
+            (#{crewNo}, #{imageId}, #{type}, #{status})
+        </foreach>
+    </insert>
+
+    <select id="selectCrewPhotoByCrewNo" resultType="com.ict.rs.dto.CrewPhotoDTO">
+        SELECT no, crewNo, imageId, type, status, createdAt, updatedAt
+        FROM crewphotos
+        WHERE crewNo = #{crewNo}
+        <if test="type != null">
+            AND type = #{type}
+        </if>
+    </select>
+
+</mapper>
