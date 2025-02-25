@@ -219,7 +219,7 @@ function loadCrewMemberList() {
                     	} else if (mvo.status === 'withdrawal') {
                         	memberListTag += "<td>탈퇴한크루</td>";
                     	}
-                    	memberListTag += "</tr>"; // 행 끝
+                    	memberListTag += "</tr>"; //  행 끝
                 });
             } else {
                 memberListTag = "<tr><td colspan ='4'>크루원이 없습니다.</td></tr>";
