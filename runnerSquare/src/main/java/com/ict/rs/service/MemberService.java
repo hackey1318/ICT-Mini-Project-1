@@ -10,5 +10,9 @@ public interface MemberService {
 
     int idDuplicate(String id);
 
+    MemberVO selectMember(int no);
+
+	int updateMember(MemberVO vo);
+
     MemberVO getUser(int userNo);
 }
