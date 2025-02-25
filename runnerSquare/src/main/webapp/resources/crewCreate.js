@@ -39,7 +39,10 @@ function openCrewCreateModal() {
 				<label>크루소개</label>
 				<textarea id="description" name="description"></textarea>
 				<div class="alert"></div>
-				
+
+				<label>크루사진</label>
+				<input type="file" id="crewImage" name="crewImage"/>
+
 				<input type="submit" id="submit-button" value="크루생성"/>
 			</form>
 
@@ -72,43 +75,71 @@ function handleFormSubmit(event) {
     }
 
     const formData = new FormData(document.getElementById("crewForm"));
-    const params = {};
+
+	console.log(formData);
+
+	// 크루 생성 param -> createCrew
+	const crewParams = {
+		name: formData.get('name'),
+		city: formData.get('city'),
+		district: formData.get('district'),
+		runningDay: formData.get('runningDay'),
+		description: formData.get('description')
+	}
+
     let day = [];
     document.querySelectorAll('input[name="runningDay"]:checked').forEach((checkbox) => {
         day.push(checkbox.value);
     });
     if (day.length > 0) {
-        params["runningDay"] = day.join(",");
+        crewParams["runningDay"] = day.join(",");
     }
 
     formData.forEach((value, key) => {
         if (key !== 'runningDay') {
 			if (typeof value === 'string') {
-				params[key] = value.trim();
+				crewParams[key] = value.trim();
 			} else {
-				params[key] = value;
+				crewParams[key] = value;
 			}
 		}
     });
 
-	console.log(params);
+	console.log(crewParams);
+
+	const imageParams = {
+		files: formData.get('crewImage')
+	}
+
+	console.log(imageParams);
 	
 	// file upload 실행
 	
 	// response 정보에서 imageId를 추출
 	// param의 imageIdList에 추가
 	
+	// const logofile = {	// fileupload
+	// 	files: formData.get('files')
+	// }
+
+	// const activeFiles = { // fileupload
+	// 	files: formData.get('activeFiles')
+	// }
+
+	// response crewPhoto
+	
     // AJAX 요청
     $.ajax({
         url: 'crewCreateOk', // 서버 URL
 		type: 'POST',  // HTTP 메서드 (POST)
 		contentType: 'application/json',  // 서버에 JSON으로 전송
-        data: JSON.stringify(params),  // 데이터를 JSON 문자열로 직렬화
+        data: JSON.stringify(crewParams),  // 데이터를 JSON 문자열로 직렬화
         success: function(results) {
             if (results == "1") {
             	// crewJoin 실행
                 var myModal = new bootstrap.Modal(document.getElementById('crewModal'));
             	myModal.hide();  // 모달 닫기 // 적용이 안됨
+				inputLogo(imageParams); // db에 사진 추가
 				alert('크루 생성 완료');
             } else {
                 alert('크루 생성 실패');
@@ -119,6 +150,27 @@ function handleFormSubmit(event) {
             alert('서버 통신에 문제가 발생했습니다.');
         }
     });
+}
+
+function inputLogo(imageParams) {
+	$.ajax({
+        url: '', // 서버 URL
+		type: '',  // HTTP 메서드 (POST)
+		contentType: '',  // 서버에 JSON으로 전송
+        data: JSON.stringify(),  // 데이터를 JSON 문자열로 직렬화
+        success: function(results) {
+            if (results == "1") {
+				alert('크루 생성 완료');
+            } else {
+                alert('크루 생성 실패');
+            }
+        },
+        error: function(error) {
+            console.error('Error:', error);
+            alert('서버 통신에 문제가 발생했습니다.');
+        }
+    });
+
 }
 
 function crewFormCheck() {
