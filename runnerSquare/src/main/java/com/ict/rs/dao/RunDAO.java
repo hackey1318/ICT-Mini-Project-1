@@ -11,6 +11,11 @@ import com.ict.rs.vo.RunVO;
 @Mapper
 @Repository
 public interface RunDAO {
+	
+	/*
+	 * //로그인된 아이디 정보 받아오기 public int getUserNo(String id);
+	 */
+	
 	//번개런 등록
 	public int runInsert(RunVO vo);
 

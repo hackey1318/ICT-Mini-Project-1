@@ -9,10 +9,15 @@
   
     <!-- dao의 method를 찾아가기위해서 id가 dao객체의 method명과 같다. -->
     <!-- vo일 때는 #{변수}로 값을 가져온다. -->
+  	
+  <!-- 	<select id="getUserNo" resultType="Integer">
+  		select no from users where id = #{id}
+	</select> -->
+  	
   	<insert id="runInsert" parameterType="com.ict.rs.vo.RunVO" useGeneratedKeys="true" keyProperty="no" keyColumn="no"> 
-  		insert into runnings(userno, runningdate, runningcity, region, runningtime, meetingpoint,
+  		insert into runnings(runningdate, runningcity, region, runningtime, meetingpoint,
   							type, joinednum, runmaxnum, name, crewno, ownerno, status) 
-  		values(#{userno}, #{runningdate}, #{runningcity}, #{region}, #{runningtime}, #{meetingpoint}, #{type},
+  		values(#{runningdate}, #{runningcity}, #{region}, #{runningtime}, #{meetingpoint}, #{type},
   			   #{joinednum}, #{runmaxnum}, #{name}, #{crewno}, #{ownerno}, #{status}) 
   	</insert>
     	

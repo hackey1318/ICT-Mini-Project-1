@@ -216,6 +216,7 @@ section .right ul li input:focus {
 		overflow-y: auto; /* 세로 스크롤 활성화 */
 	}
 </style>
+<% Integer userNo = (Integer) session.getAttribute("userNo"); %>
 <div class='main-container'>
 
 <!-- <div class="container"> -->
@@ -348,7 +349,7 @@ section .right ul li input:focus {
 								</ul>
 							</div>
 							<div class="right">
-								<input type="hidden" name="userno" id="userno" value="2" />
+								<input type="hidden" name="user" id="user" value="tester" />
 								<input type="hidden" name="type" id="type" value="번개런" />
 								<ul>
 									<li><input type="text" name="name" id="name"
@@ -410,9 +411,25 @@ section .right ul li input:focus {
 	const timeSelect = document.getElementById('timeSelect');
 	const runForm = document.getElementById('runWriteForm');
 	let isDataSelected = 0;
-
+	var userno = parseInt('<%= userNo %>');
 	$(function() {
+	/* 	const id = document.getElementById('user');
+		console.log("userid->",id.value);
+	   $.ajax({
+		   url : "${pageContext.request.contextPath}/run/ajaxgetUserNo?id=" + id.value,
+		   type:"GET",
+		   dataType:"json",
+		   success:function(userno){
+			   console.log("userid->",id.value);
+			   console.log("userno->",userno);
+			   userno = userno;           
+		   }, error:function(error){
+			   alert("userno 요청 실패");
+		   }
+	   });	 */	
+		
 		//form의 데이터를 비동기식으로 서버로 보내 번개런 등록하기
+	   
 		$("#runWriteForm")
 				.on('submit', function() {
 					event.preventDefault();
@@ -421,7 +438,7 @@ section .right ul li input:focus {
 						}
 						var url = "${pageContext.request.contextPath}/run/ajaxObject";
 						var params = $("#runWriteForm").serialize();
-						/* params += "&status=생성"; */
+						params += "&status=생성"; 
 						console.log(params);
 						if (confirm("번개런을 등록하시겠습니까?")) {
 							$.ajax({
@@ -437,11 +454,11 @@ section .right ul li input:focus {
 											console.log("번개런 정상적으로 등록 후 자동 등록할 runningno->",runningno);
 											if(runningno){
 												$.ajax({
-					                                url: "${pageContext.request.contextPath}/run/ajaxJoin?runningno=" + runningno + "&userno=" + userno.value,
+					                                url: "${pageContext.request.contextPath}/run/ajaxJoin?runningno=" + runningno + "&userno=" + userno,
 					                                type: "GET",
 					                                dataType: "json",
 					                                success: function(runJoin) {
-					                                		console.log("번개런 등록하면서 조인하기",runningno,userno.value);
+					                                		console.log("번개런 등록하면서 조인하기",runningno,userno);
 					                                		/* window.location.href = "${pageContext.request.contextPath}/run/runSearch"; */
 					                                		$.ajax({
 				                                                url: "${pageContext.request.contextPath}/run/ajaxcheckPersonNum?runningno=" + runningno,
@@ -529,10 +546,11 @@ section .right ul li input:focus {
 							+ vo.runmaxnum + "</td>";
 						// 참석 여부에 따라 다른 이미지 표시
 				$.ajax({
-            		url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?runningno=" + vo.no + "&userno=" + userno.value,
+            		url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?runningno=" + vo.no + "&userno=" + userno,
             		type:"GET",
             		dataType:"json",
             		success:function(checkJoined){
+            						console.log(userno);
                						console.log("v아이콘 디스플레이용 참석 여부 확인 ajax->",checkJoined);
                						if(checkJoined){
             	   						row += "<td><img src='../img/vicon-blue.png' style='width:16px; height:16px;'></td>";
@@ -581,18 +599,18 @@ section .right ul li input:focus {
 							var ownerno = runInfo.ownerno;
 							console.log("모달로 로드된 runningno->",runningno);
 							console.log("모달로 로드된 ownerno->",ownerno);
-							console.log("userno의 값->",userno.value);
+							console.log("userno의 값->",userno);
 							
 							$("#inforunModal").modal("show"); 
 							
-							if(userno.value===String(runInfo.ownerno)){
+							if(userno===String(runInfo.ownerno)){
 								modalBody.append(buttonContainer);	
 							}else{
 								modalBody.append($("<div class='button-container'>").append(joinButton));
 							}
 							
 							$.ajax({
-			                    url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?runningno=" + runningno + "&userno=" + userno.value,
+			                    url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?runningno=" + runningno + "&userno=" + userno,
 			                    type:"GET",
 			                    dataType:"json",
 			                    success:function(checkJoined){
@@ -706,14 +724,14 @@ section .right ul li input:focus {
 		                        	if (confirm("예약하시겠습니까?")) {
 		                        		var runningno = no;
 		                           		console.log("참여 예약하는 runningno->",runningno);
-		                           		console.log("참여 예약하는 userno->",userno.value);
+		                           		console.log("참여 예약하는 userno->",userno);
 		                          
 		                          	if (runInfo.joinednum >= runInfo.runmaxnum) {
 		                            	alert("정원이 초과되어 참석할 수 없습니다.");
 		                                return;
 		                            }else{
 		                            	   	$.ajax({
-		                                   		     url: "${pageContext.request.contextPath}/run/ajaxJoin?runningno=" + runningno + "&userno=" + userno.value,
+		                                   		     url: "${pageContext.request.contextPath}/run/ajaxJoin?runningno=" + runningno + "&userno=" + userno,
 		                                             type: "GET",
 		                                             dataType: "json",
 		                                             success: function(runJoin) {
@@ -756,9 +774,9 @@ section .right ul li input:focus {
 		                        	   if (confirm("예약을 취소하시겠습니까?")){
 		                        		   var runningno = no;
 		                        		   console.log("참여 취소하는 runningno->",runningno);
-			                           		console.log("참여 취소하는 userno->",userno.value);
+			                           		console.log("참여 취소하는 userno->",userno);
 		                        	 		$.ajax({
-                                               url: "${pageContext.request.contextPath}/run/ajaxLeave?runningno=" + runningno + "&userno=" + userno.value,
+                                               url: "${pageContext.request.contextPath}/run/ajaxLeave?runningno=" + runningno + "&userno=" + userno,
                                                type: "GET",
                                                dataType: "json",
                                                success: function(runJoin) {
