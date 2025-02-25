@@ -2,224 +2,155 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <style>
-	.container{
-	  	text-decoration: none; 
-        color: black;
-	}
-	.container>div {
-		width: 100%;
-		height: 900px;
-		padding-top: 180px;
-	}
-	form {
-		display: flex;
-		justify-content: space-around;
-	}
-	ul{
-	overflow:auto;
-	}
-	
-	/*==================================*/
-	/*제목: 크루관리*/
-	#titleName{
-		text-align: center;
-        color: black;
-        height: 10vh;
-        padding-top:2vh;
-        font-size:2em;
-        
-	}
-	/*==================================*/
-	/*제목 크루리스트*/
-	#crewListTitle{
-		width: 90%;
-		margin: 0 auto;
-		padding-top:2vh;
-		font-size:1.5em;
-	}
-	/*==================================*/
-	
-	/*크루리스트 표제목*/
-	#crewNameListUl>li{	
-		overflow : auto;
-		padding : 3px 0px;
-		line-height:20px;
-		font-size:1.2em;
-	}
-	#crewNameListUl>li{
-		float:left;  border-bottom:1px solid #ddd; width:16%;  text-align:center;
-	}
-	
-	
-	/*크루리스트*/
-	#crewNameList, #crewMemberList{
-	 height: 20vh;
-	}
 
-	#crewNameList>li, #crewMemberList>li{	
-		overflow : auto;
-		padding : 3px 0px;
-		line-height:20px;
-	}
-	#crewNameList>li, #crewMemberList>li{
-		float:left;  border-bottom:1px solid #ddd; width:16%;  text-align:center;
-	}
+/* 테이블 스타일  */
+.table th,
+.table td {
+    text-align: center;
+}
 
-	#crewMemberList>li{
-	width:25%;
-	text-align : left;}
-	
-	#memberButtonOne{
-		padding:0px;
-		border:0px;
-	}
-	
-	/*==================================*/
-	/*제목 맴버리스트*/
-	#crewMemberListTitle{
-		width: 90%;
-		margin: 0 auto;
-		padding-top:2vh;
-		font-size:2em;
-	}
-	
-	/*==================================*/
-	
-	/*맴버리스트*/
-	
-	#memberListUl>li{
-		overflow : auto;
-		padding : 10px 0px;
-		line-height:20px;
-	}
-	#memberListUl>li{
-		float:left; border-bottom:1px solid #ddd; width:25%;  text-align:center;
-	}
-	#memberListButton{
-		padding:0px;
-		border:0px;
-	}
-	
+/* 제목 스타일  */
+#titleName {
+    text-align: center;
+    color: black;
+    height: 10vh;
+    padding-top: 2vh;
+    font-size: 2em;
+}
+
+/* 제목 "크루리스트, 맴버리스트" 스타일  */
+#crewListTitle,
+#crewMemberListTitle {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 2vh;
+    font-size: 1.5em;
+}
+
+#memberListButton {
+    padding: 0px;
+    border: 0px;
+}
 </style>
+
 <div class="container">
-	<div>
-		<div id="titleName">
-			크루관리
-		</div>
-			
-		<div id="crewListTitle">
-			크루 리스트
-		</div>
+    <div>
+        <div id="titleName">크루관리</div>
 
-			<ul id="crewNameListUl">
-				<li>크루명</li>
-				<li>활동지역</li>
-				<li>러닝요일</li>
-				<li>가입일</li>
-				<li>탈퇴일</li>
-				<li>관리</li>
-			</ul>
-			<ul id="crewNameList">	
-			</ul>
+        <div class="container mt-3">
+            <h2 id="crewListTitle">크루 리스트</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>크루명</th>
+                        <th>시</th>
+                        <th>시/군/구</th>
+                        <th>러닝요일</th>
+                        <th>가입일</th>
+                        <th>탈퇴일</th>
+                        <th>관리</th>
+                    </tr>
+                </thead>
+                <tbody id="crewNameList">
+                    <!-- 크루 리스트 데이터가 여기에 동적으로 추가됨 -->
+                </tbody>
+            </table>
+        </div>
 
-		<div id="crewMemberListTitle">
-			맴버 리스트
-		</div>
-		
-		
-		<ul id="memberListUl">
-				<li>크루이름</li>
-				<li>닉네임</li>
-				<li>가입일</li>
-				<li>관리</li>					
-		</ul>	
-		<ul id="crewMemberList">
-		</ul>
-	</div>
+        <div class="container mt-3">
+            <h2 id="crewMemberListTitle">맴버 리스트</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>크루이름</th>
+                        <th>닉네임</th>
+                        <th>가입일</th>
+                        <th>관리</th>
+                    </tr>
+                </thead>
+                <tbody id="crewMemberList">
+                    <!-- 멤버 리스트 데이터가 여기에 동적으로 추가됨 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-
 <script>
-
+//크루리스트 기능
 function loadCrewNameList() {
-	
-	const params = { userNo: 4 };
+    const params = {
+        userNo: 1 //페이지에 로그인정보에서 pk인 no = userNo
+        //로그인 service개발완료 후 삭제 및 수정필요
+    };
 
-	const queryString = Object.keys(params)
-  		.map(key => key + '=' + params[key])
-  		.join('&');
-	
-	console.log(queryString);
-	const url = "/rs/crew/crewManage/list?" + queryString;
-	console.log(url);
+    const queryString = Object.keys(params)
+        .map(key => key + '=' + params[key])
+        .join('&');
 
-	 fetch(url, {
-		method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-	})
-	.then(response => {
-		if(!response.ok) {
-			throw new Error('Network response was not ok');
-		}
-		return response.json();
-	})
-	.then(data => {
-		// 성공적으로 데이터를 받아온 경우
-		console.log(data);
+    console.log(queryString);
+    const url = "/rs/crew/crewManage/list?" + queryString;
+    console.log(url);
 
-		let crewListTag = "";
+    fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 성공적으로 데이터를 받아온 경우
+            console.log(data);
+            let crewListTag = "";
+            if (Array.isArray(data)) {
+                data.forEach(vo => {
+                    const crewNo = vo.crewNo;
+                    crewListTag += "<tr>";
+                    crewListTag += "<td>" + vo.name + "</td>";
+                    crewListTag += "<td>" + vo.city + "</td>";
+                    crewListTag += "<td>" + vo.district + "</td>";
+                    crewListTag += "<td>" + vo.runningDay + "</td>";
+                    crewListTag += "<td>" + vo.createdAt + "</td>";
 
-			if (Array.isArray(data)) {
-		    	data.forEach(vo => {
-				    crewListTag += "<li>" + vo.name + "</<li>";
-				    crewListTag += "<li>" + vo.activeArea + "</li>";
-				    crewListTag += "<li>" + vo.runningDay + "</li>";
-				    crewListTag += "<li>" + vo.createdAt + "</li>";
-					
-					if (vo.status === 'withdrawal') {
-				      crewListTag += "<li>" +vo.updatedAt + "</li>";
-					}else{
-						crewListTag += "<li></li>";
-					}
-				      
-				      
-				    if (vo.status === 'apply') {
-				      crewListTag += "<li>신청대기중</li>";
-				    }else if (vo.status === 'approval') {
-					  crewListTag += "<li><button class='crewListButton' data-crew-id='" + vo.id + "'>탈퇴하기</button></li>";
-				    }
-			});
-	    	
-		} else {
-		    console.error("응답 데이터가 배열이 아닙니다:", data);
-		    crewListTag = "<li>데이터를 불러올 수 없습니다.</li>";
-		}
-	  
-		$("#crewNameList").append(crewListTag);
-	  
-		  // 동적으로 생성된 버튼에 이벤트 핸들러 바인딩 (jQuery 필요)
-		$(".crewListButton").on("click", function(event) {
-		    event.preventDefault();
-		    const crewId = $(this).data("crew-id");
-		    console.log("탈퇴하기 버튼 클릭! Crew ID: " + crewId);
-		
-		});
-	})
-	.catch(error => {
-		console.error('Error:', error);
-		$("#crewNameList").append("<li>데이터를 불러오는 데 실패했습니다.</li>");
-	});
+                    if (vo.status === 'withdrawal') {
+                        crewListTag += "<td>" + vo.updatedAt + "</td>";
+                    } else {
+                        crewListTag += "<td>-</td>";
+                    }
+
+                    if (vo.status === 'apply') {
+                        crewListTag += "<td>신청대기중</td>";
+                    } else if (vo.status === 'approval') {
+                        crewListTag += "<td><button type='button' class='btn btn-outline-danger btn-sm withdrawButton' data-user-no='" + vo.userNo + "' data-crew-no='" + crewNo + "'>탈퇴하기</button></td>";
+                    } else if (vo.status === 'withdrawal') {
+                        crewListTag += "<td>탈퇴한크루</td>";
+                    }
+                    crewListTag += "</tr>";
+                });
+            } else {
+                console.error("응답 데이터가 배열이 아닙니다:", data);
+                crewListTag = "<tr><td>데이터를 불러올 수 없습니다.</td></tr>";
+            }
+            $("#crewNameList").html(crewListTag);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            $("#crewNameList").html("<tr><td>데이터를 불러오는 데 실패했습니다.</td></tr>");
+        });
 }
-	
-window.onload = loadCrewNameList();
 
-/////////////////////////////////////////////////////////////////////////////
-
-
+//맴버리스트 기능
 function loadCrewMemberList() {
-	const params = { userNo: 4 };
+    const params = {
+        userNo: 1 //페이지에 로그인정보에서 pk인 no = userNo
+        //로그인 service개발완료 후 삭제 및 수정필요
+    };
 
 	const queryString = Object.keys(params)
   		.map(key => key + '=' + params[key])
@@ -228,55 +159,153 @@ function loadCrewMemberList() {
 	console.log(queryString);
 	const url = "/rs/crew/crewManage/memberList?" + queryString;
 	console.log(url);
+    const queryString = Object.keys(params)
+        .map(key => key + '=' + params[key])
+        .join('&');
 
-	fetch(url, {
-		method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-	})
-	.then(response => {
-		if(!response.ok) {
-			throw new Error('Network response was not ok');
-		}
-		return response.json();
-	})
-	.then(data => {
-		// 성공적으로 데이터를 받아온 경우
-		console.log(data);
+    console.log(queryString);
+    const url = "/rs/crew/crewManage/memberList?" + queryString;
+    console.log(url);
 
-		let memberListTag = "";
+    fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 성공적으로 데이터를 받아온 경우
+            console.log(data);
+            let memberListTag = "";
 
-		if (Array.isArray(data)) {
-	    	data.forEach(mvo => {
-	    		memberListTag += "<li>" + mvo.name + "</li>";
-	    		memberListTag += "<li>" + mvo.nickName + "</li>";
-	    		memberListTag += "<li>" + mvo.updatedAt + "</li>";
-	    		memberListTag += "<li>" + mvo.status + "</li>";
-				
-			
-			});
-		} else {
-		    console.error("응답 데이터가 배열이 아닙니다:", data);
-		    crewListTag = "<li>데이터를 불러올 수 없습니다.</li>";
-		}
-	  
-		$("#crewMemberList").append(memberListTag);
-	  
-		  // 동적으로 생성된 버튼에 이벤트 핸들러 바인딩 (jQuery 필요)
-		$(".crewListButton").on("click", function(event) {
-		    event.preventDefault();
-		    const crewId = $(this).data("crew-id");
-		    console.log("탈퇴하기 버튼 클릭! Crew ID: " + crewId);
-		
-		});
-	})
-	.catch(error => {
-		console.error('Error:', error);
-		$("#crewMemberList").append("<li>데이터를 불러오는 데 실패했습니다.</li>");
-	});
+            if (Array.isArray(data)) {
+                data.forEach(mvo => {
+                    const crewNo = mvo.crewNo; // mvo 객체에서 crewNo 가져오기
+                    console.log("mvo.userNo:", mvo.userNo, "mvo.crewNo:", crewNo);
+                    memberListTag += "<tr>"; // 행 시작
+                    memberListTag += "<td>" + mvo.name + "</td>"; // 크루 이름
+                    memberListTag += "<td>" + mvo.nickName + "</td>"; // 닉네임
+                    memberListTag += "<td>" + mvo.createdAt + "</td>"; // 가입일
+
+                    if (mvo.status === 'approval') {
+                        memberListTag += "<td><button type='button' class='btn btn-outline-danger btn-sm kickButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + crewNo + "'>강퇴하기</button></td>";
+                    } else if (mvo.status === 'apply') {
+                        memberListTag += "<td><button type='button' class='btn btn-success btn-sm acceptButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + crewNo + "'>✓</button><span> </span><button type='button' class='btn btn-danger btn-sm refuseButton 'data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + crewNo + "'>×</button></td>";
+                    } else if (mvo.status === 'withdrawal') {
+                        memberListTag += "<td>탈퇴한크루</td>";
+                    }
+                    memberListTag += "</tr>"; // 행 끝
+                });
+            } else {
+                console.error("응답 데이터가 배열이 아닙니다:", data);
+                memberListTag = "<tr><td>데이터를 불러올 수 없습니다.</td></tr>";
+            }
+            $("#crewMemberList").html(memberListTag); // append 대신 html 사용
+            // 동적으로 생성된 버튼에 이벤트 핸들러 바인딩 (jQuery 필요)
+            $(".crewListButton").on("click", function(event) {
+                event.preventDefault();
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            $("#crewMemberList").html("<tr><td>데이터를 불러오는 데 실패했습니다.</td></tr>");
+        });
 }
-	
-window.onload = loadCrewMemberList();
 
+//크루리스트 탈퇴버튼
+$(document).on('click', '.withdrawButton', function(event) {
+    event.preventDefault();
+    alert("탈퇴하시겠습니까?");
+});
+
+$(document).on('click', '.withdrawButton', function(event) {
+    event.preventDefault();
+    const userNo = $(this).data('user-no');
+    const crewNo = $(this).data('crew-no');
+    const nickName = $(this).data('nick-name'); // 데이터 속성명 수정
+    console.log("Kick userNo:", userNo, "crewNo:", crewNo, "nickName:", nickName + " withdrawbutton내의 데이터");
+    if (confirm("정말로 탈퇴하시겠습니까?")) {
+        updateCrewStatus(userNo, crewNo, 'withdrawal'); // 파라미터와 함께 함수 호출
+    }
+});
+
+//맴버리스트 강퇴버튼
+$(document).on('click', '.kickButton', function(event) {
+    event.preventDefault();
+    const userNo = $(this).data('user-no');
+    const crewNo = $(this).data('crew-no');
+    const nickName = $(this).data('nick-name'); // 데이터 속성명 수정
+    console.log("Kick userNo:", userNo, "crewNo:", crewNo, "nickName:", nickName + " kickbutton내의 데이터");
+    if (confirm("'" + nickName + "'님을 강퇴하시겠습니까?")) {
+        updateCrewStatus(userNo, crewNo, 'withdrawal'); // 파라미터와 함께 함수 호출
+    }
+});
+
+//맴버리스트 승인버튼
+$(document).on('click', '.acceptButton', function(event) {
+    event.preventDefault();
+    alert("가입을 승인합니다");
+});
+
+$(document).on('click', '.acceptButton', function(event) {
+    event.preventDefault();
+    const userNo = $(this).data('user-no');
+    const crewNo = $(this).data('crew-no');
+    const nickName = $(this).data('nick-name'); // 데이터 속성명 수정
+    console.log("accept userNo:", userNo, "crewNo:", crewNo, "nickName:", nickName + " kickbutton내의 데이터");
+    if (confirm("'" + nickName + "'님의 가입을 승인합니다.")) {
+        updateCrewStatus(userNo, crewNo, 'approval'); // 파라미터와 함께 함수 호출
+    }
+});
+
+//맴버리스트 거부버튼
+$(document).on('click', '.refuseButton', function(event) {
+    event.preventDefault();
+    const userNo = $(this).data('user-no');
+    const crewNo = $(this).data('crew-no');
+    const nickName = $(this).data('nick-name'); // 데이터 속성명 수정
+    console.log("Refuse userNo:", userNo, "crewNo:", crewNo, "nickName:", nickName + " refusebutton내의 데이터");
+    if (confirm("'" + nickName + "'님의 가입을 거부합니다.")) {
+        updateCrewStatus(userNo, crewNo, 'withdrawal'); // 파라미터와 함께 함수 호출
+    }
+});
+
+// 맴버 status 업데이트 function
+function updateCrewStatus(userNo, crewNo, status) {
+    const params = {
+        userNo: userNo,
+        crewNo: crewNo,
+        status: status
+    };
+
+    $.ajax({
+        url: '/rs/crew/crewManage/updateMemberStatus',
+        data: params,
+        type: 'POST',
+        success: function(response) {
+            if (response === "success") {
+                console.log('Status updated successfully');
+                loadCrewNameList();
+                loadCrewMemberList();
+            } else {
+                console.error('Error: update failed');
+            }
+        },
+        error: function(error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+window.onload = function() {
+    loadCrewNameList();
+    loadCrewMemberList();
+    console.log("start")
+};
 </script>

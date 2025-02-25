@@ -9,4 +9,7 @@ public interface CrewManageService {
 	public List<CrewManageVO> crewNameList(int userNo);
 	
 	public List<CrewManageVO> crewMemberList(int userNo);
+
+	public int updateCrewStatus(CrewManageVO vo);
+
 }
