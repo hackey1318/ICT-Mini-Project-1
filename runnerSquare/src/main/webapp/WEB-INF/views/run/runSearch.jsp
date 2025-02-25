@@ -208,9 +208,17 @@ section .right ul li input:focus {
 	margin-top: 20px;
 	gap: 10px;
 }
-</style>
 
-<div class="container">
+.main-container {
+		margin-top: 222px; /* header 높이만큼 여백 */
+		margin-bottom: 34px; /* footer 높이만큼 여백 */
+		height: calc(100vh - 256px); /* 화면 높이에서 header와 footer 높이를 뺀 값 */
+		overflow-y: auto; /* 세로 스크롤 활성화 */
+	}
+</style>
+<div class='main-container'>
+
+<!-- <div class="container"> -->
 	<h1>러닝 검색</h1>
 	<div class="button-top">
 		<button class="btn btn-primary" id="dateBtn">날짜</button>
@@ -385,8 +393,8 @@ section .right ul li input:focus {
 			</div>
 		</div>
 	</div>
+<!-- </div> -->
 </div>
-
 <script>
 	const dateBtn = document.getElementById('dateBtn');
 	const dayBtn = document.getElementById('dayBtn');
