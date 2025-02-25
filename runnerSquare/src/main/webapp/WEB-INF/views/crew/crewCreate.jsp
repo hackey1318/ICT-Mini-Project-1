@@ -5,7 +5,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/crewCreate.js"></script>
 <link href="${pageContext.request.contextPath}/resources/crewCreate.css" rel="stylesheet" type="text/css"/>
 
-<div class="body">
+<div class="main-container">
 	<button type="button" id="modal-button" data-bs-toggle="modal" data-bs-target="#crewModal"
 		onclick="openCrewCreateModal();">크루생성</button>
 	

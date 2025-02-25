@@ -13,4 +13,6 @@ public interface MembersDAO {
     MemberVO loginOk(String id, String pw);
 
     int idDuplicate(String id);
+
+    MemberVO getUser(int no);
 }

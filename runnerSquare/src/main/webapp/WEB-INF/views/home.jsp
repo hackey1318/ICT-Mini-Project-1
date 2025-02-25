@@ -7,48 +7,52 @@
 <% String contextPath = request.getContextPath(); %>
 <link rel="stylesheet" href="<%= contextPath %>/resources/banner.css">
 <script defer src="<%= contextPath %>/resources/banner.js"></script>
+<script defer src="<%= contextPath %>/resources/home.js"></script>
 <style>
 	.crewInfoBox {
-		width: 80%;
-		display : flex;
-		border: 1px solid #ddd;
-		padding: 10px;
-		margin: 20px auto;
+	    display: flex;
+	    align-items: center;
+	    justify-content: flex-start;
+	    width: 80%;
+	    max-width: 1500px;
+	    border: 1px solid #ddd;
+	    padding: 10px;
+	    margin: 20px auto;
 	}
-	.crewImg, .crewInfo {
-		float: left;
-		width: 30%;
+	.crewImg {
+	    width: 150px;
+	    height: 150px;
+	    object-fit: cover; /* 이미지를 비율에 맞게 자르기 */
+	    margin-right: 20px;
 	}
 	.crewInfo {
-		background-color: #eee;
-		width: 70%;
-		height: 200px;
-		padding: 10px;
+	    display: flex;
+	    flex-direction: column;
+	    justify-content: space-between; /* 세로로 공간을 분배 */
+	    height: 150px;
+	    flex-grow: 1; /* crewInfo가 나머지 공간을 차지하도록 설정 */
 	}
-	.crewInfo>div {
-		height: 100px;
+	#openCrewDetailBtn {
+	    align-self: flex-end; /* 버튼을 crewInfo의 하단 오른쪽에 배치 */
+	    margin-top: auto; /* 버튼을 crewInfo의 하단에 배치 */
+	    background-color: #ffb;
+	    border: 1px solid #ddd;
 	}
-	.crewInfo>button {
-		float: right;
-		background-color: #FFED8A;
-		width: 20%;
-	}
-
 	#crewAll {
-		display:inline;
-		width: 10vw;
-		height:0;
-		padding-bottom:5%;
+		display: block;
 		background-color: #C5FFCA;
 		text-align:center;
-		font-size:1vw;
-		margin: 20px;
-		margin-left:calc(50% - 5vw);
+		margin: 20px auto 40px;
+		border: 1px solid #ccc;
 	}
-	@media(max-width:800px) {
-		#crewAll {
-			font-size:15px;
-			width:100px;
+	@media(min-width: 992px) {
+		.crewImg, .crewInfo {
+		    width: 200px;
+		    height: 200px;
+		}
+		#openCrewDetailBtn, #crewAll {
+			font-size: 1.2em;
+			padding: 5px 10px;
 		}
 	}
 	.main-container {
@@ -64,9 +68,11 @@
 	    <div class="bannerWrapper"></div>
 	    <button class="bannerButton nextButton">▶</button>
 	</div>
+	<div id="crewListContainer"></div>
 	<c:forEach var="vo" items="${crewList}" begin="0" end="2">
 		<div class="crewInfoBox">
-			<img class="crewImg" src="img/logo.png"/>
+	        <c:set var="firstImage" value="${not empty vo.imageIdList ? vo.imageIdList[0] : 'img/logo.png'}" />
+            <img class="crewImg" src="${empty firstImage ? 'img/logo.png' : '/file-system/download/' + firstImage}" />
 			<div class="crewInfo">
 				<h2>${vo.name}</h2>
 				<div>${vo.description}</div>
@@ -84,9 +90,7 @@
 	            </div>
 
 	            <div class="modal-body">
-	                <div>
-	                    <img id="modalImage" src="/rs/img/running.jpg" />
-	                </div>
+	                <div id="modalImageContainer" class="image-container"></div>
 	                <div class="crewDetail">
 	                    <div id="modalName">크루 이름</div>
 	                    <div id="modalDescription">설명</div>
@@ -94,7 +98,7 @@
 	                    <div id="modalRunningDay">러닝데이</div>
 	                </div>
 	                <button onclick="crewJoin()">크루가입</button> <!-- crewNo 구해야 함 -->
-	                <button onclick="location.href='/rs/'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
+	                <button onclick="location.href='/rs/run/runSearch'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
 	            </div>
 	        </div>
 	    </div>

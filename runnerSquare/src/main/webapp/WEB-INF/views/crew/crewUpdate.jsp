@@ -26,7 +26,7 @@ const crewData = {
 
 </script>
 
-<div class="body">
+<div class="main-container">
 	<button type="button" id="modal-button" data-bs-toggle="modal" data-bs-target="#crewModal"
 		onclick="openCrewUpdateModal();">크루 수정</button>
 	
