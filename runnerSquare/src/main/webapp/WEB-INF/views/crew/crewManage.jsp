@@ -1,8 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<% String userRole = (String) session.getAttribute("userRole"); %>
+<% Integer userNo = (Integer) session.getAttribute("userNo"); %>
+<% String userId = (String) session.getAttribute("userId"); %>
+<% String userNickName2 = (String) session.getAttribute("userNickName"); %>
+
+
 <style>
 
+.main-container {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 222px; /* header 높이만큼 여백 */
+	margin-bottom: 34px; /* footer 높이만큼 여백 */
+	height: calc(100vh - 256px); /* 화면 높이에서 header와 footer 높이를 뺀 값 */
+	overflow-y: auto; /* 세로 스크롤 활성화 */
+}
 /* 테이블 스타일  */
 .table th,
 .table td {
@@ -33,12 +47,12 @@
 }
 </style>
 
-<div class="container">
+<div class="main-container">
     <div>
         <div id="titleName">크루관리</div>
 
         <div class="container mt-3">
-            <h2 id="crewListTitle">크루 리스트</h2>
+            <h2 id="crewListTitle"> <%= userNickName2 %> 님의 크루 리스트</h2>
             <table class="table">
                 <thead>
                     <tr>
@@ -79,8 +93,11 @@
 <script>
 //크루리스트 기능
 function loadCrewNameList() {
-    const params = {
-        userNo: 1 //페이지에 로그인정보에서 pk인 no = userNo
+	 const userNo = <%= userNo %>;
+     const params = {
+    		userNo : userNo
+        //userNo: 2
+        //페이지에 로그인정보에서 pk인 no = userNo
         //로그인 service개발완료 후 삭제 및 수정필요
     };
 
@@ -112,26 +129,32 @@ function loadCrewNameList() {
                 data.forEach(vo => {
                     const crewNo = vo.crewNo;
                     crewListTag += "<tr>";
-                    crewListTag += "<td>" + vo.name + "</td>";
-                    crewListTag += "<td>" + vo.city + "</td>";
-                    crewListTag += "<td>" + vo.district + "</td>";
-                    crewListTag += "<td>" + vo.runningDay + "</td>";
-                    crewListTag += "<td>" + vo.createdAt + "</td>";
+                    if(vo.userNo === null){
+                    	crewListTag += "<td colspan='7'>로그인이 필요한 서비스입니다.</td><tr>";
+                    }else if(vo.name === null){
+                    	crewListTag += "<td>가입한 크루가 없습니다.</td><tr>";
+                    }else if(vo.name !== null){
+                    	crewListTag += "<td>" + vo.name + "</td>";
+                    	crewListTag += "<td>" + vo.city + "</td>";
+                    	crewListTag += "<td>" + vo.district + "</td>";
+                    	crewListTag += "<td>" + vo.runningDay + "</td>";
+                   		crewListTag += "<td>" + vo.createdAt + "</td>";
 
-                    if (vo.status === 'withdrawal') {
-                        crewListTag += "<td>" + vo.updatedAt + "</td>";
-                    } else {
-                        crewListTag += "<td>-</td>";
-                    }
+                   	 	if (vo.status === 'withdrawal') {
+                 	       crewListTag += "<td>" + vo.updatedAt + "</td>";
+                 	   	} else {
+                  	      crewListTag += "<td>-</td>";
+                 	   	}
 
-                    if (vo.status === 'apply') {
-                        crewListTag += "<td>신청대기중</td>";
-                    } else if (vo.status === 'approval') {
-                        crewListTag += "<td><button type='button' class='btn btn-outline-danger btn-sm withdrawButton' data-user-no='" + vo.userNo + "' data-crew-no='" + crewNo + "'>탈퇴하기</button></td>";
-                    } else if (vo.status === 'withdrawal') {
+                 	   	if (vo.status === 'apply') {
+                  	      crewListTag += "<td>신청대기중</td>";
+                 	   	} else if (vo.status === 'approval') {
+                    	    crewListTag += "<td><button type='button' class='btn btn-outline-danger btn-sm withdrawButton' data-user-no='" + vo.userNo + "' data-crew-no='" + vo.crewNo + "'>탈퇴하기</button></td>";
+                    	} else if (vo.status === 'withdrawal') {
                         crewListTag += "<td>탈퇴한크루</td>";
-                    }
-                    crewListTag += "</tr>";
+                    	}
+                    	crewListTag += "</tr>";
+                	}
                 });
             } else {
                 console.error("응답 데이터가 배열이 아닙니다:", data);
@@ -147,11 +170,13 @@ function loadCrewNameList() {
 
 //맴버리스트 기능
 function loadCrewMemberList() {
+	const userNo = <%= userNo %>;
     const params = {
-        userNo: 1 //페이지에 로그인정보에서 pk인 no = userNo
-        //로그인 service개발완료 후 삭제 및 수정필요
-    };
-
+   		userNo : userNo
+        //userNo: 2
+       //페이지에 로그인정보에서 pk인 no = userNo
+       //로그인 service개발완료 후 삭제 및 수정필요
+   };
     const queryString = Object.keys(params)
         .map(key => key + '=' + params[key])
         .join('&');
@@ -177,27 +202,27 @@ function loadCrewMemberList() {
             console.log(data);
             let memberListTag = "";
 
-            if (Array.isArray(data)) {
+            if (Array.isArray(data) && data.length>0) {
                 data.forEach(mvo => {
                     const crewNo = mvo.crewNo; // mvo 객체에서 crewNo 가져오기
                     console.log("mvo.userNo:", mvo.userNo, "mvo.crewNo:", crewNo);
-                    memberListTag += "<tr>"; // 행 시작
-                    memberListTag += "<td>" + mvo.name + "</td>"; // 크루 이름
-                    memberListTag += "<td>" + mvo.nickName + "</td>"; // 닉네임
-                    memberListTag += "<td>" + mvo.createdAt + "</td>"; // 가입일
 
-                    if (mvo.status === 'approval') {
-                        memberListTag += "<td><button type='button' class='btn btn-outline-danger btn-sm kickButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + crewNo + "'>강퇴하기</button></td>";
-                    } else if (mvo.status === 'apply') {
-                        memberListTag += "<td><button type='button' class='btn btn-success btn-sm acceptButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + crewNo + "'>✓</button><span> </span><button type='button' class='btn btn-danger btn-sm refuseButton 'data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + crewNo + "'>×</button></td>";
-                    } else if (mvo.status === 'withdrawal') {
-                        memberListTag += "<td>탈퇴한크루</td>";
-                    }
-                    memberListTag += "</tr>"; // 행 끝
+                    	memberListTag += "<tr>"; // 행 시작
+                    	memberListTag += "<td>" + mvo.name + "</td>"; // 크루 이름
+                    	memberListTag += "<td>" + mvo.nickName + "</td>"; // 닉네임
+                    	memberListTag += "<td>" + mvo.createdAt + "</td>"; // 가입일
+
+                    	if (mvo.status === 'approval') {
+                        	memberListTag += "<td><button type='button' class='btn btn-outline-danger btn-sm kickButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" +  mvo.crewNo + "'>강퇴하기</button></td>";
+                    	} else if (mvo.status === 'apply') {
+                        	memberListTag += "<td><button type='button' class='btn btn-success btn-sm acceptButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + mvo.crewNo + "'>✓</button><span> </span><button type='button' class='btn btn-danger btn-sm refuseButton 'data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + crewNo + "'>×</button></td>";
+                    	} else if (mvo.status === 'withdrawal') {
+                        	memberListTag += "<td>탈퇴한크루</td>";
+                    	}
+                    	memberListTag += "</tr>"; // 행 끝
                 });
             } else {
-                console.error("응답 데이터가 배열이 아닙니다:", data);
-                memberListTag = "<tr><td>데이터를 불러올 수 없습니다.</td></tr>";
+                memberListTag = "<tr><td colspan ='4'>크루원이 없습니다.</td></tr>";
             }
             $("#crewMemberList").html(memberListTag); // append 대신 html 사용
             // 동적으로 생성된 버튼에 이벤트 핸들러 바인딩 (jQuery 필요)
@@ -221,10 +246,10 @@ $(document).on('click', '.withdrawButton', function(event) {
     event.preventDefault();
     const userNo = $(this).data('user-no');
     const crewNo = $(this).data('crew-no');
-    const nickName = $(this).data('nick-name'); // 데이터 속성명 수정
+    const nickName = $(this).data('nick-name');
     console.log("Kick userNo:", userNo, "crewNo:", crewNo, "nickName:", nickName + " withdrawbutton내의 데이터");
     if (confirm("정말로 탈퇴하시겠습니까?")) {
-        updateCrewStatus(userNo, crewNo, 'withdrawal'); // 파라미터와 함께 함수 호출
+        updateCrewStatus(userNo, crewNo, 'withdrawal');
     }
 });
 
@@ -233,10 +258,10 @@ $(document).on('click', '.kickButton', function(event) {
     event.preventDefault();
     const userNo = $(this).data('user-no');
     const crewNo = $(this).data('crew-no');
-    const nickName = $(this).data('nick-name'); // 데이터 속성명 수정
+    const nickName = $(this).data('nick-name');
     console.log("Kick userNo:", userNo, "crewNo:", crewNo, "nickName:", nickName + " kickbutton내의 데이터");
     if (confirm("'" + nickName + "'님을 강퇴하시겠습니까?")) {
-        updateCrewStatus(userNo, crewNo, 'withdrawal'); // 파라미터와 함께 함수 호출
+        updateCrewStatus(userNo, crewNo, 'withdrawal');
     }
 });
 
@@ -250,10 +275,10 @@ $(document).on('click', '.acceptButton', function(event) {
     event.preventDefault();
     const userNo = $(this).data('user-no');
     const crewNo = $(this).data('crew-no');
-    const nickName = $(this).data('nick-name'); // 데이터 속성명 수정
+    const nickName = $(this).data('nick-name');
     console.log("accept userNo:", userNo, "crewNo:", crewNo, "nickName:", nickName + " kickbutton내의 데이터");
     if (confirm("'" + nickName + "'님의 가입을 승인합니다.")) {
-        updateCrewStatus(userNo, crewNo, 'approval'); // 파라미터와 함께 함수 호출
+        updateCrewStatus(userNo, crewNo, 'approval');
     }
 });
 
@@ -262,10 +287,10 @@ $(document).on('click', '.refuseButton', function(event) {
     event.preventDefault();
     const userNo = $(this).data('user-no');
     const crewNo = $(this).data('crew-no');
-    const nickName = $(this).data('nick-name'); // 데이터 속성명 수정
+    const nickName = $(this).data('nick-name');
     console.log("Refuse userNo:", userNo, "crewNo:", crewNo, "nickName:", nickName + " refusebutton내의 데이터");
     if (confirm("'" + nickName + "'님의 가입을 거부합니다.")) {
-        updateCrewStatus(userNo, crewNo, 'withdrawal'); // 파라미터와 함께 함수 호출
+        updateCrewStatus(userNo, crewNo, 'withdrawal');
     }
 });
 
@@ -299,6 +324,5 @@ function updateCrewStatus(userNo, crewNo, status) {
 window.onload = function() {
     loadCrewNameList();
     loadCrewMemberList();
-    console.log("start")
 };
 </script>
