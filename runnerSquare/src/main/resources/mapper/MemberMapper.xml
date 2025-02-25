@@ -10,7 +10,7 @@
         values(#{id}, #{pw}, #{name}, #{nickName}, #{role}, #{addr}, #{email}, #{tel}, #{birth}, #{gender}, #{preferPace}, #{status})
     </insert>
     <select id="loginOk" resultType="com.ict.rs.vo.MemberVO">
-    	select id, name from users where id = #{param1} and pw = #{param2}
+    	select * from users where id = #{param1} and pw = #{param2}
     </select>
     <select id="idDuplicate" resultType="int">
     	select count(*) from users where id = #{param1}
