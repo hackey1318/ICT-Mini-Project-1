@@ -337,7 +337,7 @@
 	        console.error("알림 정보를 불러오는 중 오류 발생:", error);
 	    }
 	}
-	
+
 	fetchNotificationCount();
 	$(function() {
 		$("#menu>button").on("click", function() {
@@ -357,9 +357,9 @@
 		        <a href="#" id="openLoginDialog">로그인</a> | <a href="#" id="openSignInDialog">회원가입</a>
 		    <% } %>
 		</div>
-		
+
 		<c:import url="/resources/dialog.jspf" charEncoding="UTF-8"/>
-		
+
 		<div class="header-bottom">
 			<div class="notification">
     	    	<i id="notificationBell" class="bell-icon">    🔔    </i>
@@ -385,7 +385,7 @@
 					<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
 					<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
 					<li>RUNNING</li>
-					<li>MANAGE</li>
+				    <li><a href="${pageContext.request.contextPath}/crew/crewManage">MANAGE</a></li>
 			        <li><a href="${pageContext.request.contextPath}/mypage/applicationDetail">MYPAGE</a></li>
 				</ul>
 			</div>
