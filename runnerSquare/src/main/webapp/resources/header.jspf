@@ -348,7 +348,10 @@
 	});
 </script>
 <header>
-		<div><img id="logo" src="${pageContext.request.contextPath}/img/logo.png"/></div>
+		<div>
+			<img id="logo" src="${pageContext.request.contextPath}/img/logo.png"
+				onclick="location.href='${pageContext.request.contextPath}/'"/>
+		</div>
 		<% String userName = (String) session.getAttribute("userName"); %>
 		<div id="auth">
 		    <% if (userName != null) { %>
@@ -385,7 +388,7 @@
 					<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
 					<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
 					<li><a href="${pageContext.request.contextPath}/run/runSearch">RUNNING</a></li>
-					<li>MANAGE</li>
+				    <li><a href="${pageContext.request.contextPath}/crew/crewManage">MANAGE</a></li>
 			        <li><a href="${pageContext.request.contextPath}/mypage/applicationDetail">MYPAGE</a></li>
 				</ul>
 			</div>
