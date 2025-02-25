@@ -36,8 +36,8 @@ public class RunController {
             service.runInsert(vo);
             result.put("status", "success");
             result.put("message", "번개런 등록 성공");
-            result.put("run_no", vo.getRun_no()); // 생성된 run_no를 응답에 포함
-            result.put("message", vo.getRun_no());
+            result.put("no", vo.getNo()); // 생성된 run_no를 응답에 포함
+            result.put("message", vo.getNo());
             return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
         } catch (Exception e) {
             result.put("status", "error");
@@ -65,23 +65,23 @@ public class RunController {
 
 	@GetMapping("/run/ajaxInfo")
 	@ResponseBody
-	public RunVO runInfo(@RequestParam("run_no") int run_no) {
-	    RunVO runInfo = service.runInfo(run_no);
+	public RunVO runInfo(@RequestParam("no") int no) {
+	    RunVO runInfo = service.runInfo(no);
 	    return runInfo;
 	}
 
 	@GetMapping("/run/ajaxparticipantsDelete")
 	@ResponseBody
-	public int participantsDelete(int run_no) {
-		System.out.println("삭제할 런에 참여한 인원 삭제-> "+run_no);
-		return service.participantsDelete(run_no);
+	public int participantsDelete(int runningno) {
+		System.out.println("삭제할 런에 참여한 인원 삭제-> "+runningno);
+		return service.participantsDelete(runningno);
 	}
 	
 	@GetMapping("/run/ajaxDelete")
 	@ResponseBody
-	public int runDelete(int run_no) {
-		System.out.println("삭제할 런 번호-> "+run_no);
-	    return service.runDelete(run_no);
+	public int runDelete(int no) {
+		System.out.println("삭제할 런 번호-> "+ no);
+	    return service.runDelete(no);
 	}
 
 	@GetMapping("/run/ajaxUpdate")
@@ -93,37 +93,37 @@ public class RunController {
 
 	@GetMapping("/run/ajaxJoin")
 	@ResponseBody
-	public int runJoin(String run_no, String userid) {
-		System.out.println("런 예약 run_no, userid ->"+run_no+","+userid);
-		return service.runJoin(Integer.parseInt(run_no),userid);
+	public int runJoin(int runningno, int userno) {
+		System.out.println("런 예약 runningno, userno ->"+runningno+","+ userno);
+		return service.runJoin(runningno, userno);
 	}
 
 	@GetMapping("run/ajaxLeave")
 	@ResponseBody
-	public int runLeave(String run_no, String userid) {
-		System.out.println("런 예약 해제 run_no, userid ->"+run_no+","+userid);
-		return service.runLeave(Integer.parseInt(run_no),userid);
+	public int runLeave(int runningno, int userno) {
+		System.out.println("런 예약 해제 runningno, ownerno ->"+runningno+","+userno);
+		return service.runLeave(runningno, userno);
 	}
 
 	@GetMapping("/run/ajaxcheckJoined")
 	@ResponseBody
-	public int checkJoined(String run_no, String userid) {
-		System.out.println("참석 여부 체크->"+run_no+","+userid);
-		return service.checkJoined(Integer.parseInt(run_no),userid);
+	public int checkJoined(int runningno, int userno) {
+		System.out.println("참석 여부 체크->"+runningno+","+userno);
+		return service.checkJoined(runningno, userno);
 	}
 
 	@GetMapping("/run/ajaxcheckPersonNum")
 	@ResponseBody
-	public int checkPersonNum(String run_no) {
-		System.out.println("참석 인원 확인할 run_no ->"+run_no);
-		return service.checkPersonNum(Integer.parseInt(run_no));
+	public int checkPersonNum(String runningno) {
+		System.out.println("참석 인원 확인할 runningno ->"+runningno);
+		return service.checkPersonNum(Integer.parseInt(runningno));
 	}
 
 	@GetMapping("run/ajaxpersonNumInsert")
 	@ResponseBody
-	public int personNumInsert(String run_no, String joinednum) {
-		System.out.println("참석 인원을 넣을 run_no->"+run_no+" 참석인원->"+joinednum);
-		return service.personNumInsert(Integer.parseInt(run_no),Integer.parseInt(joinednum));
+	public int personNumInsert(int no, int joinednum) {
+		System.out.println("참석 인원을 넣을 run_no->"+no+" 참석인원->"+joinednum);
+		return service.personNumInsert(no,joinednum);
 	}
 
 }

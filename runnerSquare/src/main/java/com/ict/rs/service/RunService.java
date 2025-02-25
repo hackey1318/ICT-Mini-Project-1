@@ -13,21 +13,21 @@ public interface RunService {
 
 	public int runUpdate(RunVO vo);
 
-	public int runDelete(int run_no);
+	public int runDelete(int no);
 	
-	public int participantsDelete(int run_no);
+	public int participantsDelete(int runningno);
 
-	public RunVO runInfo(int run_no);
+	public RunVO runInfo(int no);
 
-	public int runJoin(int run_no, String userid);
+	public int runJoin(int runningno, int userno);
 
-	public int runLeave(int run_no, String userid);
+	public int runLeave(int runningno, int userno);
 
-	public int checkJoined(int run_no, String userid);
+	public int checkJoined(int runningno, int userno);
 
-	public int checkPersonNum(int run_no);
+	public int checkPersonNum(int runningno);
 
-	public int personNumInsert(int run_no, int joinednum);
+	public int personNumInsert(int no, int joinednum);
 
 
 }

@@ -1,87 +1,89 @@
 package com.ict.rs.vo;
 
 public class RunVO {
-	private int run_no;
-	private String userid;
-	private String runname;
-	private String rundate;
-	private String runsido;
-	private String rungu;
-	private String runspot;
-	private String runtime;
-	private String runtype;
+	private int no;
+	private String name;
+	private String runningdate;
+	private String runningcity;
+	private String region;
+	private String meetingpoint;
+	private String runningtime;
+	private String type;
 	private int runmaxnum;
 	private int joinednum;
-	private String crewname;
+	private int crewno;
+	private int ownerno;
+	private String status;
 
 	public RunVO() {}
 	@Override
     public String toString() {
-        return "runVO [run_no=" + run_no + ", userid=" + userid + ", runname=" + runname + ", rundate=" +
-                rundate + ", runsido=" + runsido + ", rungu=" + rungu + ", runspot=" + runspot +
-                ", runtime=" + runtime + ", runtype=" + runtype + ", joinednum=" + joinednum + ", runmaxnum=" + runmaxnum +
-                ", crewname=" + crewname + "]";
+        return "runVO [no=" + no + ", name=" + name + ", runningdate=" +
+                runningdate + ", runningcity=" + runningcity + ", region=" + region + ", meetingpoint=" + meetingpoint +
+                ", runningtime=" + runningtime + ", type=" + type + ", joinednum=" + joinednum + ", runmaxnum=" + runmaxnum +
+                ", crewno=" + crewno + ",ownerno=" + ownerno + ",status=" + status + "]";
     }
-
-	public int getJoinednum() {
-		return joinednum;
+	
+	public int getOwnerno() {
+		return ownerno;
 	}
-	public void setJoinednum(int joinednum) {
-		this.joinednum = joinednum;
+	public void setOwnerno(int ownerno) {
+		this.ownerno = ownerno;
 	}
-	public int getRun_no() {
-		return run_no;
+	public String getStatus() {
+		return status;
 	}
-	public void setRun_no(int run_no) {
-		this.run_no = run_no;
+	public void setStatus(String status) {
+		this.status = status;
 	}
-	public String getCrewname() {
-		return crewname;
+	public int getNo() {
+		return no;
 	}
-	public void setCrewname(String crewname) {
-		this.crewname = crewname;
+	public void setNo(int no) {
+		this.no = no;
 	}
-	public String getRungu() {
-		return rungu;
+	
+	public String getName() {
+		return name;
 	}
-	public void setRungu(String rungu) {
-		this.rungu = rungu;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getUserid() {
-		return userid;
+	public String getRunningdate() {
+		return runningdate;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setRunningdate(String runningdate) {
+		this.runningdate = runningdate;
 	}
-	public String getRunname() {
-		return runname;
+	public String getRunningcity() {
+		return runningcity;
 	}
-	public void setRunname(String runname) {
-		this.runname = runname;
+	public void setRunningcity(String runningcity) {
+		this.runningcity = runningcity;
 	}
-	public String getRundate() {
-		return rundate;
+	public String getRegion() {
+		return region;
 	}
-	public void setRundate(String rundate) {
-		this.rundate = rundate;
+	public void setRegion(String region) {
+		this.region = region;
 	}
-	public String getRunsido() {
-		return runsido;
+	public String getMeetingpoint() {
+		return meetingpoint;
 	}
-	public void setRunsido(String runsido) {
-		this.runsido = runsido;
+	public void setMeetingpoint(String meetingpoint) {
+		this.meetingpoint = meetingpoint;
 	}
-	public String getRunspot() {
-		return runspot;
+	public String getRunningtime() {
+		return runningtime;
 	}
-	public void setRunspot(String runspot) {
-		this.runspot = runspot;
+	public void setRunningtime(String runningtime) {
+		this.runningtime = runningtime;
 	}
-	public String getRuntime() {
-		return runtime;
+	public String getType() {
+		return type;
 	}
-	public void setRuntime(String runtime) {
-		this.runtime = runtime;
+	public void setType(String type) {
+		this.type = type;
 	}
 	public int getRunmaxnum() {
 		return runmaxnum;
@@ -89,10 +91,18 @@ public class RunVO {
 	public void setRunmaxnum(int runmaxnum) {
 		this.runmaxnum = runmaxnum;
 	}
-	public String getRuntype() {
-		return runtype;
+	public int getJoinednum() {
+		return joinednum;
 	}
-	public void setRuntype(String runtype) {
-		this.runtype = runtype;
+	public void setJoinednum(int joinednum) {
+		this.joinednum = joinednum;
 	}
+	public int getCrewno() {
+		return crewno;
+	}
+	public void setCrewno(int crewno) {
+		this.crewno = crewno;
+	}
+
+	
 }
