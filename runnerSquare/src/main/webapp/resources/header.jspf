@@ -165,7 +165,7 @@
 	    color: #f00;
 	}
 
-	
+
 </style>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="${pageContext.request.contextPath}/resources/notification.js"></script>
@@ -183,7 +183,7 @@
 	        console.error("알림 정보를 불러오는 중 오류 발생:", error);
 	    }
 	}
-	
+
 	fetchNotificationCount();
 	$(function() {
 		$("#menu>button").on("click", function() {
@@ -194,7 +194,10 @@
 	});
 </script>
 <header>
-		<div><img id="logo" src="${pageContext.request.contextPath}/img/logo.png"/></div>
+		<div>
+			<img id="logo" src="${pageContext.request.contextPath}/img/logo.png"
+				onclick="location.href='${pageContext.request.contextPath}/'"/>
+		</div>
 		<% String userNickName = (String) session.getAttribute("userNickName");%>
 		<div id="auth">
 		    <% if (userNickName != null) { %>
@@ -203,9 +206,9 @@
 		        <a href="#" id="openLoginDialog">로그인</a> | <a href="#" id="openSignInDialog">회원가입</a>
 		    <% } %>
 		</div>
-		
+
 		<c:import url="/resources/dialog.jspf" charEncoding="UTF-8"/>
-		
+
 		<div class="header-bottom">
 			<div class="notification">
     	    	<i id="notificationBell" class="bell-icon">    🔔    </i>
@@ -230,8 +233,8 @@
 				<ul>
 					<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
 					<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
-					<li>RUNNING</li>
-					<li>MANAGE</li>
+					<li><a href="${pageContext.request.contextPath}/run/runSearch">RUNNING</a></li>
+				    <li><a href="${pageContext.request.contextPath}/crew/crewManage">MANAGE</a></li>
 			        <li><a href="${pageContext.request.contextPath}/mypage/applicationDetail">MYPAGE</a></li>
 				</ul>
 			</div>

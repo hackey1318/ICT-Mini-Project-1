@@ -1,8 +1,8 @@
 package com.ict.rs.service;
 
-import com.ict.rs.vo.NotificationVO;
-
 import java.util.List;
+
+import com.ict.rs.vo.NotificationVO;
 
 public interface NotificationService {
 
