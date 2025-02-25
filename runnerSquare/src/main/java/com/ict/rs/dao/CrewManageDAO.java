@@ -11,7 +11,6 @@ import com.ict.rs.vo.CrewManageVO;
 @Repository
 public interface CrewManageDAO {
 	
-	//������ ũ�� ����Ʈ regi crew namelist
 	public List<CrewManageVO> crewNameList(int userNo);
 	
 	public List<CrewManageVO> crewMemberList(int userNo);

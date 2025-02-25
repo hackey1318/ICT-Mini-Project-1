@@ -152,13 +152,6 @@ function loadCrewMemberList() {
         //로그인 service개발완료 후 삭제 및 수정필요
     };
 
-	const queryString = Object.keys(params)
-  		.map(key => key + '=' + params[key])
-  		.join('&');
-	
-	console.log(queryString);
-	const url = "/rs/crew/crewManage/memberList?" + queryString;
-	console.log(url);
     const queryString = Object.keys(params)
         .map(key => key + '=' + params[key])
         .join('&');
