@@ -48,4 +48,21 @@ public class CrewManageController {
 		List<CrewManageVO> result = service.crewMemberList(userNo);
 		return result;
 	}
+	@ResponseBody
+	@PostMapping("/crew/crewManage/updateMemberStatus")
+	public String updateMemberStatus(@RequestParam int userNo, @RequestParam int crewNo, @RequestParam String status) {
+		CrewManageVO vo = new CrewManageVO();
+		vo.setUserNo(userNo);
+		vo.setCrewNo(crewNo);
+		vo.setStatus(status);
+
+		int updateCount = service.updateCrewStatus(vo);
+
+		if(updateCount > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+
 }
