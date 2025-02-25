@@ -130,7 +130,7 @@ function loadCrewNameList() {
                     const crewNo = vo.crewNo;
                     crewListTag += "<tr>";
                     if(vo.userNo === null){
-                    	crewListTag += "<td colspan='7'>로그인이 필요한 서비스입니다.</td><tr>";
+                    	crewListTag += "<td colspan='7>로그인이 필요한 서비스입니다.</td><tr>";
                     }else if(vo.name === null){
                     	crewListTag += "<td>가입한 크루가 없습니다.</td><tr>";
                     }else if(vo.name !== null){
