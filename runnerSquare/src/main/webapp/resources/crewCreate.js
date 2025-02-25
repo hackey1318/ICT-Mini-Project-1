@@ -38,14 +38,6 @@ function openCrewCreateModal() {
 				<textarea id="description" name="description"></textarea>
 				<div class="alert"></div>
 				
-				// 크루 로고
-				// 크루 사진 등록 기능 추가 필요<br/>
-				
-				<form id="uploadForm" method="post" enctype="multipart/form-data" action="">
-					<label>크루사진</label>
-					<input type="file" id="crewImage" multiple/>
-				</form>
-
 				<div><input type="submit" id="submit-button" value="크루생성"/></div>
 			</form>
 
@@ -64,8 +56,6 @@ function openCrewCreateModal() {
 			} else {
 				setAlert(-1);
 			}
-			console.log(element);
-			console.log(element.value);
 		});
 	});
 

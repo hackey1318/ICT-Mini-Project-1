@@ -41,11 +41,11 @@ public class CrewController {
 	@GetMapping("/crew/crewSearch")
 	public ModelAndView crewSearch(PagingVO pvo, String city, String district, String crewName) {
 		if(city != null && !city.equals("")) pvo.setCity(city);
-		else pvo.setCity("%%");
+		else pvo.setCity("");
 		if(district != null && !district.equals("")) pvo.setDistrict(district);
-		else pvo.setDistrict("%%");
+		else pvo.setDistrict("");
 		if(crewName != null && !crewName.equals("")) pvo.setCrewName("%" + crewName + "%");
-		else pvo.setCrewName("%%");
+		else pvo.setCrewName("");
 		
 		pvo.setTotalRecord(service.crewTotalRecord(pvo));
 		System.out.println(pvo.toString());
@@ -132,23 +132,25 @@ public class CrewController {
 		return mav;
 	}
 
-//	@PostMapping("/crew/crewJoin")
-//	@ResponseBody
-//	public String crewJoin(int crew_no, HttpServletRequest request) {
-//		HttpSession session = request.getSession();
-//
-//		String id = (String) session.getAttribute("id");
-//		if (id == "" || id == null) {
-//			return "redirect:/views/member/login";
-//		}
-//
+	@PostMapping("/crew/crewJoin")
+	@ResponseBody
+	public String crewJoin(int crew_no, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+
+		String id = (String) session.getAttribute("id");
+		if (id == "" || id == null) {
+			System.out.println("비로그인 상태");
+			return "redirect:/views/member/login";
+		}
+
 //		CrewManageVO vo = new CrewManageVO();
 //		vo.setCrewNo = crew_no;
 //		vo.setUserNo = id;
 //		vo.setRole = "크루원";
 //		vo.setStatus = "승인대기";
-//
-//
+
+
 //		return service.crewJoin(vo) + "";
-//	}
+		return "";
+	}
 }

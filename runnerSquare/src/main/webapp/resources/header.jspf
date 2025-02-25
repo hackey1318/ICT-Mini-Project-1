@@ -348,7 +348,10 @@
 	});
 </script>
 <header>
-		<div><img id="logo" src="${pageContext.request.contextPath}/img/logo.png"/></div>
+		<div>
+			<img id="logo" src="${pageContext.request.contextPath}/img/logo.png"
+				onclick="location.href='${pageContext.request.contextPath}/'"/>
+		</div>
 		<% String userName = (String) session.getAttribute("userName"); %>
 		<div id="auth">
 		    <% if (userName != null) { %>

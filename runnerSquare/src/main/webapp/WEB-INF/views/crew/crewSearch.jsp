@@ -109,25 +109,6 @@
 	}
 </style>
 
-<script>
-	/*
-	var lastY = 0;
-	window.addEventListener('scroll', ()=>{
-		let offset = 0.6;
-		let curY = window.scrollY;
-		let diff = curY-lastY;
-		// console.log(curY);
-		if(curY < 110) {
-			document.getElementById("search-form").style.transform='translateY(-'+curY+'px)';
-		}
-		else {
-			// document.getElementById("search-form").style.transform='translateY(-'+curY+'px)';
-		}
-		lastY = curY;
-	});
-*/
-</script>
-
 <div class="main-container">
 	<div id="search-bar">
 		<h1>크루 검색</h1>

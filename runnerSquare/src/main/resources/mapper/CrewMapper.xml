@@ -24,7 +24,10 @@
 	</select>
 	<select id="crewSelect">
 		select no, name, description, city, district  from crews
-		where city like #{city} and district like #{district} and name like #{crewName} and status = '활성화'
+		where city like concat('%', #{city}, '%')
+			and district like concat('%', #{district}, '%')
+			and name like concat('%', #{crewName}, '%')
+			and status = '활성화'
 		order by no limit ${onePageRecord} offset ${offset}
 	</select>
 	<insert id="crewInsert">

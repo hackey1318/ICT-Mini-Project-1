@@ -93,7 +93,7 @@
 	                    <div id="modalLocation">도시, 구</div>
 	                    <div id="modalRunningDay">러닝데이</div>
 	                </div>
-	                <button onclick="crewJoin(crewNo)">크루가입</button> <!-- crewNo 구해야 함 -->
+	                <button onclick="crewJoin()">크루가입</button> <!-- crewNo 구해야 함 -->
 	                <button onclick="location.href='/rs/'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
 	            </div>
 	        </div>
