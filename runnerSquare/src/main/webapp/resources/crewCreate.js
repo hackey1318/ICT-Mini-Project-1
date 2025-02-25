@@ -1,4 +1,6 @@
 function openCrewCreateModal() {
+	document.getElementById('citySelect').value = '';
+	
 	document.getElementsByClassName("modal-content")[0].innerHTML = `
 		<div class="modal-header">
 		  <h4 class="modal-title">크루 생성</h4>
@@ -7,7 +9,7 @@ function openCrewCreateModal() {
 		
 		<div class="modal-body">
 			<form method="POST" id="crewForm" onsubmit="return handleFormSubmit(event);">
-				<input type="hidden" name="status" value="승인대기"/>
+				<input type="hidden" name="status" value="active"/>
 
 				<label>크루명</label>
 				<input type="text" id="crewName" name="name"/>

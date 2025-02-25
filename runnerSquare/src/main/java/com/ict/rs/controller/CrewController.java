@@ -44,7 +44,7 @@ public class CrewController {
 		else pvo.setCity("");
 		if(district != null && !district.equals("")) pvo.setDistrict(district);
 		else pvo.setDistrict("");
-		if(crewName != null && !crewName.equals("")) pvo.setCrewName("%" + crewName + "%");
+		if(crewName != null && !crewName.equals("")) pvo.setCrewName(crewName);
 		else pvo.setCrewName("");
 		
 		pvo.setTotalRecord(service.crewTotalRecord(pvo));
@@ -77,7 +77,7 @@ public class CrewController {
 	@ResponseBody
 	public String crewCreateOk(@RequestBody CrewVO vo) {
 		// HttpSession session = request.getSession();
-		// String userNo = (String)session.getAttribute("id");
+		// String userNo = (String)session.getAttribute("userId");
 		// vo.setUserid(userNo);
 
 		/*
@@ -110,7 +110,7 @@ public class CrewController {
 	public String crewUpdateOk(@RequestBody CrewVO vo) {
 		// HttpSession session = request.getSession();
 
-		// vo.setUserid((String)session.getAttribute("logId"));
+		// vo.setUserid((String)session.getAttribute("userId"));
 
 		log.info(vo.toString());
 
@@ -137,7 +137,7 @@ public class CrewController {
 	public String crewJoin(int crew_no, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 
-		String id = (String) session.getAttribute("id");
+		String id = (String) session.getAttribute("userId");
 		if (id == "" || id == null) {
 			System.out.println("비로그인 상태");
 			return "redirect:/views/member/login";

@@ -16,7 +16,7 @@
         city like concat('%', #{city}, '%') 
         and district like concat('%', #{district}, '%')
         and name like concat('%', #{crewName}, '%')
-        and status = '활성화'
+        and status = 'active'
 	</select>
 	<select id="crewViewSelect">
 		select no, name, description, city, district, runningDay, status from crews
@@ -27,7 +27,7 @@
 		where city like concat('%', #{city}, '%')
 			and district like concat('%', #{district}, '%')
 			and name like concat('%', #{crewName}, '%')
-			and status = '활성화'
+			and status = 'active'
 		order by no limit ${onePageRecord} offset ${offset}
 	</select>
 	<insert id="crewInsert">
