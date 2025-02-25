@@ -39,4 +39,9 @@
 		left join users on crewmembers.userNO = users.no
 		where crewNo in (select crewNo from crewmembers where userNo=${param1});
 	</select>
+	<update id="updateCrewStatus">
+		UPDATE crewmembers
+		SET status = #{status}
+		WHERE crewNO = #{crewNo} AND userNo = #{userNo}
+	</update>
 </mapper>

@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         console.log(data);
-        
+
         // fetch 요청 보내기
         fetch('/userUpdateOk', {
             method: 'POST',

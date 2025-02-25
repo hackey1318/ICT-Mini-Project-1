@@ -22,9 +22,11 @@ public class CrewManageServiceImpl implements CrewManageService {
 
 	@Override
 	public List<CrewManageVO> crewMemberList(int userNo) {
-		// TODO Auto-generated method stub
 		return dao.crewMemberList(userNo);
 	}
 
-	
+	@Override
+	public int updateCrewStatus(CrewManageVO vo) {
+		return dao.updateCrewStatus(vo);
+	}
 }

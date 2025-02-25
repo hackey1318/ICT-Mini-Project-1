@@ -31,6 +31,7 @@
     	align-items: center; /* 수직 가운데 정렬 */
     	width: 100%;
     	padding: 10px; /* 적절한 여백 추가 */
+    	padding-right: 0px;
 	}
 	.notification {
     	position: relative;
@@ -96,7 +97,13 @@
 		text-align: center;
 		padding: 5px;
 	}
-	
+	a:link, a:visited {
+		color: #000;
+		text-decoration: none;
+	}
+	a:hover {
+		color: #3c5;
+	}
 	body{
 		-ms-overflow-style: none;
 	 }

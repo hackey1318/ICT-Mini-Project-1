@@ -6,7 +6,7 @@
 
 <mapper namespace="com.ict.rs.dao.NotificationDAO">
 
-    <!-- <select id="getReadableNotificationCountForUser" resultType="int">
+    <select id="getReadableNotificationCountForUser" resultType="int">
         select count(*) from notification where userNo=${param1} and status='readable'
     </select>
 
@@ -19,5 +19,5 @@
         <foreach collection="param2" item="notificationNo" open="(" close=")" separator=",">
             #{notificationNo}
         </foreach>
-    </update> -->
+    </update>
 </mapper>

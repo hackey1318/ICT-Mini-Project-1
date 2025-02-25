@@ -30,11 +30,11 @@
 			and status = 'active'
 		order by no limit ${onePageRecord} offset ${offset}
 	</select>
-	<insert id="crewInsert">
+    <insert id="crewInsert" useGeneratedKeys="true" keyProperty="no" parameterType="com.ict.rs.vo.CrewVO">
 		insert into crews (name, description, city, district, runningDay, status)
 		values(#{name}, #{description}, #{city}, #{district}, #{runningDay}, #{status})
 	</insert>
-	<update id="crewUpdate">
+	<update id="crewUpdate" parameterType="com.ict.rs.vo.CrewVO">
 		update crews set name = #{name}, city = #{city}, district = #{district}, runningDay = #{runningDay}
 		where no = ${no}
 	</update>

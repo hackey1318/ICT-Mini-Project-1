@@ -38,4 +38,9 @@ public class MemberServiceImpl implements MemberService{
 	public MemberVO selectMember(int no) {
 		return membersDAO.selectMember(no);
 	}
+
+    @Override
+    public MemberVO getUser(int userNo) {
+        return membersDAO.getUser(userNo);
+    }
 }
