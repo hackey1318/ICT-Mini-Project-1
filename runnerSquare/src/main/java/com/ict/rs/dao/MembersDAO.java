@@ -1,6 +1,9 @@
 package com.ict.rs.dao;
 
 import com.ict.rs.vo.MemberVO;
+
+import javax.validation.Valid;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +16,8 @@ public interface MembersDAO {
     MemberVO loginOk(String id, String pw);
 
     int idDuplicate(String id);
+    
+    MemberVO selectMember(int no);
+    
+    int updateMember(MemberVO vo);
 }

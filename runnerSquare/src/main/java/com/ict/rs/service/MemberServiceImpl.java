@@ -28,4 +28,14 @@ public class MemberServiceImpl implements MemberService{
 
         return membersDAO.idDuplicate(id);
     }
+
+	@Override
+	public int updateMember(MemberVO vo) {
+		return membersDAO.updateMember(vo);
+	}
+
+	@Override
+	public MemberVO selectMember(int no) {
+		return membersDAO.selectMember(no);
+	}
 }
