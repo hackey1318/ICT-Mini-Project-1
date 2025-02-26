@@ -19,20 +19,20 @@ import com.ict.rs.service.myPageService;
 public class myPageController {
 
 	@Inject
-	myPageService myPageService; 
-	
+	myPageService myPageService;
+
 	@GetMapping("/users/myPage")
-	
+
 	public String myPage() {
 		return "/users/myPage";
 	}
 	@PostMapping("/users/myPage/pwdChk")
 	@ResponseBody
 	public int pwdChk(String userId, String pwd) {
-		System.out.println("pwd"+ pwd); 
+		System.out.println("pwd"+ pwd);
 	     return myPageService.pwdChk(userId,pwd);
 	    }
-	
+
 	@GetMapping("/users/myPageEdit")
 	public String myPageEdit() {
 		return "/users/myPageEdit";

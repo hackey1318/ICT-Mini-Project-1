@@ -1,11 +1,8 @@
 package com.ict.rs.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-
+import com.ict.rs.service.RunService;
+import com.ict.rs.vo.RunSelectVO;
+import com.ict.rs.vo.RunVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,116 +11,118 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ict.rs.service.RunService;
-import com.ict.rs.vo.RunSelectVO;
-import com.ict.rs.vo.RunVO;
+import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class RunController {
-	@Inject
-	RunService service;
+    @Inject
+    RunService service;
 
-	@GetMapping("/run/runSearch")
-	public String runSearch() {
-		return "run/runSearch";
-	}
+    @GetMapping("/run/runSearch")
+    public String runSearch() {
+        return "run/runSearch";
+    }
 
-	@PostMapping("/run/ajaxObject")
-	@ResponseBody
-	public  ResponseEntity<Map<String, Object>> ajaxObject(RunVO vo) {
+
+    @PostMapping("/run/ajaxObject")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> ajaxObject(RunVO vo) {
         Map<String, Object> result = new HashMap<String, Object>();
         try {
             service.runInsert(vo);
             result.put("status", "success");
-            result.put("message", "¹ø°³·± µî·Ï ¼º°ø");
-            result.put("no", vo.getNo()); // »ı¼ºµÈ run_no¸¦ ÀÀ´ä¿¡ Æ÷ÇÔ
+            result.put("message", "ë²ˆê°œëŸ° ìƒì„± ì„±ê³µ");
+            result.put("no", vo.getNo());
             result.put("message", vo.getNo());
             return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
         } catch (Exception e) {
             result.put("status", "error");
-            result.put("message", "¹ø°³·± µî·Ï ½ÇÆĞ: " + e.getMessage()); // ¿À·ù ¸Ş½ÃÁö Æ÷ÇÔ
+            result.put("message", "ë²ˆê°œëŸ° ìƒì„± ì‹¤íŒ¨." + e.getMessage());
             return new ResponseEntity<Map<String, Object>>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-	@GetMapping("/run/ajaxList")
-	@ResponseBody
-	public ResponseEntity<List<RunVO>> runList(RunSelectVO sVO) {
-	    System.out.println(sVO.toString());
+    @GetMapping("/run/ajaxList")
+    @ResponseBody
+    public ResponseEntity<List<RunVO>> runList(RunSelectVO sVO) {
+        System.out.println(sVO.toString());
+        try {
+            List<RunVO> runList = service.runList(sVO); // RunServiceì˜ runList() ë©”ì„œë“œ í˜¸ì¶œ
+            if (runList == null || runList.isEmpty()) {
+                return new ResponseEntity<List<RunVO>>(HttpStatus.NO_CONTENT); // ë°ì´í„°ê°€ ì—†ì„ ê²½ìš° 204 No Content ë°˜í™˜
+            }
+            return new ResponseEntity<List<RunVO>>(runList, HttpStatus.OK); // ë°ì´í„°ê°€ ìˆì„ ê²½ìš° 200 OKì™€ í•¨ê»˜ ë°ì´í„° ë°˜í™˜
+        } catch (Exception e) {
+            e.printStackTrace(); // ì˜ˆì™¸ ë°œìƒ ì‹œ ì½˜ì†”ì— ì—ëŸ¬ ì¶œë ¥ (ë¡œê¹… ê¶Œì¥)
+            return new ResponseEntity<List<RunVO>>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error ë°˜í™˜
+        }
+    }
 
-	    try {
-	        List<RunVO> runList = service.runList(sVO); // RunServiceÀÇ runList() ¸Ş¼­µå È£Ãâ
-	        if (runList == null || runList.isEmpty()) {
-	            return new ResponseEntity<List<RunVO>>(HttpStatus.NO_CONTENT); // µ¥ÀÌÅÍ°¡ ¾øÀ» °æ¿ì 204 No Content ¹İÈ¯
-	        }
-	        return new ResponseEntity<List<RunVO>>(runList, HttpStatus.OK); // µ¥ÀÌÅÍ°¡ ÀÖÀ» °æ¿ì 200 OK¿Í ÇÔ²² µ¥ÀÌÅÍ ¹İÈ¯
-	    } catch (Exception e) {
-	        e.printStackTrace(); // ¿¹¿Ü ¹ß»ı ½Ã ÄÜ¼Ö¿¡ ¿¡·¯ Ãâ·Â (·Î±ë ±ÇÀå)
-	        return new ResponseEntity<List<RunVO>>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error ¹İÈ¯
-	    }
-	}
 
-	@GetMapping("/run/ajaxInfo")
-	@ResponseBody
-	public RunVO runInfo(@RequestParam("no") int no) {
-	    RunVO runInfo = service.runInfo(no);
-	    return runInfo;
-	}
+    @GetMapping("/run/ajaxInfo")
+    @ResponseBody
+    public RunVO runInfo(@RequestParam("no") int no) {
+        RunVO runInfo = service.runInfo(no);
+        return runInfo;
+    }
 
-	@GetMapping("/run/ajaxparticipantsDelete")
-	@ResponseBody
-	public int participantsDelete(int runningno) {
-		System.out.println("»èÁ¦ÇÒ ·±¿¡ Âü¿©ÇÑ ÀÎ¿ø »èÁ¦-> "+runningno);
-		return service.participantsDelete(runningno);
-	}
-	
-	@GetMapping("/run/ajaxDelete")
-	@ResponseBody
-	public int runDelete(int no) {
-		System.out.println("»èÁ¦ÇÒ ·± ¹øÈ£-> "+ no);
-	    return service.runDelete(no);
-	}
+    @GetMapping("/run/ajaxparticipantsDelete")
+    @ResponseBody
+    public int participantsDelete(int runningno) {
+        System.out.println(runningno);
+        return service.participantsDelete(runningno);
+    }
 
-	@GetMapping("/run/ajaxUpdate")
-	@ResponseBody
-	public int runUpdate(RunVO vo) {
-	    int runUpdate = service.runUpdate(vo);
-	    return runUpdate;
-	}
+    @GetMapping("/run/ajaxDelete")
+    @ResponseBody
+    public int runDelete(int no) {
+        System.out.println(no);
+        return service.runDelete(no);
+    }
 
-	@GetMapping("/run/ajaxJoin")
-	@ResponseBody
-	public int runJoin(int runningno, int userno) {
-		System.out.println("·± ¿¹¾à runningno, userno ->"+runningno+","+ userno);
-		return service.runJoin(runningno, userno);
-	}
+    @GetMapping("/run/ajaxUpdate")
+    @ResponseBody
+    public int runUpdate(RunVO vo) {
+        int runUpdate = service.runUpdate(vo);
+        return runUpdate;
+    }
 
-	@GetMapping("run/ajaxLeave")
-	@ResponseBody
-	public int runLeave(int runningno, int userno) {
-		System.out.println("·± ¿¹¾à ÇØÁ¦ runningno, ownerno ->"+runningno+","+userno);
-		return service.runLeave(runningno, userno);
-	}
+    @GetMapping("/run/ajaxJoin")
+    @ResponseBody
+    public int runJoin(int runningno, int userno) {
+        System.out.println(runningno + "," + userno);
+        return service.runJoin(runningno, userno);
+    }
 
-	@GetMapping("/run/ajaxcheckJoined")
-	@ResponseBody
-	public int checkJoined(int runningno, int userno) {
-		System.out.println("Âü¼® ¿©ºÎ Ã¼Å©->"+runningno+","+userno);
-		return service.checkJoined(runningno, userno);
-	}
+    @GetMapping("run/ajaxLeave")
+    @ResponseBody
+    public int runLeave(int runningno, int userno) {
+        System.out.println(runningno + "," + userno);
+        return service.runLeave(runningno, userno);
+    }
 
-	@GetMapping("/run/ajaxcheckPersonNum")
-	@ResponseBody
-	public int checkPersonNum(String runningno) {
-		System.out.println("Âü¼® ÀÎ¿ø È®ÀÎÇÒ runningno ->"+runningno);
-		return service.checkPersonNum(Integer.parseInt(runningno));
-	}
+    @GetMapping("/run/ajaxcheckJoined")
+    @ResponseBody
+    public int checkJoined(int runningno, int userno) {
+        System.out.println(runningno + "," + userno);
+        return service.checkJoined(runningno, userno);
+    }
 
-	@GetMapping("run/ajaxpersonNumInsert")
-	@ResponseBody
-	public int personNumInsert(int no, int joinednum) {
-		System.out.println("Âü¼® ÀÎ¿øÀ» ³ÖÀ» run_no->"+no+" Âü¼®ÀÎ¿ø->"+joinednum);
-		return service.personNumInsert(no,joinednum);
-	}
+    @GetMapping("/run/ajaxcheckPersonNum")
+    @ResponseBody
+    public int checkPersonNum(String runningno) {
+        System.out.println(runningno);
+        return service.checkPersonNum(Integer.parseInt(runningno));
+    }
+
+    @GetMapping("run/ajaxpersonNumInsert")
+    @ResponseBody
+    public int personNumInsert(int no, int joinednum) {
+        System.out.println(no + ", " + joinednum);
+        return service.personNumInsert(no, joinednum);
+    }
 
 }

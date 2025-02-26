@@ -6,8 +6,6 @@ import com.ict.rs.vo.RunSelectVO;
 import com.ict.rs.vo.RunVO;
 
 public interface RunService {
-	
-	/* public int getUserNo(String id); */
 
 	public int runInsert(RunVO vo);
 
@@ -31,6 +29,4 @@ public interface RunService {
 
 	public int personNumInsert(int no, int joinednum);
 
-
 }
-

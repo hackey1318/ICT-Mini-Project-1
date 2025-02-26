@@ -5,11 +5,12 @@
 		transform: translateY(-300%);
 		color: #FBFFF6;
 	}
-	#auth a {
-		color: #FBFFF6;
-		text-decoration: none;
-		font-size: 15px;
-	}
+	#auth a, #auth span {
+        color: #1a1a1a; /* 더 짙은 텍스트 색상 */
+        text-decoration: none;
+        font-size: 15px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* 부드러운 그림자 */
+    }
 	#auth a:hover {
 		text-decoration: underline;
 	}

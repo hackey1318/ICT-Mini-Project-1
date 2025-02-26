@@ -28,7 +28,7 @@
 	width:70%;
 	display: flex;
 	margin: 0 auto;
-	
+
 }
 #left{
 	height: 100%;
@@ -44,7 +44,7 @@
 	width:100%
 }
 #right input{
- 	background-color: #F0F0FF;	
+ 	background-color: #F0F0FF;
     border: none;
     padding: 8px;
     border-radius: 10px;
@@ -64,68 +64,104 @@
 }
 </style>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".user-update-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // 폼 데이터를 FormData 객체로 추출
+        const formData = new FormData(event.target);
+        const tel = formData.get("tel1") + "-" + formData.get("tel2") + "-" + formData.get("tel3");
+
+        const data = {
+            no: formData.get("no"),
+            nickName: formData.get("nickName"),
+            email: formData.get("email"),
+            tel: tel,
+            addr: formData.get("addr"),
+            preferPace: formData.get("preferPace"),
+        };
+
+        console.log(data);
+
+        // fetch 요청 보내기
+        fetch('/rs/users/myPageEditOk', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+        	console.log(response);
+            if (response.ok) {
+                alert("회원정보수정 완료");
+            } else {
+            	alert("회원정보수정 실패");
+            	window.location.reload()
+            }
+        })
+        .catch(error => {
+            console.error("error: ", error);
+        });
+    });
+});
+</script>
+
 <div class="main-container">
 	<div id="titleName">
 		개인정보 수정
 	</div>
-	<div id="body">
-		<div id="left">
-			<ul>
-				<li>ID(아이디)</li>
-				<li>PASSWORD변경</li>
-				<li>이름</li>
-				<li>닉네임</li>
-				<li>이메일</li>
-				<li>휴대폰 번호</li>
-				<li>주소</li>
-				<li>생년월일</li>
-				<li>선호페이스</li>
-			</ul>
+	<form class="user-update-form">
+		<input type="hidden" name="no" value="${vo.no}"/>
+
+		<label>아이디</label>
+		<div>${vo.id}</div>
+
+		<label>이름</label>
+		<div>${vo.name}</div>
+
+		<label>닉네임</label>
+		<input type="text" name="nickName" value="${vo.nickName}"/>
+
+		<label>이메일</label>
+		<input type="email" name="email" value="${vo.email}"/>
+
+		<label>연락처</label>
+		<div class="tel">
+			<select name="tel1">
+				<option value="010" <c:if test="${vo.tel1 == '010'}">selected</c:if>>010</option>
+			    <option value="02" <c:if test="${vo.tel1 == '02'}">selected</c:if>>02</option>
+			    <option value="031" <c:if test="${vo.tel1 == '031'}">selected</c:if>>031</option>
+			    <option value="041" <c:if test="${vo.tel1 == '041'}">selected</c:if>>041</option>
+			    <option value="051" <c:if test="${vo.tel1 == '051'}">selected</c:if>>051</option>
+			    <option value="061" <c:if test="${vo.tel1 == '061'}">selected</c:if>>061</option>
+			</select>
+			-
+			<input type="text" name="tel2" value="${vo.tel2}">
+			-
+			<input type="text" name="tel3" value="${vo.tel3}"/>
 		</div>
-		<div id="right">
-				<ul>
-				<% String userId = (String) session.getAttribute("userId"); %>
-				<li><input type="text" name="userid" id="userid" value=<%= userId %> onkeyup="idDuplicateStatus()" disabled>
-				<div><span id="idCheck"></span></div>
-				<input type="hidden" id="idCheckStatus" value="N"/>
-				</li>
-				<li><input type="password" name="userpwd" id="userpwd"></li>
-				<li><input type="text" name="username" id="username"/></li>
-				<li><input type="text" name="userNickname" id="userNickname"/></li>
-				<li><input type="email" name="email" id="email"/></li>
-				<li><select name="tel1" id="tel1">
-					<option value="" selected>선택</option>
-					<option value="010">010</option>
-					<option value="02">02</option>
-					<option value="031">031</option>
-					<option value="041">041</option>
-					<option value="051">051</option>
-					<option value="061">061</option>
-				</select>
-				-
-				<input type="text" name="tel2" id="tel2">
-				-
-				<input type="text" name="tel3" id="tel3"/>
-				</li>
-				<li><input type="text" name="zipcode" id="zipcode">
-				<input type="button" value="우편번호찾기" class="zipcode-btn" onclick="daumPostCodeSearch()"/>
-				<input type="text" name="addr" id="addr"/>
-				</li>
-				<li><input type="date" name="birthdate" id="birthdate"></li>
-				<li>
-				<select name="preferredPace" id="preferredPace" class="preferred-pace" >
-					<option value="" selected>선택</option>
-					<option value="4분">4분 대</option>
-					<option value="5분">5분 대</option>
-					<option value="6분">6분 대</option>
-					<option value="7분">7분 대</option>
-					<option value="8분 이상">8분 이상</option>
-				</select>
-				</li>
-			</ul>
-		</div>
-	</div>
-	<div class="buttonContainer">
-		<button id="button">개인정보수정</button>
-	</div>
+
+
+		<label>주소</label>
+			<input type="text" name="addr" value="${vo.addr}"/>
+
+		<label>생년월일</label>
+		<div>${vo.birth}</div>
+
+		<label>성별</label>
+		<div><c:if test="${vo.gender == 'true'}">남</c:if><c:if test="${vo.gender == 'false'}">여</c:if></div>
+
+		<label>선호 페이스</label>
+		<select name="preferPace" class="preferred-pace" >
+			<option value="4분" <c:if test="${vo.preferPace == '4분'}">selected</c:if>>4분 대</option>
+			<option value="5분" <c:if test="${vo.preferPace == '5분'}">selected</c:if>>5분 대</option>
+			<option value="6분" <c:if test="${vo.preferPace == '6분'}">selected</c:if>>6분 대</option>
+			<option value="7분" <c:if test="${vo.preferPace == '7분'}">selected</c:if>>7분 대</option>
+			<option value="8분 이상" <c:if test="${vo.preferPace == '8분 이상'}">selected</c:if>>8분 이상</option>
+		</select>
+		<input type="submit" value="회원수정" class="update-btn"/>
+	</form>
+
 </div>

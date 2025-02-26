@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import com.ict.rs.dao.CrewPhotoDAO;
 import com.ict.rs.dto.CrewPhotoDTO;
+import com.ict.rs.vo.CrewMemberVO;
 import com.ict.rs.vo.CrewPhotoVO;
 import com.ict.rs.vo.CrewVO;
 import com.ict.rs.vo.PagingVO;
@@ -52,7 +53,14 @@ public class CrewServiceImpl implements CrewService {
 
 	@Override
 	public List<CrewVO> crewSelect(PagingVO pvo) {
-		return dao.crewSelect(pvo);
+		List<CrewVO> crewVOList =  dao.crewSelect(pvo);
+		for (CrewVO crewVO : crewVOList) {
+			List<CrewPhotoDTO> crewPhotoList =  crewPhotoDAO.selectCrewPhotoByCrewNo(crewVO.getNo(), "logo");
+			crewVO.setImageIdList(crewPhotoList.stream()
+					.map(CrewPhotoDTO::getImageId)
+					.collect(Collectors.toList()));
+		}
+		return crewVOList;
 	}
 	
 	@Override
@@ -68,6 +76,11 @@ public class CrewServiceImpl implements CrewService {
 	@Override
 	public int crewDelete(int crew_no) {
 		return dao.crewDelete(crew_no);
+	}
+
+	@Override
+	public int crewJoin(CrewMemberVO vo) {
+		return dao.crewJoin(vo);
 	}
 
 }
