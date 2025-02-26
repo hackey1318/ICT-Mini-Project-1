@@ -70,8 +70,4 @@ public class RunServiceImpl implements RunService {
 		return dao.personNumInsert(no, joinednum);
 	}
 
-	/*
-	 * @Override public int getUserNo(String id) { return dao.getUserNo(id); }
-	 */
-
 }
