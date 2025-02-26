@@ -18,8 +18,8 @@ public class RunVO {
 	public RunVO() {}
 	@Override
     public String toString() {
-        return "runVO [no=" + no + ", name=" + name + ", runningdate=" +
-                runningdate + ", runningcity=" + runningcity + ", region=" + region + ", meetingpoint=" + meetingpoint +
+        return "runVO [no=" + no + ", name=" + name + ", runningdate=" + runningdate + 
+                ", runningcity=" + runningcity + ", region=" + region + ", meetingpoint=" + meetingpoint +
                 ", runningtime=" + runningtime + ", type=" + type + ", joinednum=" + joinednum + ", runmaxnum=" + runmaxnum +
                 ", crewno=" + crewno + ",ownerno=" + ownerno + ",status=" + status + "]";
     }

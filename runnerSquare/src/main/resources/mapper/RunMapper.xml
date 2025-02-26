@@ -10,42 +10,38 @@
     <!-- dao의 method를 찾아가기위해서 id가 dao객체의 method명과 같다. -->
     <!-- vo일 때는 #{변수}로 값을 가져온다. -->
   	
-  <!-- 	<select id="getUserNo" resultType="Integer">
-  		select no from users where id = #{id}
-	</select> -->
   	
   	<insert id="runInsert" parameterType="com.ict.rs.vo.RunVO" useGeneratedKeys="true" keyProperty="no" keyColumn="no"> 
-  		insert into runnings(runningdate, runningcity, region, runningtime, meetingpoint,
+  		insert into runnings(no, runningdate, runningcity, region, runningtime, meetingpoint,
   							type, joinednum, runmaxnum, name, crewno, ownerno, status) 
-  		values(#{runningdate}, #{runningcity}, #{region}, #{runningtime}, #{meetingpoint}, #{type},
+  		values(#{no}, #{runningdate}, #{runningcity}, #{region}, #{runningtime}, #{meetingpoint}, #{type},
   			   #{joinednum}, #{runmaxnum}, #{name}, #{crewno}, #{ownerno}, #{status}) 
   	</insert>
     	
   	<select id="runList" parameterType="com.ict.rs.vo.RunSelectVO" resultType="com.ict.rs.vo.RunVO">
-    	SELECT * FROM runnings
-    	<where>
-        	<if test="searchDate != null and searchDate != ''">
-            	AND runningdate between #{searchDate} and date_add(#{searchDate}, interval 2 day)
-        	</if>
-        	<if test="searchDay != null and searchDay != ''">	
-        	    AND dayname(runningdate) = #{searchDay}  
-        	</if>
-
-        	<if test="searchSido != null and searchSido != ''">
-        	    AND runningcity = #{searchSido}
-        	</if>
-        	<if test="searchGu != null and searchGu != ''">
-        	    AND region = #{searchGu}
-        	</if>
-        	<if test="searchCrewName != null and searchCrewName != ''">
-        	    AND crewno LIKE CONCAT('%', #{searchCrewName}, '%')
-        	</if>
-        	<if test="searchTime != null and searchTime != ''">
-        	    AND runningtime = #{searchTime}
-        	</if>
-    	</where>
-    	order by runningdate asc
-	</select> 
+    SELECT * FROM runnings
+    <where>
+        <if test="searchDate != null and searchDate != ''">
+            AND runningdate between #{searchDate} and date_add(#{searchDate}, interval 2 day)
+        </if>
+        <if test="searchDay != null and searchDay != ''">
+            AND dayname(runningdate) = #{searchDay}
+        </if>
+        <if test="searchSido != null and searchSido != ''">
+            AND runningcity = #{searchSido}
+        </if>
+        <if test="searchGu != null and searchGu != ''">
+            AND region = #{searchGu}
+        </if>
+        <if test="searchCrewName != null and searchCrewName != ''">
+            AND crewno LIKE CONCAT('%', #{searchCrewName}, '%')
+        </if>
+        <if test="searchTime != null and searchTime != ''">
+            AND runningtime = #{searchTime}
+        </if>
+    </where>
+    		order by runningdate asc
+</select>
 	
 	<select id="runInfo"  resultType="com.ict.rs.vo.RunVO">
 		select * from runnings 
@@ -76,9 +72,6 @@
     	    <if test="type != null and type != ''">
     	        type = #{type},
     	    </if>
-    	    <!-- <if test="joinednum != null">
-    	        joinednum = #{joinednum},
-    	    </if> -->
     	    <if test="runmaxnum != null">
     	        runmaxnum = #{runmaxnum},
     	    </if>
