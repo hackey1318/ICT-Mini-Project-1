@@ -183,19 +183,25 @@
 <script src="${pageContext.request.contextPath}/resources/dialog.js"></script>
 <script src="${pageContext.request.contextPath}/resources/auth.js"></script>
 <script src="${pageContext.request.contextPath}/resources/validation.js"></script>
+<% String userId = (String) session.getAttribute("userId"); %>
 <script>
 	async function fetchNotificationCount() {
 	    try {
 	        const response = await fetch('/rs/noti/count');
 	        const data = await response.json();
-	        console.log(data);
 	        updateNotificationBadge(data);
 	    } catch (error) {
 	        console.error("알림 정보를 불러오는 중 오류 발생:", error);
 	    }
 	}
 
-	fetchNotificationCount();
+	document.addEventListener("DOMContentLoaded", function () {
+        let userId = <%= (userId != null) ? "\"" + userId + "\"" : "null" %>;
+
+        if (userId !== null && userId.trim() !== "") {
+            fetchNotificationCount();
+        }
+    });
 	$(function() {
 		$("#menu>button").on("click", function() {
 			$("#menu>ul").toggle();
@@ -245,7 +251,9 @@
 					<li><a href="${pageContext.request.contextPath}/">HOME</a></li>
 					<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
 					<li><a href="${pageContext.request.contextPath}/run/runSearch">RUNNING</a></li>
-				    <li><a href="${pageContext.request.contextPath}/crew/crewManage">MANAGE</a></li>
+					<% if (userId != null && userId.trim() != "") { %>
+				        <li><a href="${pageContext.request.contextPath}/crew/crewManage">MANAGE</a></li>
+				    <%}%>
 			        <li><a href="${pageContext.request.contextPath}/users/myPage">MYPAGE</a></li>
 				</ul>
 			</div>

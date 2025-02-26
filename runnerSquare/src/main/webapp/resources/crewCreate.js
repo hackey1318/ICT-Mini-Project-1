@@ -228,28 +228,6 @@ async function handleFormSubmit(event) {
     }
 }
 
-function inputLogo(logo) {
-
-	$.ajax({
-        url: '/rs/file-system/upload', // 서버 URL
-		type: 'POST',  // HTTP 메서드 (POST)
-		processData: false,
-    	contentType: false,
-        data: logo,  // 데이터를 JSON 문자열로 직렬화
-        success: function(results) {
-            if (results == "1") {
-				alert('크루 생성 완료');
-            } else {
-                alert('크루 생성 실패');
-            }
-        },
-        error: function(error) {
-            console.error('Error:', error);
-            alert('서버 통신에 문제가 발생했습니다.');
-        }
-    });
-}
-
 function crewFormCheck() {
     var runningDayCheckboxes = document.getElementsByName("runningDay");
     let isRunningDayChecked = false;

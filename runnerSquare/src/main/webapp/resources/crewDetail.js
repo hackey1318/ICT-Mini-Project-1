@@ -38,7 +38,11 @@ $(document).ready(function() {
                 }
 
                 // 5초마다 슬라이드
-                setInterval(slideImages, 5000);
+                var slideInterval = setInterval(slideImages, 5000);
+                // 모달이 닫힐 때 슬라이드 인터벌 해제
+                $('#crewDetailModal').on('hidden.bs.modal', function () {
+                    clearInterval(slideInterval);
+                });
 			},
 			error: function(err) {
 				console.error("error : ", err);
@@ -46,5 +50,10 @@ $(document).ready(function() {
 			}
 		});
 	});
+	// ✅ 모달 닫힐 때 정보 초기화
+    $('#crewDetailModal').on('hidden.bs.modal', function () {
+        $(this).find('.modal-title, #modalName, #modalDescription, #modalLocation, #modalRunningDay').text(''); // 텍스트 초기화
+        $('#modalImageContainer').empty(); // 이미지 삭제
+    });
 });
 

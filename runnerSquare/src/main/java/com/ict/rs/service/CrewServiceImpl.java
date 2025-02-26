@@ -53,7 +53,14 @@ public class CrewServiceImpl implements CrewService {
 
 	@Override
 	public List<CrewVO> crewSelect(PagingVO pvo) {
-		return dao.crewSelect(pvo);
+		List<CrewVO> crewVOList =  dao.crewSelect(pvo);
+		for (CrewVO crewVO : crewVOList) {
+			List<CrewPhotoDTO> crewPhotoList =  crewPhotoDAO.selectCrewPhotoByCrewNo(crewVO.getNo(), "logo");
+			crewVO.setImageIdList(crewPhotoList.stream()
+					.map(CrewPhotoDTO::getImageId)
+					.collect(Collectors.toList()));
+		}
+		return crewVOList;
 	}
 	
 	@Override

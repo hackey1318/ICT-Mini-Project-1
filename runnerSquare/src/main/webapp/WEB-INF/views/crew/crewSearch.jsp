@@ -126,7 +126,10 @@
 	<c:forEach var="vo" items="${crewList}">
 		<li class="crewList" id="openCrewDetailBtn" data-bs-toggle="modal"
 					data-bs-target="#crewDetailModal" data-id="${vo.no}">
-			<div class="imgBox"><img class="crewImg" src="${pageContext.request.contextPath}/img/running.jpg"/></div>
+			<div class="imgBox">
+		        <c:set var="firstImage" value="${not empty vo.imageIdList ? vo.imageIdList[0] : 'img/logo.png'}" />
+                <img class="crewImg" src="${pageContext.request.contextPath}/file-system/download/${firstImage}" />
+			</div>
 			<div>
 				<div>${vo.name}</div>
 				<div>${vo.description}</div>
