@@ -38,6 +38,7 @@
 }
 #description {
 	height: 200px;
+	white-space: pre-line;
 }
 #dayCheckBox {
 	width: 80%;
