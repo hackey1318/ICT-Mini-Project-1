@@ -53,8 +53,8 @@
 	display: none;
 }
 #submit-button {
-	grid-column: 1; /* submit 버튼이 두 열을 차지하도록 설정 */
-    justify-self: center; /* 버튼을 중앙에 배치 */
+	grid-column: 1;
+    justify-self: center;
 	font-size: 1em;
 	padding: 5px 10px;
 	background-color: #C5FFCA;

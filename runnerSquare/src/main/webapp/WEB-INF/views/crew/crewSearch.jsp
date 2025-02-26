@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/crewJoin.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/crewDetail.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/citySelect.js"></script>
 <link href="${pageContext.request.contextPath}/resources/crewDetail.css" rel="stylesheet" type="text/css"/>
@@ -21,7 +22,6 @@
 	}
 	#search-form {
 		height: 60px;
-		/*position: fixed;*/
 		margin: 10px auto;
 		display: grid;
 		grid-template-columns: 1.2fr 1fr 2fr 0.5fr;
@@ -146,15 +146,18 @@
 	            </div>
 
 	            <div class="modal-body">
-	                <div id="modalImageContainer" class="image-container"></div>
-	                <div class="crewDetail">
-	                    <div id="modalName">크루 이름</div>
-	                    <div id="modalDescription">설명</div>
-	                    <div id="modalLocation">도시, 구</div>
-	                    <div id="modalRunningDay">러닝데이</div>
-	                </div>
-	                <button onclick="crewJoin()">크루가입</button> <!-- crewNo 구해서 전달 -->
-	                <button onclick="location.href='/rs/run/runSearch'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
+	            	<div class="crew-content">
+		                <div id="modalImageContainer" class="image-container"></div>
+		                <div class="crewDetail">
+		                    <div id="modalDescription"></div>
+		                    <div>주요활동지역</div><div id="modalLocation"></div>
+		                    <div>주요러닝데이</div><div id="modalRunningDay"></div>
+		                </div>
+		            </div>
+		            <div class="crew-buttons">
+			            <button onclick="crewJoin('member')">크루가입</button>
+		                <button onclick="location.href='/rs/run/runSearch'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
+		            </div>
 	            </div>
 			</div>
 		</div>
