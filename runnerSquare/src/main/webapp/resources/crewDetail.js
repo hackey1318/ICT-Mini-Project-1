@@ -13,7 +13,6 @@ $(document).ready(function() {
 			success: function(response) {
 				// 서버에서 응답 받은 데이터로 모달의 내용을 업데이트
 				$('#crewDetailModal .modal-title').text(response.name); // 모달 제목 업데이트
-				$('#crewDetailModal #modalName').text(response.name); // 크루 이름 업데이트
 				$('#crewDetailModal #modalDescription').text(response.description); // 설명 업데이트
 				$('#crewDetailModal #modalLocation').text(response.city + ', ' + response.district); // 위치 업데이트
 				$('#crewDetailModal #modalRunningDay').text(response.runningDay); // 러닝데이 업데이트

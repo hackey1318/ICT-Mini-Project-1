@@ -19,6 +19,9 @@
 	    padding: 10px;
 	    margin: 20px auto;
 	}
+	.crewInfo>h2 {
+		font-weight: bold;
+	}
 	.crewImg {
 	    width: 150px;
 	    height: 150px;
@@ -37,6 +40,7 @@
 	    margin-top: auto; /* 버튼을 crewInfo의 하단에 배치 */
 	    background-color: #ffb;
 	    border: 1px solid #ddd;
+	    border-radius: 10px;
 	}
 	#crewAll {
 		display: block;
@@ -44,6 +48,7 @@
 		text-align:center;
 		margin: 20px auto 40px;
 		border: 1px solid #ccc;
+		border-radius: 10px;
 	}
 	@media(min-width: 992px) {
 		.crewImg, .crewInfo {
@@ -76,26 +81,29 @@
 		</div>
 	</c:forEach>
 	<div class="modal fade" id="crewDetailModal">
-	    <div class="modal-dialog modal-lg">
-	        <div class="modal-content">
-	            <div class="modal-header">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
 	                <h4 class="modal-title" id="modalTitle">크루 이름</h4>
 	                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	            </div>
 
 	            <div class="modal-body">
-	                <div id="modalImageContainer" class="image-container"></div>
-	                <div class="crewDetail">
-	                    <div id="modalName">크루 이름</div>
-	                    <div id="modalDescription">설명</div>
-	                    <div id="modalLocation">도시, 구</div>
-	                    <div id="modalRunningDay">러닝데이</div>
-	                </div>
-	                <button onclick="crewJoin('member')">크루가입</button> <!-- crewNo 구해야 함 -->
-	                <button onclick="location.href='/rs/run/runSearch'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
+	            	<div class="crew-content">
+		                <div id="modalImageContainer" class="image-container"></div>
+		                <div class="crewDetail">
+		                    <div id="modalDescription"></div>
+		                    <div>주요활동지역</div><div id="modalLocation"></div>
+		                    <div>주요러닝데이</div><div id="modalRunningDay"></div>
+		                </div>
+		            </div>
+		            <div class="crew-buttons">
+			            <button onclick="crewJoin('member')">크루가입</button>
+		                <button onclick="location.href='/rs/run/runSearch'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
+		            </div>
 	            </div>
-	        </div>
-	    </div>
+			</div>
+		</div>
 	</div>
 	<button id="crewAll" onclick="location.href='${pageContext.request.contextPath}/crew/crewSearch'">크루 전체보기</button>
 
