@@ -37,7 +37,7 @@
 		from crewmembers
 		left join crews on crewmembers.crewNO = crews.no
 		left join users on crewmembers.userNO = users.no
-		where crewNo in (select crewNo from crewmembers where userNo=${param1});
+		where crewNo in (select crewNo from crewmembers where userNo=${param1} and role = 'leader') and crews.no = crewmembers.crewNo ;
 	</select>
 	<update id="updateCrewStatus">
 		UPDATE crewmembers
