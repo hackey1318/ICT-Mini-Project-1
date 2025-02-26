@@ -4,8 +4,12 @@ import com.ict.rs.service.MemberService;
 import com.ict.rs.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -47,7 +51,7 @@ public class MemberController {
         return memberService.idDuplicate(userId);
     }
     
-    @GetMapping("/userUpdate")
+    @GetMapping("/myPageEdit")
     public ModelAndView selectMember(@RequestParam int no) {
         MemberVO vo = memberService.selectMember(no);
         
@@ -59,17 +63,29 @@ public class MemberController {
         ModelAndView mav = new ModelAndView();
         
         mav.addObject("vo", vo);
-        mav.setViewName("/userUpdate");
+        mav.setViewName("/users/myPageEdit");
         
-        System.out.println(vo.toString());
         return mav;
     }
     
-    @PostMapping("/userUpdateOk")
+    @PostMapping("/myPageEditOk")
     public String updateMember(@RequestBody MemberVO vo) {
         memberService.updateMember(vo);
         
-        return "redirect:/rs/users/userUpdate?no=" + vo.getNo();
+        return "redirect:/rs/users/myPageEdit?no=" + vo.getNo();
     }
-
+    
+    
+    @GetMapping("/checkLogStatus")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> getUserNo(HttpSession session) {
+    	String logStatus = (String) session.getAttribute("logStatus");
+    	Map<String, String> response = new HashMap<>();
+    	
+        if ("Y".equals(logStatus)) {
+        	String userNo = session.getAttribute("userNo").toString();
+            response.put("userNo", userNo);
+        }
+        return ResponseEntity.ok(response);  // JSON 형태로 반환
+    }
 }

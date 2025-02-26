@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/crewJoin.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/crewDetail.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/citySelect.js"></script>
 <link href="${pageContext.request.contextPath}/resources/crewDetail.css" rel="stylesheet" type="text/css"/>
+
+
 
 <style>
 	h1 {
@@ -152,7 +155,7 @@
 	                    <div id="modalLocation">도시, 구</div>
 	                    <div id="modalRunningDay">러닝데이</div>
 	                </div>
-	                <button onclick="crewJoin()">크루가입</button> <!-- crewNo 구해서 전달 -->
+	                <button onclick="crewJoin('member')">크루가입</button> <!-- crewNo 구해서 전달 -->
 	                <button onclick="location.href='/rs/run/runSearch'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
 	            </div>
 			</div>

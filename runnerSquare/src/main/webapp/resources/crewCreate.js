@@ -212,8 +212,6 @@ async function handleFormSubmit(event) {
             }
         }
 
-
-
         // 모달 닫기
         myModal.hide();
 

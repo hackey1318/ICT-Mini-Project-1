@@ -3,7 +3,9 @@ $(document).ready(function() {
 	$('.main-container').on('click', '#openCrewDetailBtn, .crewList', function() {
 		// crew 정보에서 no를 가져와서 data-id에 저장
 		var crewNo = $(this).data("id"); // vo.no 값을 가져옴
-		
+		console.log(crewNo);
+		document.getElementById('crewDetailModal').setAttribute('data-id', crewNo);
+
 		// Modal을 열 때마다 Ajax로 crew 상세 정보 요청
 		$.ajax({
 			url: '/rs/crew/details/' + crewNo, // 요청 URL
@@ -47,30 +49,3 @@ $(document).ready(function() {
 	});
 });
 
-function crewJoin() {
-	var userId = sessionStorage.getItem("id");
-	
-	if (!userId) {
-		// openLoginDialog
-		return;
-	}
-
-	$.ajax({
-        type: "POST",
-        url: "/crew/crewJoin",
-        data: {
-            crew_no: crewNo,
-			id: userId            
-        },
-        success: function(response) {
-			if (response == "1") {
-				alert("크루 참여 신청이 완료되었습니다!");
-			}
-            // modal 닫기
-        },
-        error: function(error) {
-            console.error("Error:", error);
-            alert("오류가 발생했습니다.");
-        }
-    });
-}
