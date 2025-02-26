@@ -5,7 +5,7 @@
 		transform: translateY(-300%);
 		color: #FBFFF6;
 	}
-	#auth a {
+	#auth a, #auth span {
         color: #1a1a1a; /* 더 짙은 텍스트 색상 */
         text-decoration: none;
         font-size: 15px;
