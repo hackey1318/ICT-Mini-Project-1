@@ -3,11 +3,11 @@ package com.ict.rs.controller;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.ict.rs.dto.CrewPhotoDTO;
 import com.ict.rs.service.CrewPhotoService;
+import com.ict.rs.vo.CrewMemberVO;
 import com.ict.rs.vo.CrewPhotoVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -129,24 +129,11 @@ public class CrewController {
 
 	@PostMapping("/crew/crewJoin")
 	@ResponseBody
-	public String crewJoin(int crew_no, HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public int crewJoin(@RequestBody CrewMemberVO vo) {
+		vo.setStatus("active");
 
-		String id = (String) session.getAttribute("userId");
-		if (id == "" || id == null) {
-			System.out.println("비로그인 상태");
-			return "redirect:/views/member/login";
-		}
-
-//		CrewManageVO vo = new CrewManageVO();
-//		vo.setCrewNo = crew_no;
-//		vo.setUserNo = id;
-//		vo.setRole = "크루원";
-//		vo.setStatus = "승인대기";
-
-
-//		return service.crewJoin(vo) + "";
-		return "";
+		System.out.println(vo);
+		return service.crewJoin(vo);
 	}
 
 	@ResponseBody

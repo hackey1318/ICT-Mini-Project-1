@@ -246,7 +246,7 @@
 					<li><a href="${pageContext.request.contextPath}/crew/crewSearch">CREW</a></li>
 					<li><a href="${pageContext.request.contextPath}/run/runSearch">RUNNING</a></li>
 				    <li><a href="${pageContext.request.contextPath}/crew/crewManage">MANAGE</a></li>
-			        <li><a href="${pageContext.request.contextPath}/crew/myPage">MYPAGE</a></li>
+			        <li><a href="${pageContext.request.contextPath}/users/myPage">MYPAGE</a></li>
 				</ul>
 			</div>
 		</div>

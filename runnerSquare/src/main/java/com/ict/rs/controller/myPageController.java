@@ -8,15 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.ict.rs.service.CrewService;
 
 @Controller
-public class myPageEditController {
+public class myPageController {
 
-	@GetMapping("/crew/myPageEnter")
+	@GetMapping("/users/myPage")
 	public String myPageEnter() {
-		return "/crew/myPageEnter";
-	}
-	@GetMapping("/crew/myPageEdit")
-	public String myPageEdit() {
-		return "/crew/myPageEdit";
+		return "/users/myPage";
 	}
 
 

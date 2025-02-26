@@ -1,5 +1,6 @@
 package com.ict.rs.dao;
 
+import com.ict.rs.vo.CrewMemberVO;
 import com.ict.rs.vo.CrewVO;
 import com.ict.rs.vo.PagingVO;
 
@@ -18,5 +19,5 @@ public interface CrewDAO {
     public int crewInsert(CrewVO vo);
     public int crewUpdate(CrewVO vo);
     public int crewDelete(int crew_no);
-//    public int crewJoin(CrewManageVO vo);
+    public int crewJoin(CrewMemberVO vo);
 }

@@ -3,6 +3,7 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/citySelect.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/crewCreate.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/crewjoin.js"></script>
 <link href="${pageContext.request.contextPath}/resources/crewCreate.css" rel="stylesheet" type="text/css"/>
 
 <div class="main-container">

@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => {
                 if (response.ok) {
                     // 로그아웃 후 auth 부분 초기화 (로그인/회원가입 화면으로 전환)
-                    location.reload();
+                    location.replace("/rs")
                 } else {
                     console.error("로그아웃 실패");
                 }

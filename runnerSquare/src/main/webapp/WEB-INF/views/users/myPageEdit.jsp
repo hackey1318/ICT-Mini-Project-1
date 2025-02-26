@@ -1,6 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<style>
+	#titleName {
+	    width: 100%;
+	    padding: 30px;
+	    text-align: center;
+	    font-size: 2em;
+	    font-weight: bold;
+	}
+	.user-update-form {
+		width: 70%;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 4fr;
+		gap: 10px;
+	}
+	@media(min-width: 1200px) {
+		.user-update-form {
+			width: 840px;
+		}
+	}
+	@media(max-width: 700px) {
+		.user-update-form {
+			width: 490px;
+		}
+	}
+	label {
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: center;
+	}
+	label, input, select, form>div {
+		padding: 5px;
+		line-height: 30px;
+	}
+	input, select {
+		background-color: #F0F0FF;	
+	    border: none;
+	    padding: 2px;
+	    border-radius: 10px;
+	}
+	.tel>select, .tel>input {
+		width: 35%;
+	}
+	.tel {
+		display: flex;
+	    justify-content: space-between;
+	    gap: 10px;
+	}
+	.update-btn{
+		width: 120px;
+	    background-color:#87f23a;
+	    border-radius: 30px;
+	    font-size : 1em;
+	    grid-column: 1 / -1;
+    	justify-self: center;
+	}
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".user-update-form").addEventListener("submit", function (event) {
@@ -22,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(data);
 
         // fetch 요청 보내기
-        fetch('/rs/users/userUpdateOk', {
+        fetch('/rs/users/myPageEditOk', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,35 +103,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<style>
-	.user-update-form {
-		padding: 30px;
-		display: grid;
-		grid-template-columns: 1fr 4fr;
-		gap: 10px 20px;
-	}
-	label {
-		font-weight: bold;
-		text-align: center;
-	}
-	label, input, select, form>div {
-		line-height: 30px;
-	}
-	input, select {
-		border: 1px solid #eee;
-		border-bottom: 1px solid #999;
-	}
-	.tel>select, .tel>input {
-		width: 30%;
-	}
-	.tel {
-		display: flex;
-	    justify-content: space-between;
-	    gap: 10px;
-	}
-</style>
-
 <div class="main-container">
+	<div id="titleName">
+		개인정보 수정
+	</div>
 	<form class="user-update-form">
 		<input type="hidden" name="no" value="${vo.no}"/>
 		
@@ -123,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			<option value="7분" <c:if test="${vo.preferPace == '7분'}">selected</c:if>>7분 대</option>
 			<option value="8분 이상" <c:if test="${vo.preferPace == '8분 이상'}">selected</c:if>>8분 이상</option>
 		</select>
-		
 		<input type="submit" value="회원수정" class="update-btn"/>
 	</form>
+	
 </div>
