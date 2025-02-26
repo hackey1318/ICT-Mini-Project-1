@@ -46,15 +46,15 @@
 #right input{
  	background-color: #F0F0FF;	
     border: none;
-    padding: 2px;
+    padding: 8px;
     border-radius: 10px;
 }
 #button{
     background-color:#87f23a;
     width:15%;
-    padding: 20px;
+    padding: 10px;
     border-radius: 30px;
-    font-size : 1em;
+    font-size : 1.3em;
    }
  .buttonContainer{
     width: 100%;
@@ -72,27 +72,24 @@
 		<div id="left">
 			<ul>
 				<li>ID(아이디)</li>
-				<li>PASSWORD</li>
-				<li>PASSWORD 확인</li>
+				<li>PASSWORD변경</li>
 				<li>이름</li>
 				<li>닉네임</li>
 				<li>이메일</li>
 				<li>휴대폰 번호</li>
 				<li>주소</li>
 				<li>생년월일</li>
-				<li>성별</li>
 				<li>선호페이스</li>
 			</ul>
 		</div>
 		<div id="right">
 				<ul>
-				<li><input type="text" name="userid" id="userid" onkeyup="idDuplicateStatus()">
-				<button type="button" class="id-check-btn" onclick="idDuplicate()">중복확인</button>
+				<% String userId = (String) session.getAttribute("userId"); %>
+				<li><input type="text" name="userid" id="userid" value=<%= userId %> onkeyup="idDuplicateStatus()" disabled>
 				<div><span id="idCheck"></span></div>
 				<input type="hidden" id="idCheckStatus" value="N"/>
 				</li>
 				<li><input type="password" name="userpwd" id="userpwd"></li>
-				<li><input type="password" name="pwd2" id="pwd2"/></li>
 				<li><input type="text" name="username" id="username"/></li>
 				<li><input type="text" name="userNickname" id="userNickname"/></li>
 				<li><input type="email" name="email" id="email"/></li>
@@ -115,10 +112,6 @@
 				<input type="text" name="addr" id="addr"/>
 				</li>
 				<li><input type="date" name="birthdate" id="birthdate"></li>
-				<li>
-				<input type="radio" name="gender" value="남"> 남
-				<input type="radio" name="gender" value="여"> 여
-				</li>
 				<li>
 				<select name="preferredPace" id="preferredPace" class="preferred-pace" >
 					<option value="" selected>선택</option>
