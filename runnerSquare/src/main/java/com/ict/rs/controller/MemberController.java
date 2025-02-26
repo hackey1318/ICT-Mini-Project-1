@@ -67,23 +67,9 @@ public class MemberController {
     
     @PostMapping("/userUpdateOk")
     public String updateMember(@RequestBody MemberVO vo) {
-        System.out.println("updated: " + vo.toString());
-
-        // 전화번호 처리
-        vo.setTel(vo.getTel1() + "-" + vo.getTel2() + "-" + vo.getTel3());
+        memberService.updateMember(vo);
         
-        // 회원 정보 업데이트
-        int result = memberService.updateMember(vo);
-
-        System.out.println(result);
-
-        if (result > 0) {
-            System.out.println("회원정보수정 성공");
-        } else {
-            System.out.println("회원정보수정 실패");
-        }
-
-        return "redirect:/userUpdate?no=" + vo.getNo();
+        return "redirect:/rs/users/userUpdate?no=" + vo.getNo();
     }
 
 }

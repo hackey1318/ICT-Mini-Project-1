@@ -19,6 +19,9 @@ img {
 	width: 120px;
 	height: 40px;
 	margin: 20px auto 0;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	background-color: #FFED8A;
 }
 
 #modalImageContainer {
