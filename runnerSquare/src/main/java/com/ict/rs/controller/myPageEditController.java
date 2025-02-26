@@ -14,5 +14,10 @@ public class myPageEditController {
 	public String myPageEnter() {
 		return "/crew/myPageEnter";
 	}
+	@GetMapping("/crew/myPageEdit")
+	public String myPageEdit() {
+		return "/crew/myPageEdit";
+	}
+
 
 }
