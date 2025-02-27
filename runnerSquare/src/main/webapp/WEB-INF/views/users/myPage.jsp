@@ -60,23 +60,20 @@
       	align-items: center;
     }
 </style>
-
 <div class="main-container">
 	<div id="titleName">
 		개인정보 수정
 	</div>
 	<div id="pwdEnter">
 		<table class ="table">
-			<form method="POST" id="formchk">
+			<form method="POST" id="formchk" onsubmit="submitForm(); return false;">
 			<tr>
 				<td id="pwdEnterText">ID(아이디)</td>
-				<% String userId = (String) session.getAttribute("userId"); %>
-				
 				<td><%= userId %></td>
 			</tr>
 			<tr>
 				<td id="pwdEnterText">PASSWORD</td>
-				<td><input type="password" id="input" placeholder="비밀번호를 입력하세요"></td>
+				<td><input type="password" id="input" placeholder="비밀번호를 입력하세요" onkeydown="if (event.keyCode == 13) { submitForm(); return false; }"></td>
 			</tr>
 		</table>
 	</div>
@@ -90,7 +87,7 @@
 function submitForm() {
     var userId = "<%= userId %>";
     var pwd = $("#input").val();
-    console.log("pwd값", pwd); 
+	<% Integer userNo = (Integer) session.getAttribute("userNo");%>
     if(pwd === null|| pwd===""){
     	alert("비밀번호를 입력하세요.");
    
@@ -107,9 +104,9 @@ function submitForm() {
         data : params,
         datatype: 'json' ,
         success: function(response) {
-        	console.log("response=>",response);
+        	console.log("response=>",<%= userNo %>);
             if (response) {
-                window.location.href = "/rs/users/myPageEdit";
+                window.location.href = "/rs/users/myPageEdit?no=<%= userNo %>";
             } else {
                 alert("비밀번호가 일치하지 않습니다.");
             }

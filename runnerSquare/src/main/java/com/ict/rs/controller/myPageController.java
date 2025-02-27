@@ -32,11 +32,4 @@ public class myPageController {
 		System.out.println("pwd"+ pwd);
 	     return myPageService.pwdChk(userId,pwd);
 	    }
-
-	@GetMapping("/users/myPageEdit")
-	public String myPageEdit() {
-		return "/users/myPageEdit";
-	}
-
-
 }

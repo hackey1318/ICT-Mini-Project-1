@@ -2,66 +2,61 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <style>
-#body ul{
-	list-style:none;
-	height : 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content : space-evenly;
-}
-.main-container {
-	width: 80%;
-	margin: 0 auto;
-	margin-top: 222px; /* header 높이만큼 여백 */
-	margin-bottom: 34px; /* footer 높이만큼 여백 */
-	height: calc(100vh - 256px); /* 화면 높이에서 header와 footer 높이를 뺀 값 */
-	overflow-y: auto; /* 세로 스크롤 활성화 */
-}
-#titleName {
-    width: 100%;
-    padding-top: 1vh;
-    text-align: center;
-    font-size: 2em;
-}
-#body{
-	height: 52vh;
-	width:70%;
-	display: flex;
-	margin: 0 auto;
-
-}
-#left{
-	height: 100%;
-	width:100%;
-	font-size:1.4em;
-}
-#left ul{
-	padding-left:40%;
-	width:100%
-}
-#right{
-	height: 100%;
-	width:100%
-}
-#right input{
- 	background-color: #F0F0FF;
-    border: none;
-    padding: 8px;
-    border-radius: 10px;
-}
-#button{
-    background-color:#87f23a;
-    width:15%;
-    padding: 10px;
-    border-radius: 30px;
-    font-size : 1.3em;
-   }
- .buttonContainer{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+	#titleName {
+	    width: 100%;
+	    padding: 30px;
+	    text-align: center;
+	    font-size: 2em;
+	    font-weight: bold;
+	}
+	.user-update-form {
+		width: 70%;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 4fr;
+		gap: 10px;
+	}
+	@media(min-width: 1200px) {
+		.user-update-form {
+			width: 840px;
+		}
+	}
+	@media(max-width: 700px) {
+		.user-update-form {
+			width: 490px;
+		}
+	}
+	label {
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: center;
+	}
+	label, input, select, form>div {
+		padding: 5px;
+		line-height: 30px;
+	}
+	input, select {
+		background-color: #F0F0FF;	
+	    border: none;
+	    padding: 2px;
+	    border-radius: 10px;
+	}
+	.tel>select, .tel>input {
+		width: 35%;
+	}
+	.tel {
+		display: flex;
+	    justify-content: space-between;
+	    gap: 10px;
+	}
+	.update-btn{
+		width: 120px;
+	    background-color:#87f23a;
+	    border-radius: 30px;
+	    font-size : 1em;
+	    grid-column: 1 / -1;
+    	justify-self: center;
+	}
 </style>
 
 <script>
