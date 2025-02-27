@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ict.rs.dao.CrewManageDAO">
+	<select id="crewNameList" resultType="com.ict.rs.vo.CrewManageVO">
+		select
+        	c.no AS crewNo,
+        	cm.role AS role,
+        	c.status AS crewStatus,  -- 필드명이 중복되지 않도록 별칭 지정       	
+        	cm.status AS memberStatus,  -- 필드명이 중복되지 않도록 별칭 지정
+        	cm.createdAt,
+        	cm.updatedAt,
+        	c.name,
+        	c.city,
+        	c.district,
+        	c.runningDay
+    	from crewmembers as cm
+    	left join crews AS c ON cm.crewNo = c.no
+    	where cm.userNo = #{userNo}
+	</select>
+
+	<select id="crewMemberList" resultType="com.ict.rs.vo.CrewManageVO">
+		SELECT
+			c.name,
+			u.nickName,
+			cm.createdAt,
+			cm.role,
+			cm.status AS memberStatus
+		FROM crews AS c
+		LEFT JOIN crewmembers AS cm ON c.no = cm.crewNo
+		LEFT JOIN users AS u ON u.no = cm.userNo
+		WHERE c.no = #{crewNo}
+	</select>
+	<update id="updateCrewStatus">
+		UPDATE crewmembers
+		SET status = #{status}
+		WHERE crewNO = #{crewNo} AND userNo = #{userNo}
+	</update>
+</mapper>

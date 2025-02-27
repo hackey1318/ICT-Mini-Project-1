@@ -1,0 +1,105 @@
+<!-- 로그인 DIALOG -->
+<dialog id="loginDialog">
+    <button type="button" class="btn-close" id="closeLoginDialog"></button>
+    <div class="loginDialog-header">LOGIN</div>
+    <form class="login-form" method="post" action="/rs/users/loginOk" onsubmit="return formCheck();">
+        <input type="text" name="id" id="id" placeholder="아이디를 입력하세요." />
+		<input type="password" name="pw" id="pw" placeholder="비밀번호를 입력하세요."/>
+		<div class="optionBox">
+			<a href="#" id="openSignInDialogFromLogin">회원가입</a> |
+			<a href="#" id="findId">아이디 찾기</a>|
+			<a href="#" id="findPwd">패스워드 찾기</a>
+		</div>
+		<input type="submit" value="LOGIN" class="log-btn"/>
+	</form>
+</dialog>
+
+<!-- 회원가입 DIALOG -->
+<dialog id="signinDialog">
+	<button type="button" class="btn-close" id="closeSigninDialog"></button>
+	<div class="Signindialog-header">회원가입</div>
+	<form class="signin-form">
+		<ul>
+			<li>아이디</li>
+			<li><input type="text" name="userid" id="userid" onkeyup="idDuplicateStatus()">
+				<button type="button" class="id-check-btn" onclick="idDuplicate()">중복확인</button>
+				<div><span id="idCheck"></span></div>
+				<input type="hidden" id="idCheckStatus" value="N"/>
+			</li>
+			<li>패스워드</li>
+			<li><input type="password" name="userpwd" id="userpwd"></li>
+			<li>패스워드 확인</li>
+			<li><input type="password" name="pwd2" id="pwd2"/></li>
+			<li>이름</li>
+			<li><input type="text" name="username" id="username"/></li>
+			<li>닉네임</li>
+			<li><input type="text" name="userNickname" id="userNickname"/></li>
+			<li>이메일</li>
+			<li><input type="email" name="email" id="email"/></li>
+			<li>연락처</li>
+			<li><select name="tel1" id="tel1">
+					<option value="" selected>선택</option>
+					<option value="010">010</option>
+					<option value="02">02</option>
+					<option value="031">031</option>
+					<option value="041">041</option>
+					<option value="051">051</option>
+					<option value="061">061</option>
+				</select>
+				-
+				<input type="text" name="tel2" id="tel2">
+				-
+				<input type="text" name="tel3" id="tel3"/>
+			</li>
+			<li>주소</li>
+			<li><input type="text" name="zipcode" id="zipcode">
+				<input type="button" value="우편번호찾기" class="zipcode-btn" onclick="daumPostCodeSearch()"/>
+				<input type="text" name="addr" id="addr"/>
+			</li>
+			<li>상세주소</li>
+			<li><input type="text" name="addrDetail" id="addrDetail"/></li>
+			<li>생년월일</li>
+			<li><input type="date" name="birthdate" id="birthdate"></li>
+			<li>성별</li>
+			<li>
+				<input type="radio" name="gender" value="남"> 남
+				<input type="radio" name="gender" value="여"> 여
+			</li>
+			<li>선호 페이스</li>
+			<li>
+				<select name="preferredPace" id="preferredPace" class="preferred-pace" >
+					<option value="" selected>선택</option>
+					<option value="4분">4분 대</option>
+					<option value="5분">5분 대</option>
+					<option value="6분">6분 대</option>
+					<option value="7분">7분 대</option>
+					<option value="8분 이상">8분 이상</option>
+				</select>
+			</li>
+		</ul>
+		<!--  <button>회원가입</button> ----- submit과 버튼 둘다 submit 이벤트 발생-->
+		<input type="submit" value="회원가입" class="signin-btn"/>
+	</form>
+</dialog>
+
+<!-- 아이디 찾기 DIALOG -->
+<dialog id="findIdDialog">
+	<button type="button" class="btn-close" id="closeFindIdDialog"></button>
+	<div class="loginDialog-header">아이디 찾기</div>
+	<form id="findIdForm">
+		<input type="text" id="findIdEmail" placeholder="가입한 이메일을 입력하세요." required />
+		<input type="text" id="findIdPhone" placeholder="가입한 휴대폰 번호를 입력하세요." required />
+		<input type="submit" value="아이디 찾기" class="log-btn" />
+	</form>
+</dialog>
+
+<!-- 비밀번호 찾기 DIALOG -->
+<dialog id="findPwdDialog">
+	<button type="button" class="btn-close" id="closeFindPwdDialog"></button>
+	<div class="loginDialog-header">비밀번호 찾기</div>
+	<form id="findPwdForm">
+		<input type="text" id="findPwdId" placeholder="가입한 아이디를 입력하세요." required />
+		<input type="text" id="findPwdEmail" placeholder="가입한 이메일을 입력하세요." required />
+		<input type="submit" value="비밀번호 찾기" class="log-btn" />
+	</form>
+</dialog>

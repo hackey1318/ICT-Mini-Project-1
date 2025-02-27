@@ -1,0 +1,64 @@
+.modal-content {
+	margin-top: 150px;
+}
+.crew-content {
+	display: grid;
+}
+.crew-buttons {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+.crew-buttons>button {
+	width: 150px;
+	height: 40px;
+	margin: 10px auto;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	background-color: #FFED8A;
+}
+.crewDetail {
+	padding: 20px;
+}
+.crewDetail>div:nth-of-type(2n) {
+	padding-top: 10px;
+	font-weight: bold;
+	font-size: 1.2em;
+	color: #333;
+}
+#modalDescription {
+	font-size: 1.1em;
+}
+#modalImageContainer {
+    display: flex; /* 이미지들이 가로로 나열되도록 설정 */
+    overflow: hidden; /* 이미지들이 슬라이드 되도록 영역 밖은 보이지 않게 */
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+    object-fit: cover;
+}
+.crew-image {
+    width: 466px;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 1s ease-in-out;
+}
+@media(min-width: 992px) {
+	.modal-content {
+		margin-top: 200px;
+	}
+	.crew-buttons>button {
+		width: 200px;
+		height: 50px;
+		margin-top: 30px;
+		font-size: 1.4em;
+	}
+	.crew-content {
+		grid-template-columns: 1fr 1.5fr;
+	}
+	.crew-image {
+	    width: 300px;
+	    height: 300px;
+	    object-fit: cover;
+	    transition: transform 1s ease-in-out;
+	}
+}

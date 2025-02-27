@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ict.rs.dao.CrewDAO">
+	<select id="crewTopThree">
+		select no, name, description from crews
+		where status = 'active'
+		order by no limit 3 offset 0; <!-- 난수 지정해서 랜덤 3개? -->
+	</select>
+	<select id="crewTotalRecord" resultType="int">
+    select count(no) 
+    from crews
+    where 
+        city like concat('%', #{city}, '%') 
+        and district like concat('%', #{district}, '%')
+        and name like concat('%', #{crewName}, '%')
+        and status = 'active'
+	</select>
+	<select id="crewViewSelect">
+		select no, name, description, city, district, runningDay, status from crews
+		where no = ${param1}
+	</select>
+	<select id="crewSelect">
+		select no, name, description, city, district  from crews
+		where city like concat('%', #{city}, '%')
+			and district like concat('%', #{district}, '%')
+			and name like concat('%', #{crewName}, '%')
+			and status = 'active'
+		order by no limit ${onePageRecord} offset ${offset}
+	</select>
+    <insert id="crewInsert" useGeneratedKeys="true" keyProperty="no" parameterType="com.ict.rs.vo.CrewVO">
+		insert into crews (name, description, city, district, runningDay, status)
+		values(#{name}, #{description}, #{city}, #{district}, #{runningDay}, #{status})
+	</insert>
+	<update id="crewUpdate" parameterType="com.ict.rs.vo.CrewVO">
+		update crews set name = #{name}, city = #{city}, district = #{district}, runningDay = #{runningDay}
+		where no = ${no}
+	</update>
+	<update id="crewDelete">
+		update crews set status = 'deleted' where no = ${param1}
+	</update>
+	<insert id="crewJoin">
+		insert into crewMembers (crewNo, userNo, role, status)
+		values(#{crewNo}, #{userNo}, #{role}, #{status})
+	</insert>
+</mapper>
