@@ -12,7 +12,7 @@ function openCrewCreateModal() {
 		</div>
 		
 		<div class="modal-body">
-            <form method="POST" id="crewForm" onsubmit="return handleFormSubmit(event);" enctype="multipart/form-data">
+            <form method="POST" id="crewForm" onsubmit="return createHandleFormSubmit(event);" enctype="multipart/form-data">
 				<input type="hidden" name="status" value="active"/>
 
 				<label>크루명</label>
@@ -76,7 +76,7 @@ function openCrewCreateModal() {
 
 }
 
-async function handleFormSubmit(event) {
+async function createHandleFormSubmit(event) {
     event.preventDefault();
     if (!crewFormCheck()) {
         return false;
@@ -216,6 +216,7 @@ async function handleFormSubmit(event) {
 
         // 모달 닫기
         myModal.hide();
+        location.reload();
 
         // 남아있는 backdrop 제거
         setTimeout(() => {
