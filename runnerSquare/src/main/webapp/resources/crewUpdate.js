@@ -23,14 +23,16 @@ function openCrewUpdateModal(crewData) {
                 <div class="alert"></div>
 
                 <label>활동지역</label>
-                <select id="citySelect" name="city" onchange="changeState()">
-                    <option value="">시/도</option>
-                    <option value="${crewData.city}" selected>${crewData.city}</option>
-                </select>
-                <select id="districtSelect" name="district">
-                    <option value="">시/군/구</option>
-                    <option value="${crewData.district}" selected>${crewData.district}</option>
-                </select>
+	                <div class="locationGroup">
+		                <select id="citySelect" name="city" onchange="changeState()">
+		                    <option value="">시/도</option>
+		                    <option value="${crewData.city}" selected>${crewData.city}</option>
+		                </select>
+		                <select id="districtSelect" name="district">
+		                    <option value="">시/군/구</option>
+		                    <option value="${crewData.district}" selected>${crewData.district}</option>
+		                </select>
+	                </div>
                 <div class="alert"></div>
 
                 <label>러닝일</label>

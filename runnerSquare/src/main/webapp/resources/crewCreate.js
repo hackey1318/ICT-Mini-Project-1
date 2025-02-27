@@ -20,14 +20,14 @@ function openCrewCreateModal() {
 				<div class="alert"></div>
 
 				<label>활동지역</label>
-				<div class="locationGroup">
-			        <select id="citySelect" name="city" onchange="changeState()">
-			            <option value="">시/도</option>
-			        </select>
-			        <select id="districtSelect" name="district">
-			            <option value="">시/군/구</option>
-			        </select>
-			    </div>
+					<div class="locationGroup">
+				        <select id="citySelect" name="city" onchange="changeState()">
+				            <option value="">시/도</option>
+				        </select>
+				        <select id="districtSelect" name="district">
+				            <option value="">시/군/구</option>
+				        </select>
+				    </div>
 				<div class="alert"></div>
 
 				<label>러닝일</label>

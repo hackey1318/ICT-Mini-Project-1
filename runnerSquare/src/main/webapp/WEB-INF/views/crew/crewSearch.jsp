@@ -34,7 +34,7 @@
 		border: 1px solid #ddd;
 		border-radius: 10px;
 	}
-	input[type=submit] {
+	#search-form>input[type=submit] {
 		background-color: #FFED8A;
 	}
 	#crews, .crewList {
