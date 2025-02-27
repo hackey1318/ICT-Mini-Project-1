@@ -14,7 +14,7 @@ function openCrewUpdateModal(crewData) {
         </div>
 
         <div class="modal-body">
-            <form method="POST" id="crewForm" onsubmit="return handleFormSubmit(event);" enctype="multipart/form-data">
+            <form method="POST" id="crewForm" onsubmit="return updateHandleFormSubmit(event);" enctype="multipart/form-data">
                 <input type="hidden" name="status" value="${crewData.status}"/>
                 <input type="hidden" name="no" value="${crewData.no}"/>
 
@@ -71,7 +71,7 @@ function openCrewUpdateModal(crewData) {
 	
 }
 
-function handleFormSubmit(event) {
+function updateHandleFormSubmit(event) {
     event.preventDefault();
 
     if (!crewFormCheck()) {

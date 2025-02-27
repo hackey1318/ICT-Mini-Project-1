@@ -30,8 +30,6 @@ function crewJoin(role, crewNo) {
             .then(data => {
                 if (data == 1 && role == 'member') {
                     alert('크루 가입 성공!');
-                } else {
-                    alert('크루 가입 실패');
                 }
             })
             .catch(error => {
