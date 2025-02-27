@@ -1,4 +1,4 @@
-let myModal;  // 전역에서 선언
+var myModal;  // 전역에서 선언
 
 function openCrewCreateModal() {
 
@@ -12,7 +12,7 @@ function openCrewCreateModal() {
 		</div>
 		
 		<div class="modal-body">
-            <form method="POST" id="crewForm" onsubmit="return handleFormSubmit(event);" enctype="multipart/form-data">
+            <form method="POST" id="crewForm" onsubmit="return createHandleFormSubmit(event);" enctype="multipart/form-data">
 				<input type="hidden" name="status" value="active"/>
 
 				<label>크루명</label>
@@ -20,14 +20,14 @@ function openCrewCreateModal() {
 				<div class="alert"></div>
 
 				<label>활동지역</label>
-				<div class="locationGroup">
-			        <select id="citySelect" name="city" onchange="changeState()">
-			            <option value="">시/도</option>
-			        </select>
-			        <select id="districtSelect" name="district">
-			            <option value="">시/군/구</option>
-			        </select>
-			    </div>
+					<div class="locationGroup">
+				        <select id="citySelect" name="city" onchange="changeState()">
+				            <option value="">시/도</option>
+				        </select>
+				        <select id="districtSelect" name="district">
+				            <option value="">시/군/구</option>
+				        </select>
+				    </div>
 				<div class="alert"></div>
 
 				<label>러닝일</label>
@@ -76,7 +76,7 @@ function openCrewCreateModal() {
 
 }
 
-async function handleFormSubmit(event) {
+async function createHandleFormSubmit(event) {
     event.preventDefault();
     if (!crewFormCheck()) {
         return false;
@@ -123,6 +123,8 @@ async function handleFormSubmit(event) {
         if (!crewData || !crewData.no) {
             throw new Error('크루 정보를 저장하는 데 실패했습니다.');
         }
+
+        crewJoin('leader', crewData.no);
 
         const logoFormData = new FormData();
         logoFormData.append("files", document.querySelector("#crewLogo").files[0]);
@@ -214,6 +216,7 @@ async function handleFormSubmit(event) {
 
         // 모달 닫기
         myModal.hide();
+        location.reload();
 
         // 남아있는 backdrop 제거
         setTimeout(() => {

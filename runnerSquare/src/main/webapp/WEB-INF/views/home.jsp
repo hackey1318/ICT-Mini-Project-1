@@ -1,6 +1,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/crewJoin.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/crewDetail.js"></script>
 <link href="${pageContext.request.contextPath}/resources/crewDetail.css" rel="stylesheet" type="text/css"/>
 
@@ -98,8 +99,8 @@
 		                </div>
 		            </div>
 		            <div class="crew-buttons">
-			            <button onclick="crewJoin('member')">크루가입</button>
-		                <button onclick="location.href='/rs/run/runSearch'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
+			            <button onclick="crewJoin('member', getCrewNo())">크루가입</button>
+		                <button onclick="location.href='/rs/run/runSearch?no='+getCrewNo()">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
 		            </div>
 	            </div>
 			</div>

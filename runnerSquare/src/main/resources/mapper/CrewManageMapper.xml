@@ -20,7 +20,7 @@
 		crews.status
 		from crewmembers
 		left join crews on crewmembers.crewNO = crews.no
-		where userNo=${param1};
+		where userNo=${param1} and crews.status='active';
 	</select>
 
 	<select id="crewMemberList" resultType="com.ict.rs.vo.CrewManageVO">

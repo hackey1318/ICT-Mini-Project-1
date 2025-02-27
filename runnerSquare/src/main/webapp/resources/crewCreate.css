@@ -1,6 +1,3 @@
-.main-container {
-	padding-top: 300px;
-}
 #modal-button {
 	width: 100px;
 	height: 30px;
@@ -66,35 +63,3 @@
 		padding: 5px 15px;
 	}
 }
-/*
-#description, input[type=text], select {
-	width: 76%;
-	margin: 5px 1%;
-	padding: 5px;
-	border: 1px solid #ddd;
-}
-select {
-	width: 36%;
-}
-#dayCheckBox {
-	display: inline;
-}
-#dayCheckBox>input {
-	margin: 0 1%;
-}
-#crewImage {
-	margin: 5px 1%;
-}
-form>label {
-	width: 20%;
-	line-height: 30px;
-	text-align: center;
-}
-#description {
-	height: 200px;
-}
-.modal-body div:last-of-type {
-	text-align: center;
-	margin: 20px;
-}
-*/

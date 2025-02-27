@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+
 <style>
 .sideBar{
 	width:200px;
@@ -9,7 +10,6 @@
 	z-index:100;
 }
 </style>
- <%-- 상단에 추가하여 사용 <%@ include file="sideBar.jsp"%> --%>
 
 
 <div class="sideBar">
@@ -29,7 +29,7 @@
 	   	<!-- ///////////////크루생성 button/////////////// -->
 	    <button type="button"
 	    		class="btn btn-outline-secondary"
-	    		onclick = "location.href = '#'"
+	    		onclick = "openCrewCreateModal()"
 	    >크루생성</button>
 	    
 	    <!-- ///////////////크루관리 button/////////////// -->

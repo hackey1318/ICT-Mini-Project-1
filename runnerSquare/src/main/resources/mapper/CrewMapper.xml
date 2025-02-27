@@ -7,6 +7,7 @@
 <mapper namespace="com.ict.rs.dao.CrewDAO">
 	<select id="crewTopThree">
 		select no, name, description from crews
+		where status = 'active'
 		order by no limit 3 offset 0; <!-- 난수 지정해서 랜덤 3개? -->
 	</select>
 	<select id="crewTotalRecord" resultType="int">

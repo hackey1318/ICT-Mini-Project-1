@@ -1,17 +1,17 @@
-function crewJoin(role) {
+function getCrewNo() {
+    return document.getElementById('crewDetailModal').getAttribute('data-id');
+}
+
+function crewJoin(role, crewNo) {
     // 세션의 'logStatus'를 확인하기 위해 요청
     fetch('/rs/users/checkLogStatus', {
         method: 'GET',  // 세션 값을 확인하는 GET 요청
     })
     .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        
+    .then(data => {        
         const userNo = data.userNo;
         
         if (userNo) {  // 세션이 로그인 상태라면
-            const crewNo = document.getElementById('crewDetailModal').getAttribute('data-id');  // 크루 no를 가져옴
-
             const requestData = {
                 crewNo: crewNo,
                 userNo: userNo,
@@ -28,11 +28,8 @@ function crewJoin(role) {
             })
             .then(response => response.json())
             .then(data => {
-                if (data == 1) {
+                if (data == 1 && role == 'member') {
                     alert('크루 가입 성공!');
-                    // 추가적인 작업 예: 페이지 리로드, 크루 정보 업데이트 등
-                } else {
-                    alert('크루 가입 실패');
                 }
             })
             .catch(error => {
