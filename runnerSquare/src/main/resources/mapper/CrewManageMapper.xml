@@ -7,20 +7,19 @@
 <mapper namespace="com.ict.rs.dao.CrewManageDAO">
 	<select id="crewNameList" resultType="com.ict.rs.vo.CrewManageVO">
 		select
-		crewmembers.userNo,
-		crewmembers.crewNO,
-		crews.name,
-		crewmembers.role,
-		crewmembers.status,
-		DATE_FORMAT(crewmembers.createdAt, '%Y-%m-%d') AS createdAt,
-		DATE_FORMAT(crewmembers.updatedAt, '%Y-%m-%d') AS updatedAt,
-		crews.city,
-		crews.district,
-		crews.runningDay,
-		crews.status
-		from crewmembers
-		left join crews on crewmembers.crewNO = crews.no
-		where userNo=${param1} and crews.status='active';
+        	c.no,
+        	cm.role AS role,
+        	c.status AS crewStatus,  -- 필드명이 중복되지 않도록 별칭 지정       	
+        	cm.status AS memberStatus,  -- 필드명이 중복되지 않도록 별칭 지정
+        	cm.createdAt,
+        	cm.updatedAt,
+        	c.name,
+        	c.city,
+        	c.district,
+        	c.runningDay
+    	from crewmembers as cm
+    	left join crews AS c ON cm.crewNo = c.no
+    	where cm.userNo = #{userNo}
 	</select>
 
 	<select id="crewMemberList" resultType="com.ict.rs.vo.CrewManageVO">

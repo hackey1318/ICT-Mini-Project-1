@@ -15,6 +15,9 @@ public class RunServiceImpl implements RunService {
 
 	@Inject RunDAO dao;
 
+	@Inject
+	NotificationService notificationService;
+
 	@Override
 	public int runInsert(RunVO vo) {
 		return dao.runInsert(vo);
@@ -47,12 +50,16 @@ public class RunServiceImpl implements RunService {
 
 	@Override
 	public int runJoin(int runningno, int userno) {
-		return dao.runJoin(runningno, userno);
+		int join = dao.runJoin(runningno, userno);
+		notificationService.generateNotification(userno, dao.runInfo(runningno), "참여");
+		return join;
 	}
 
 	@Override
 	public int runLeave(int runningno, int userno) {
-		return dao.runLeave(runningno, userno);
+		int leave = dao.runLeave(runningno, userno);
+		notificationService.generateNotification(userno, dao.runInfo(runningno), "참여 취소");
+		return leave;
 	}
 
 	@Override

@@ -20,4 +20,8 @@
             #{notificationNo}
         </foreach>
     </update>
+
+    <insert id="createNotification">
+        insert into notification (userNo, content, status) values (#{userNo}, #{content}, #{status})
+    </insert>
 </mapper>

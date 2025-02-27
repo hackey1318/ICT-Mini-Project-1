@@ -105,7 +105,7 @@
 </div>
 
 <script>
-
+	const userStatus = <%= (userStatus != null) ? "\"" + userStatus + "\"" : "null" %>;
     //크루리스트 기능
     function loadCrewNameList() {
          const userNo = <%= userNo %>;
@@ -165,7 +165,7 @@
    
                                if (vo.status === 'apply') {
                                  crewListTag += "<td>신청대기중</td>";
-                               } else if (vo.status === 'approval') {
+                               } else if (vo.status === 'active') {
                                    crewListTag += "<td><button type='button' class='btn btn-outline-danger btn-sm withdrawButton' data-user-no='" + vo.userNo + "' data-crew-no='" + vo.crewNo + "'>탈퇴하기</button></td>";
                                } else if (vo.status === 'withdrawal') {
                                crewListTag += "<td>탈퇴한크루</td>";
@@ -298,12 +298,14 @@
                             if(mvo.role === 'member'){
                                memberListTag += "<td>-</td>";
                             }
-                          else if (mvo.status === 'approval') {
-                                memberListTag += "<td><button type='button' class='btn btn-outline-danger btn-sm kickButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" +  mvo.crewNo + "'>강퇴하기</button></td>";
-                            } else if (mvo.status === 'apply') {
-                                memberListTag += "<td><button type='button' class='btn btn-success btn-sm acceptButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + mvo.crewNo + "'>✓</button><span> </span><button type='button' class='btn btn-danger btn-sm refuseButton 'data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + crewNo + "'>×</button></td>";
-                            } else if (mvo.status === 'withdrawal') {
-                                memberListTag += "<td>탈퇴한크루</td>";
+                            else {
+                                if (mvo.status === 'approval') {
+                                    memberListTag += "<td><button type='button' class='btn btn-outline-danger btn-sm kickButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" +  mvo.crewNo + "'>강퇴하기</button></td>";
+                                } else if (mvo.status === 'active') {
+                                    memberListTag += "<td><button type='button' class='btn btn-success btn-sm acceptButton' data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + mvo.crewNo + "'>✓</button><span> </span><button type='button' class='btn btn-danger btn-sm refuseButton 'data-nick-name='" + mvo.nickName + "' data-user-no='" + mvo.userNo + "' data-crew-no='" + crewNo + "'>×</button></td>";
+                                } else if (mvo.status === 'withdrawal') {
+                                    memberListTag += "<td>탈퇴한크루</td>";
+                                }
                             }
                             memberListTag += "</tr>"; // 행 끝
                     });
@@ -408,7 +410,13 @@
     }
 
     window.onload = function() {
-        loadCrewNameList();
+        console.log(userStatus);
+    	if (userStatus !== null && userStatus === 'Y') {
+    		loadCrewNameList();
+        } else {
+    		alert("로그인이 필요합니다.");
+        	window.location.href = "${pageContext.request.contextPath}";
+        }
         //loadCrewMemberList();
     };
 </script>

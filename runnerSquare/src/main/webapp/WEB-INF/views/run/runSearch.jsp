@@ -412,8 +412,9 @@ section .right ul li input:focus {
                   alert("크루 이름를 받지 못했습니다. 다시 진행해주세요.");
              }
      	});
-	} 
+	}
 
+	const userStatus = <%= (userStatus != null) ? "\"" + userStatus + "\"" : "null" %>;
 	const dateBtn = document.getElementById('dateBtn');
 	const dayBtn = document.getElementById('dayBtn');
 	const dateordayInput = document.getElementById('dateordayInput');
@@ -554,27 +555,38 @@ section .right ul li input:focus {
 				row += "<td>" + vo.joinednum + " / "
 							+ vo.runmaxnum + "</td>";
 						// 참석 여부에 따라 다른 이미지 표시
-				$.ajax({
-            		url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?runningno=" + vo.no + "&userno=" + userno,
-            		type:"GET",
-            		dataType:"json",
-            		success:function(checkJoined){
-            						console.log(userno);
-               						console.log("v아이콘 디스플레이용 참석 여부 확인 ajax->",checkJoined);
-               						if(checkJoined){
-            	   						row += "<td><img src='../img/vicon-blue.png' style='width:16px; height:16px;'></td>";
-               						}else{
-            	   						row += "<td></td>"; // 참석 정보가 없으면 빈 칸
-               						}
-               						row += "<td><a href='#' data-no='" + vo.no + "' data-bs-toggle='modal' data-bs-target='#runInfo'><img src='../img/vicon-red.png' style='width:16px; height:16px;'></a></td></tr>";
-    								rows[index] = row;
-    								completedRequests++;
-    								if(completedRequests === totalRequests){
-    									$("#view").append(rows.join(''));
-    								}
-            					}
-            			});
-				});
+				// id가 없으면 안 하도록
+				if (userStatus !== null && userStatus === 'Y') {
+					$.ajax({
+            			url:"${pageContext.request.contextPath}/run/ajaxcheckJoined?runningno=" + vo.no + "&userno=" + userno,
+            			type:"GET",
+            			dataType:"json",
+            			success:function(checkJoined){
+            				console.log(userno);
+               				console.log("v아이콘 디스플레이용 참석 여부 확인 ajax->",checkJoined);
+               				if(checkJoined){
+            	   				row += "<td><img src='../img/vicon-blue.png' style='width:16px; height:16px;'></td>";
+               				}else{
+            	   				row += "<td></td>"; // 참석 정보가 없으면 빈 칸
+               				}
+               				row += "<td><a href='#' data-no='" + vo.no + "' data-bs-toggle='modal' data-bs-target='#runInfo'><img src='../img/vicon-red.png' style='width:16px; height:16px;'></a></td></tr>";
+    						rows[index] = row;
+    						completedRequests++;
+    						if(completedRequests === totalRequests){
+    							$("#view").append(rows.join(''));
+    						}
+            			}
+            		});
+				} else {
+					row += "<td></td>";
+       				row += "<td><a href='#' data-no='" + vo.no + "' data-bs-toggle='modal' data-bs-target='#runInfo'><img src='../img/vicon-red.png' style='width:16px; height:16px;'></a></td></tr>";
+       				rows[index] = row;
+       				completedRequests++;
+					if(completedRequests === totalRequests){
+						$("#view").append(rows.join(''));
+					}
+				}
+			});
         } else {
 	        var tag = "<tr><td colspan='10'>검색 결과가 없습니다.</td></tr></tbody></table>";
 	        $("#view").append(tag);
@@ -731,6 +743,11 @@ section .right ul li input:focus {
 		                        }
 		                        
 		                        if(joinButton.text()=="참여"){
+		                        	if (userStatus === null || userStatus !== 'Y') {
+
+		                        		alert("로그인 후 사용 가능합니다.");
+		                        		return;
+		                        	}
 		                        	if (confirm("예약하시겠습니까?")) {
 		                        		var runningno = no;
 		                           		console.log("참여 예약하는 runningno->",runningno);

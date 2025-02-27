@@ -55,8 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 알림 창에 position을 absolute로 설정
         notificationDialog.style.position = "absolute";
-        notificationDialog.style.top = `${bellRect.bottom + window.scrollY + 167}px`; // 계산된 top 값
-        notificationDialog.style.left = `${bellRect.right + window.scrollX + 60}px`; // 계산된 left 값
+        notificationDialog.style.top = `${bellRect.bottom + window.scrollY}px`; // 계산된 top 값
+        notificationDialog.style.left = `${bellRect.right + window.scrollX + 10}px`; // 계산된 left 값
     }
 
     markAllAsReadButton.addEventListener("click", function () {
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
                      // 번호
                     const numberSpan = document.createElement("span");
                     numberSpan.classList.add("notification-number");
-                    numberSpan.textContent = '${index + 1}. ';
+                    numberSpan.textContent = `${index + 1}. `;
 
                      // 알림 텍스트
                     const notificationText = document.createElement("span");

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,11 +125,12 @@ public class RunController {
         return service.personNumInsert(no, joinednum);
     }
     
-    @GetMapping("/run/ajaxgetCrewName")
+    @GetMapping(value = "/run/ajaxgetCrewName", produces = "application/text;charset=UTF-8")
     @ResponseBody
-    public String getCrewName(int no) {
-    	System.out.println("crewno->"+no);
-    	return service.getCrewName(no);
+    public String getCrewName(int no, HttpServletResponse response) {
+        System.out.println("crewno->" + no);
+        response.setCharacterEncoding("UTF-8");
+        return service.getCrewName(no);
     }
     
 }

@@ -3,6 +3,8 @@ package com.ict.rs.service;
 import com.ict.rs.dao.NotificationDAO;
 import com.ict.rs.vo.MemberVO;
 import com.ict.rs.vo.NotificationVO;
+import com.ict.rs.vo.RunVO;
+import com.ict.rs.vo.constant.notification.NotificationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,17 @@ public class NotificationServiceImpl implements NotificationService {
     public int readNotification(int userNo, List<Integer> notificationNoList) {
         MemberVO user = this.getMember(userNo);
         return notificationDAO.readNotification(user.getNo(), notificationNoList);
+    }
+
+    @Override
+    public void generateNotification(int userNo, RunVO runVO, String type) {
+        String message = "";
+        if ("참여".equals(type)) {
+            message += "[" + runVO.getName() + "] " + type + " 신청 완료 되었습니다.";
+        } else {
+            message += "[" + runVO.getName() + "] " + type + " 완료 되었습니다.";
+        }
+        notificationDAO.createNotification(userNo, message, NotificationStatus.READABLE.name().toLowerCase());
     }
 
     private MemberVO getMember(int userNo) {

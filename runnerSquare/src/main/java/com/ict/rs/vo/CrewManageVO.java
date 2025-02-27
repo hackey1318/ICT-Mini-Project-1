@@ -12,7 +12,8 @@ public class CrewManageVO {
 	public int crewNo;
 	public int userNo;
 	public String role;
-	public String status;
+	public String crewStatus;
+	public String memberStatus;
 	public String createdAt;
 	public String updatedAt;
 	public String name; // crewname

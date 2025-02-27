@@ -61,13 +61,19 @@
 
 	.notification-dialog {
 	    position: absolute;
-	    width: 280px;
-	    background: rgba(0, 0, 0, 0.4);
+	    width: 400px;
+	    background: rgba(0, 0, 0, 0.6);
 	    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12);
 	    border-radius: 8px;
 	    padding: 4px;
 	    display: none;
 	    z-index: 100;
+	}
+	
+	@media(max-width: 992px) {
+		.notification-dialog {
+			width: 300px;
+		}
 	}
 
 	 #logo {
@@ -130,7 +136,7 @@
 	    padding: 8px 12px;
 	    border-bottom: 1px solid #eee;
 	    font-size: 14px;
-	    color: #333;
+	    color: white;
 	    overflow: hidden;
 	}
 
@@ -165,7 +171,7 @@
     	border: none;
     	font-size: 14px;
     	font-weight: bold;
-    	color:rgb(0, 0, 0);
+    	color:white;
     	cursor: pointer;
     	padding: 2px 6px;
     	flex-shrink: 0; /* 버튼이 줄어들지 않도록 */
@@ -188,6 +194,7 @@
 <script src="${pageContext.request.contextPath}/resources/auth.js"></script>
 <script src="${pageContext.request.contextPath}/resources/validation.js"></script>
 <% String userId = (String) session.getAttribute("userId"); %>
+<% String userStatus = (String) session.getAttribute("logStatus");%>
 <script>
 	async function fetchNotificationCount() {
 	    try {
@@ -242,10 +249,10 @@
 							<button type="button" class="btn btn-link" id='markAllAsRead'><b>전체 읽음</b></button>
     					</div>
     					<div>
-							<button type="button" class="btn btn-close"/>
+							<button type="button" class="btn btn-close btn-close-white"/>
     					</div>
     				</div>
-    	    		<h2><b>알림</b></h2>
+    	    		<h2 style="color:white"><b>알림</b></h2>
     	    		<ol id="notificationList" class="notification-list"></ol>
     			</div>
 			</div>
@@ -257,8 +264,8 @@
 					<li><a href="${pageContext.request.contextPath}/run/runSearch">RUNNING</a></li>
 					<% if (userId != null && userId.trim() != "") { %>
 				        <li><a href="${pageContext.request.contextPath}/crew/crewManage">MANAGE</a></li>
+				        <li><a href="${pageContext.request.contextPath}/users/myPage">MYPAGE</a></li>
 				    <%}%>
-			        <li><a href="${pageContext.request.contextPath}/users/myPage">MYPAGE</a></li>
 				</ul>
 			</div>
 		</div>
