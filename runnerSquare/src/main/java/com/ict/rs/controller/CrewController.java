@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -59,11 +60,6 @@ public class CrewController {
 		return mav;
 	}
 
-	@GetMapping("/crew/crewCreate")
-	public String crewCreate() {
-		return "crew/crewCreate";
-	}
-
 	@ResponseBody
 	@GetMapping("/crew/details/{no}")
 	public CrewVO crewDetail(@PathVariable int no) {
@@ -89,42 +85,24 @@ public class CrewController {
 	}
 
 	@GetMapping("/crew/crewUpdate")
-	public ModelAndView crewUpdate(int crew_no) {
+	@ResponseBody
+	public CrewVO crewUpdate(@RequestParam int crew_no) {
 		CrewVO vo = service.crewViewSelect(crew_no);
 
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("vo", vo);
-		mav.setViewName("/crew/crewUpdate");
-		log.info(vo.toString());
-		return mav;
+		return vo;
 	}
 
 	@PostMapping("/crew/crewUpdateOk")
 	@ResponseBody
-	public CrewVO crewUpdateOk(@RequestBody CrewVO vo) {
-		// vo.setUserid((String)session.getAttribute("userId"));
-
-		int res = service.crewUpdate(vo);
-		if (res > 0) {
-			return service.crewViewSelect(vo.getNo());
-		} else {
-			throw new RuntimeException("크루 생성에 실패하였습니다.");
-		}
+	public int crewUpdateOk(@RequestBody CrewVO vo) {
+		return service.crewUpdate(vo);
 	}
 
 	@GetMapping("/crew/crewDelete")
-	public ModelAndView crewDelete(int crew_no) {
-		ModelAndView mav = new ModelAndView();
+	@ResponseBody
+	public int crewDelete(@RequestParam int crew_no) {
 
-		int result = service.crewDelete(crew_no);
-		if (result > 0) {
-			log.info("크루 삭제 성공");
-		} else {
-			log.info("크루 삭제 실패");
-		}
-		mav.setViewName("redirect:/");
-
-		return mav;
+		return service.crewDelete(crew_no);
 	}
 
 	@PostMapping("/crew/crewJoin")
@@ -132,7 +110,6 @@ public class CrewController {
 	public int crewJoin(@RequestBody CrewMemberVO vo) {
 		vo.setStatus("active");
 
-		System.out.println(vo);
 		return service.crewJoin(vo);
 	}
 

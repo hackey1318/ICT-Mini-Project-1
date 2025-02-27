@@ -155,7 +155,7 @@
 		                </div>
 		            </div>
 		            <div class="crew-buttons">
-			            <button onclick="crewJoin('member')">크루가입</button>
+			            <button onclick="crewJoin('member', getCrewNo())">크루가입</button>
 		                <button onclick="location.href='/rs/run/runSearch'">게스트런 신청</button> <!-- 러닝 검색으로 이동 -->
 		            </div>
 	            </div>
