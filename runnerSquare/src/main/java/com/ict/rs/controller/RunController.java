@@ -25,8 +25,7 @@ public class RunController {
     public String runSearch() {
         return "run/runSearch";
     }
-
-
+    
     @PostMapping("/run/ajaxObject")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> ajaxObject(RunVO vo) {
@@ -34,13 +33,13 @@ public class RunController {
         try {
             service.runInsert(vo);
             result.put("status", "success");
-            result.put("message", "번개런 생성 성공");
+            result.put("message", "번개런 신청 완료");
             result.put("no", vo.getNo());
             result.put("message", vo.getNo());
             return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
         } catch (Exception e) {
             result.put("status", "error");
-            result.put("message", "번개런 생성 실패." + e.getMessage());
+            result.put("message", "번개런 신청 오류" + e.getMessage());
             return new ResponseEntity<Map<String, Object>>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,17 +49,16 @@ public class RunController {
     public ResponseEntity<List<RunVO>> runList(RunSelectVO sVO) {
         System.out.println(sVO.toString());
         try {
-            List<RunVO> runList = service.runList(sVO); // RunService의 runList() 메서드 호출
+            List<RunVO> runList = service.runList(sVO); // RunService�쓽 runList() 硫붿꽌�뱶 �샇異�
             if (runList == null || runList.isEmpty()) {
-                return new ResponseEntity<List<RunVO>>(HttpStatus.NO_CONTENT); // 데이터가 없을 경우 204 No Content 반환
+                return new ResponseEntity<List<RunVO>>(HttpStatus.NO_CONTENT); // �뜲�씠�꽣媛� �뾾�쓣 寃쎌슦 204 No Content 諛섑솚
             }
-            return new ResponseEntity<List<RunVO>>(runList, HttpStatus.OK); // 데이터가 있을 경우 200 OK와 함께 데이터 반환
+            return new ResponseEntity<List<RunVO>>(runList, HttpStatus.OK); // �뜲�씠�꽣媛� �엳�쓣 寃쎌슦 200 OK�� �븿猿� �뜲�씠�꽣 諛섑솚
         } catch (Exception e) {
-            e.printStackTrace(); // 예외 발생 시 콘솔에 에러 출력 (로깅 권장)
-            return new ResponseEntity<List<RunVO>>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error 반환
+            e.printStackTrace(); // �삁�쇅 諛쒖깮 �떆 肄섏넄�뿉 �뿉�윭 異쒕젰 (濡쒓퉭 沅뚯옣)
+            return new ResponseEntity<List<RunVO>>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error 諛섑솚
         }
     }
-
 
     @GetMapping("/run/ajaxInfo")
     @ResponseBody
@@ -118,11 +116,18 @@ public class RunController {
         return service.checkPersonNum(Integer.parseInt(runningno));
     }
 
-    @GetMapping("run/ajaxpersonNumInsert")
+    @GetMapping("/run/ajaxpersonNumInsert")
     @ResponseBody
     public int personNumInsert(int no, int joinednum) {
         System.out.println(no + ", " + joinednum);
         return service.personNumInsert(no, joinednum);
     }
-
+    
+    @GetMapping("/run/ajaxgetCrewName")
+    @ResponseBody
+    public String getCrewName(int no) {
+    	System.out.println("crewno->"+no);
+    	return service.getCrewName(no);
+    }
+    
 }

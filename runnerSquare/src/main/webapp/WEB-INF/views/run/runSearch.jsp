@@ -396,6 +396,24 @@ section .right ul li input:focus {
 	
 </div>
 <script>
+	const urlParams = new URLSearchParams(window.location.search);
+	const no = urlParams.get('crewno');
+	console.log("crewno->",no);
+	if (no) {
+		$.ajax({
+             url: "${pageContext.request.contextPath}/run/ajaxgetCrewName?no=" + no,
+             type: "GET",
+             dataType: "text",
+             success: function(name) {
+                     console.log("받아온 크루 이름->",name);
+                     document.getElementById('crewNameInput').value = name;
+             },   error : function(e) {
+                  console.log(e.responseText);
+                  alert("크루 이름를 받지 못했습니다. 다시 진행해주세요.");
+             }
+     	});
+	} 
+
 	const dateBtn = document.getElementById('dateBtn');
 	const dayBtn = document.getElementById('dayBtn');
 	const dateordayInput = document.getElementById('dateordayInput');
@@ -405,6 +423,7 @@ section .right ul li input:focus {
 	const sidoInput = document.getElementById('sidoInput');
 	const guInput = document.getElementById('guInput');
 	const timeInput = document.getElementById('timeInput');
+	const crewNameInput = document.getElementById('crewNameInput');
 	const sidoSelect = document.getElementById('sidoSelect');
 	const guSelect = document.getElementById('guSelect');
 	const timeSelect = document.getElementById('timeSelect');

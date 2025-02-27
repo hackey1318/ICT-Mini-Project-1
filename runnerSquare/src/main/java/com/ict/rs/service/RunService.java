@@ -28,5 +28,7 @@ public interface RunService {
 	public int checkPersonNum(int runningno);
 
 	public int personNumInsert(int no, int joinednum);
+	
+	public String getCrewName(int no);
 
 }

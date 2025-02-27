@@ -70,4 +70,9 @@ public class RunServiceImpl implements RunService {
 		return dao.personNumInsert(no, joinednum);
 	}
 
+	@Override
+	public String getCrewName(int no) {
+		return dao.getCrewName(no);
+	}
+
 }

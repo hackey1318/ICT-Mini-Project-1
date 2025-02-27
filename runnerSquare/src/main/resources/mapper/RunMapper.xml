@@ -11,14 +11,14 @@
     <!-- vo일 때는 #{변수}로 값을 가져온다. -->
   	
   	
-  	<insert id="runInsert" parameterType="com.ict.rs.vo.RunVO" useGeneratedKeys="true" keyProperty="no" keyColumn="no"> 
+  	<insert id="runInsert" parameterType="com.ict.rs.vo.RunVO" useGeneratedKeys="true" keyProperty="no" keyColumn="no">
   		insert into runnings(no, runningdate, runningcity, region, runningtime, meetingpoint,
   							type, joinednum, runmaxnum, name, crewno, ownerno, status) 
   		values(#{no}, #{runningdate}, #{runningcity}, #{region}, #{runningtime}, #{meetingpoint}, #{type},
   			   #{joinednum}, #{runmaxnum}, #{name}, #{crewno}, #{ownerno}, #{status}) 
   	</insert>
     	
-  	<select id="runList" parameterType="com.ict.rs.vo.RunSelectVO" resultType="com.ict.rs.vo.RunVO">
+  	<!-- <select id="runList" parameterType="com.ict.rs.vo.RunSelectVO" resultType="com.ict.rs.vo.RunVO">
     SELECT * FROM runnings
     <where>
         <if test="searchDate != null and searchDate != ''">
@@ -34,15 +34,41 @@
             AND region = #{searchGu}
         </if>
         <if test="searchCrewName != null and searchCrewName != ''">
-            AND crewno LIKE CONCAT('%', #{searchCrewName}, '%')
-        </if>
+            AND crewname LIKE CONCAT('%', #{searchCrewName}, '%')
+        </if> 
         <if test="searchTime != null and searchTime != ''">
             AND runningtime = #{searchTime}
         </if>
     </where>
     		order by runningdate asc
-</select>
+</select> -->
 	
+	<select id="runList" parameterType="com.ict.rs.vo.RunSelectVO" resultType="com.ict.rs.vo.RunVO">
+    	SELECT r.* FROM runnings r
+    	LEFT JOIN crews c ON r.crewNo = c.no
+    	<where>
+    	    <if test="searchDate != null and searchDate != ''">
+    	        AND r.runningdate BETWEEN #{searchDate} AND DATE_ADD(#{searchDate}, INTERVAL 2 DAY)
+    	    </if>
+    	    <if test="searchDay != null and searchDay != ''">
+    	        AND DAYNAME(r.runningdate) = #{searchDay}
+    	    </if>
+    	    <if test="searchSido != null and searchSido != ''">
+    	        AND r.runningcity = #{searchSido}
+    	    </if>
+    	    <if test="searchGu != null and searchGu != ''">
+    	        AND r.region = #{searchGu}
+    	    </if>
+    	    <if test="searchCrewName != null and searchCrewName != ''">
+    	        AND c.name LIKE CONCAT('%', #{searchCrewName}, '%')
+    	    </if>
+    	    <if test="searchTime != null and searchTime != ''">
+    	        AND r.runningtime = #{searchTime}
+    	    </if>
+    	</where>
+    	ORDER BY r.runningdate ASC
+	</select>
+
 	<select id="runInfo"  resultType="com.ict.rs.vo.RunVO">
 		select * from runnings 
 		where no = #{no} 	
@@ -114,6 +140,10 @@
 		update runnings set joinednum =#{param2}
   		where no = #{param1} 
 	</update>
+	
+	<select id="getCrewName" resultType="String" parameterType="int">
+		select name from crews where no = #{param1}
+	</select>
 
   </mapper>
   

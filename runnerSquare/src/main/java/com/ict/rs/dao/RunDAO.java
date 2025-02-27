@@ -3,10 +3,8 @@ package com.ict.rs.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.ict.rs.vo.PagingVO;
 import com.ict.rs.vo.RunSelectVO;
 import com.ict.rs.vo.RunVO;
 
@@ -35,5 +33,7 @@ public interface RunDAO {
 	public int checkPersonNum(int runningno);
 
 	public int personNumInsert(int no, int joinednum);
+	
+	public String getCrewName(int no);
 
 }
