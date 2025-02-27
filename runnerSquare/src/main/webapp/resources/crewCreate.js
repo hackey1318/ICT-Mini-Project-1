@@ -1,4 +1,4 @@
-let myModal;  // 전역에서 선언
+var myModal;  // 전역에서 선언
 
 function openCrewCreateModal() {
 
@@ -123,6 +123,8 @@ async function handleFormSubmit(event) {
         if (!crewData || !crewData.no) {
             throw new Error('크루 정보를 저장하는 데 실패했습니다.');
         }
+
+        crewJoin('leader', crewData.no);
 
         const logoFormData = new FormData();
         logoFormData.append("files", document.querySelector("#crewLogo").files[0]);

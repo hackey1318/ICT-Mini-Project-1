@@ -1,50 +1,58 @@
-function openCrewUpdateModal() {
-	document.getElementsByClassName("modal-content")[0].innerHTML = `
-		<div class="modal-header">
-		  <h4 class="modal-title">크루 수정</h4>
-		  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-		</div>
-		
-		<div class="modal-body">
-			<form method="POST" id="crewForm" onsubmit="return handleFormSubmit(event);">
-				<input type="hidden" name="status" value="${crewData.status}"/>
-				<input type="hidden" name="no" value="${crewData.no}"/>
+var myModal;
 
-				<label>크루명</label>
-                    <input type="text" id="crewName" name="name" value="${crewData.name}"/>
-                    <div class="alert"></div>
+function openCrewUpdateModal(crewData) {
 
-                    <label>활동지역</label>
-                    <select id="citySelect" name="city" onchange="changeState()">
-                        <option value="">시/도</option>
-                        <option value="${crewData.city}" selected>${crewData.city}</option>
-                    </select>
-                    <select id="districtSelect" name="district">
-                        <option value="">시/군/구</option>
-                        <option value="${crewData.district}" selected>${crewData.district}</option>
-                    </select>
-                    <div class="alert"></div>
+    // 모달을 생성하고 표시
+    myModal = new bootstrap.Modal(document.getElementById('crewModal'));
+    myModal.show();
 
-                    <label>러닝일</label>
-                    <div id="dayCheckBox">
-                        <input type="checkbox" value="월" name="runningDay" ${crewData.runningDays.includes('월') ? 'checked' : ''}/>월
-                        <input type="checkbox" value="화" name="runningDay" ${crewData.runningDays.includes('화') ? 'checked' : ''}/>화
-                        <input type="checkbox" value="수" name="runningDay" ${crewData.runningDays.includes('수') ? 'checked' : ''}/>수
-                        <input type="checkbox" value="목" name="runningDay" ${crewData.runningDays.includes('목') ? 'checked' : ''}/>목
-                        <input type="checkbox" value="금" name="runningDay" ${crewData.runningDays.includes('금') ? 'checked' : ''}/>금
-                        <input type="checkbox" value="토" name="runningDay" ${crewData.runningDays.includes('토') ? 'checked' : ''}/>토
-                        <input type="checkbox" value="일" name="runningDay" ${crewData.runningDays.includes('일') ? 'checked' : ''}/>일
-                    </div><br/>
-                    <div class="alert"></div>
+    // modal-content의 HTML을 동적으로 수정
+    document.getElementsByClassName("modal-content")[0].innerHTML = `
+        <div class="modal-header">
+            <h4 class="modal-title">크루 수정</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
 
-                    <label>크루소개</label>
-                    <textarea id="description" name="description">${crewData.description}</textarea>
-                    <div class="alert"></div>
+        <div class="modal-body">
+            <form method="POST" id="crewForm" onsubmit="return handleFormSubmit(event);" enctype="multipart/form-data">
+                <input type="hidden" name="status" value="${crewData.status}"/>
+                <input type="hidden" name="no" value="${crewData.no}"/>
 
-                    <div><input type="submit" id="submit-button" value="크루수정"/></div>
-			</form>
-		</div>
-	`;
+                <label>크루명</label>
+                <input type="text" id="crewName" name="name" value="${crewData.name}"/>
+                <div class="alert"></div>
+
+                <label>활동지역</label>
+                <select id="citySelect" name="city" onchange="changeState()">
+                    <option value="">시/도</option>
+                    <option value="${crewData.city}" selected>${crewData.city}</option>
+                </select>
+                <select id="districtSelect" name="district">
+                    <option value="">시/군/구</option>
+                    <option value="${crewData.district}" selected>${crewData.district}</option>
+                </select>
+                <div class="alert"></div>
+
+                <label>러닝일</label>
+                <div id="dayCheckBox">
+                    <input type="checkbox" value="월" name="runningDay" ${crewData.runningDay.includes('월') ? 'checked' : ''}/>월
+                    <input type="checkbox" value="화" name="runningDay" ${crewData.runningDay.includes('화') ? 'checked' : ''}/>화
+                    <input type="checkbox" value="수" name="runningDay" ${crewData.runningDay.includes('수') ? 'checked' : ''}/>수
+                    <input type="checkbox" value="목" name="runningDay" ${crewData.runningDay.includes('목') ? 'checked' : ''}/>목
+                    <input type="checkbox" value="금" name="runningDay" ${crewData.runningDay.includes('금') ? 'checked' : ''}/>금
+                    <input type="checkbox" value="토" name="runningDay" ${crewData.runningDay.includes('토') ? 'checked' : ''}/>토
+                    <input type="checkbox" value="일" name="runningDay" ${crewData.runningDay.includes('일') ? 'checked' : ''}/>일
+                </div>
+                <div class="alert"></div>
+
+                <label>크루소개</label>
+                <textarea id="description" name="description">${crewData.description}</textarea>
+                <div class="alert"></div>
+
+                <input type="submit" id="submit-button" value="크루수정"/>
+            </form>
+        </div>
+    `;
 	makeSel();
 	
 	const formElements = document.querySelectorAll(
@@ -101,7 +109,8 @@ function handleFormSubmit(event) {
         success: function(results) {
 			console.log(results);
             if (results == "1") {
-                // document.getElementById('crewModal').hide(); // 적용이 안 됨...
+                myModal.hide();
+				location.reload();
 				alert('크루 수정 완료');
             } else {
                 alert('크루 수정 실패');
