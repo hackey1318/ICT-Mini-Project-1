@@ -7,7 +7,7 @@
 <mapper namespace="com.ict.rs.dao.CrewManageDAO">
 	<select id="crewNameList" resultType="com.ict.rs.vo.CrewManageVO">
 		select
-        	c.no,
+        	c.no AS crewNo,
         	cm.role AS role,
         	c.status AS crewStatus,  -- 필드명이 중복되지 않도록 별칭 지정       	
         	cm.status AS memberStatus,  -- 필드명이 중복되지 않도록 별칭 지정
@@ -23,20 +23,16 @@
 	</select>
 
 	<select id="crewMemberList" resultType="com.ict.rs.vo.CrewManageVO">
-		select
-		crewmembers.crewNO,
-		crews.name,
-		crewmembers.userNo,
-		users.nickName,
-		crewmembers.role,
-		crewmembers.status,
-		DATE_FORMAT(crewmembers.createdAt, '%Y-%m-%d') AS createdAt,
-		crews.no,
-		crews.status
-		from crewmembers
-		left join crews on crewmembers.crewNO = crews.no
-		left join users on crewmembers.userNO = users.no
-		where crewNo in (select crewNo from crewmembers where userNo=${param1} and role = 'leader') and crews.no = crewmembers.crewNo ;
+		SELECT
+			c.name,
+			u.nickName,
+			cm.createdAt,
+			cm.role,
+			cm.status AS memberStatus
+		FROM crews AS c
+		LEFT JOIN crewmembers AS cm ON c.no = cm.crewNo
+		LEFT JOIN users AS u ON u.no = cm.userNo
+		WHERE c.no = #{crewNo}
 	</select>
 	<update id="updateCrewStatus">
 		UPDATE crewmembers

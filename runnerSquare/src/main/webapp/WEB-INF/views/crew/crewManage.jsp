@@ -256,7 +256,7 @@
     function loadCrewMemberList(crewNo) {
         const userNo = <%= userNo %>;
         const params = {
-            userNo : userNo
+            crewNo : crewNo
             //userNo: 1
            //페이지에 로그인정보에서 pk인 no = userNo
            //로그인 service개발완료 후 삭제 및 수정필요

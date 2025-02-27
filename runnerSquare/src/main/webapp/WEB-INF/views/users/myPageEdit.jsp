@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		<div>${vo.birth}</div>
 
 		<label>성별</label>
-		<div><c:if test="${vo.gender == 'true'}">남</c:if><c:if test="${vo.gender == 'false'}">여</c:if></div>
+		<div><c:if test="${vo.gender == 'false'}">남</c:if><c:if test="${vo.gender == 'true'}">여</c:if></div>
 
 		<label>선호 페이스</label>
 		<select name="preferPace" class="preferred-pace" >

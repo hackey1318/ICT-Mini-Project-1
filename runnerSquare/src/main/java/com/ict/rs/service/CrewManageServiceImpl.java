@@ -21,8 +21,8 @@ public class CrewManageServiceImpl implements CrewManageService {
 	}
 
 	@Override
-	public List<CrewManageVO> crewMemberList(int userNo) {
-		return dao.crewMemberList(userNo);
+	public List<CrewManageVO> crewMemberList(int crewNo) {
+		return dao.crewMemberList(crewNo);
 	}
 
 	@Override

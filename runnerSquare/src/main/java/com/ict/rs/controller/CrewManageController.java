@@ -44,8 +44,8 @@ public class CrewManageController {
 
 	@ResponseBody
 	@GetMapping("/crew/crewManage/memberList")
-	public List<CrewManageVO> crewMemberList(@RequestParam Integer userNo){
-		List<CrewManageVO> result = service.crewMemberList(userNo);
+	public List<CrewManageVO> crewMemberList(@RequestParam Integer crewNo){
+		List<CrewManageVO> result = service.crewMemberList(crewNo);
 		return result;
 	}
 	@ResponseBody

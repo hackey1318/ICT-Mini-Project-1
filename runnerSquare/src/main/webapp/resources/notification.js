@@ -14,9 +14,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const notificationDialog = document.getElementById("notificationDialog");
     const markAllAsReadButton = document.getElementById("markAllAsRead");
     const notificationList = document.getElementById("notificationList");
+    const closeButton = document.getElementById('closeButton');
 
     // 🔔 클릭 시 알림 창 위치 업데이트 & 토글
     bellIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        if (notificationDialog.style.display === "block") {
+            notificationDialog.style.display = "none";
+        } else {
+            updateDialogPosition(); // 종 옆에 위치 조정
+            notificationDialog.style.display = "block";
+            loadNotifications();
+        }
+    });
+
+    closeButton.addEventListener('click', function() {
         event.stopPropagation();
         if (notificationDialog.style.display === "block") {
             notificationDialog.style.display = "none";

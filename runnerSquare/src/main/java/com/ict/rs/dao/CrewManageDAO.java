@@ -14,7 +14,7 @@ public interface CrewManageDAO {
 	
 	public List<CrewManageVO> crewNameList(@Param("userNo") int userNo);
 	
-	public List<CrewManageVO> crewMemberList(int userNo);
+	public List<CrewManageVO> crewMemberList(@Param("crewNo") int crewNo);
 
 	public int updateCrewStatus(CrewManageVO vo);
 

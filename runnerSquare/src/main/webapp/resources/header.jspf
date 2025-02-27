@@ -249,7 +249,7 @@
 							<button type="button" class="btn btn-link" id='markAllAsRead'><b>전체 읽음</b></button>
     					</div>
     					<div>
-							<button type="button" class="btn btn-close btn-close-white"/>
+							<button id="closeButton" type="button" class="btn btn-close btn-close-white"/>
     					</div>
     				</div>
     	    		<h2 style="color:white"><b>알림</b></h2>
