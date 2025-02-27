@@ -31,13 +31,15 @@
     .table td{
     	padding: 20px;
     	border:none;
+       	font-size: 1.3em;
+    	
     }
     #pwdEnterText{
     	font-size: 1.5em;
     	width: 20%
     }
     #input{
-    background-color: #e0ffff;	
+    background-color: #F0F0FF;	
     width: 100%;
     border: none;
     padding: 10px;
@@ -45,8 +47,11 @@
     }
     #button{
     background-color:#87f23a;
-    padding: 20px;
+    padding: 10px;
     border-radius: 30px;
+    text-align:center;
+    font-size: 1.3em;
+    
     }
     .buttonContainer{
        	width: 100%;
@@ -55,24 +60,61 @@
       	align-items: center;
     }
 </style>
-
 <div class="main-container">
 	<div id="titleName">
 		개인정보 수정
 	</div>
 	<div id="pwdEnter">
 		<table class ="table">
+			<form method="POST" id="formchk" onsubmit="submitForm(); return false;">
 			<tr>
 				<td id="pwdEnterText">ID(아이디)</td>
-				<td>id들어갈 곳</td>
+				<td><%= userId %></td>
 			</tr>
 			<tr>
 				<td id="pwdEnterText">PASSWORD</td>
-				<td><input type="password" id="input" placeholder="비밀번호를 입력하세요"></td>
+				<td><input type="password" id="input" placeholder="비밀번호를 입력하세요" onkeydown="if (event.keyCode == 13) { submitForm(); return false; }"></td>
 			</tr>
 		</table>
 	</div>
 	<div class="buttonContainer">
-		<button id="button">개인정보 수정하기로 이동</button>
+		<button type="button" id="button" onclick="submitForm()">개인정보수정</button>
 	</div>
+	</form>
 </div>
+
+<script>
+function submitForm() {
+    var userId = "<%= userId %>";
+    var pwd = $("#input").val();
+	<% Integer userNo = (Integer) session.getAttribute("userNo");%>
+    if(pwd === null|| pwd===""){
+    	alert("비밀번호를 입력하세요.");
+   
+    	return false;
+    }
+    
+    var params = {
+        userId: userId,
+        pwd: pwd
+    };
+    $.ajax({
+        url: '/rs/users/myPage/pwdChk',
+        type: 'POST',
+        data : params,
+        datatype: 'json' ,
+        success: function(response) {
+        	console.log("response=>",<%= userNo %>);
+            if (response) {
+                window.location.href = "/rs/users/myPageEdit?no=<%= userNo %>";
+            } else {
+                alert("비밀번호가 일치하지 않습니다.");
+            }
+        },
+        error: function(error) {
+        	console.error('Error:', error);
+            alert("오류가 발생했습니다.");
+        }
+    });
+}
+</script>

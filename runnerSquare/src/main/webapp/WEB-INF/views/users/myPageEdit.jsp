@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 폼 데이터를 FormData 객체로 추출
         const formData = new FormData(event.target);
         const tel = formData.get("tel1") + "-" + formData.get("tel2") + "-" + formData.get("tel3");
-        
+
         const data = {
             no: formData.get("no"),
             nickName: formData.get("nickName"),
@@ -109,19 +109,19 @@ document.addEventListener("DOMContentLoaded", function () {
 	</div>
 	<form class="user-update-form">
 		<input type="hidden" name="no" value="${vo.no}"/>
-		
+
 		<label>아이디</label>
 		<div>${vo.id}</div>
-		
+
 		<label>이름</label>
 		<div>${vo.name}</div>
-		
+
 		<label>닉네임</label>
 		<input type="text" name="nickName" value="${vo.nickName}"/>
-		
+
 		<label>이메일</label>
 		<input type="email" name="email" value="${vo.email}"/>
-		
+
 		<label>연락처</label>
 		<div class="tel">
 			<select name="tel1">
@@ -137,17 +137,17 @@ document.addEventListener("DOMContentLoaded", function () {
 			-
 			<input type="text" name="tel3" value="${vo.tel3}"/>
 		</div>
-		
-		
+
+
 		<label>주소</label>
 			<input type="text" name="addr" value="${vo.addr}"/>
-			
+
 		<label>생년월일</label>
 		<div>${vo.birth}</div>
-		
+
 		<label>성별</label>
 		<div><c:if test="${vo.gender == 'true'}">남</c:if><c:if test="${vo.gender == 'false'}">여</c:if></div>
-		
+
 		<label>선호 페이스</label>
 		<select name="preferPace" class="preferred-pace" >
 			<option value="4분" <c:if test="${vo.preferPace == '4분'}">selected</c:if>>4분 대</option>
@@ -158,5 +158,5 @@ document.addEventListener("DOMContentLoaded", function () {
 		</select>
 		<input type="submit" value="회원수정" class="update-btn"/>
 	</form>
-	
+
 </div>
